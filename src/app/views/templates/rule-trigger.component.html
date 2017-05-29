@@ -1,0 +1,63 @@
+<div class="container">
+
+    <div class="row" *ngIf="debug">
+        <div class="col-lg-12">
+            {{jsonString}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">Platform: 
+            <p-dropdown [options]="uiPlatformOptions" [(ngModel)]="uiPlatform" 
+                (onChange)="onPlatformChange()" placeholder="Select Platform">
+            </p-dropdown>
+            <button pButton label="Remove" type="button" (click)="onRemoveClick()"></button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6" *ngIf="(uiPlatform == 'state') || (uiPlatform == 'numeric_state')" >
+            Entity Id:
+            <p-dropdown [options]="uiEntityIdOptions" [(ngModel)]="uiEntityId" filter=true
+            (onChange)="onChange()" placeholder="Select Entity ID">
+            </p-dropdown>
+        </div>
+
+        <div *ngIf="(uiPlatform == 'state')">
+            <div class="col-lg-3">To State:
+                <input type="text" pInputText [(ngModel)]="uiToState" (keyup)="onChange()"/>
+            </div>
+            <div class="col-lg-3">From State:
+                <input type="text" pInputText [(ngModel)]="uiFromState" (keyup)="onChange()"/>
+            </div>
+        </div>
+
+        <div *ngIf="(uiPlatform == 'numeric_state')">
+            <div class="col-lg-3">Above Value:
+                <p-spinner size="10" [(ngModel)]="uiAboveValue" (onChange)="onChange()"></p-spinner>
+            </div>
+            <div class="col-lg-3">Below Value
+                <p-spinner size="10" [(ngModel)]="uiBelowValue" (onChange)="onChange()"></p-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="(uiPlatform == 'event')">
+            <div class="col-lg-4">Event Type
+                <p-dropdown [options]="uiEventTypeOptions" [(ngModel)]="uiEventType"
+                (onChange)="onChange()" placeholder="Select Event Type">
+                </p-dropdown>    
+            </div>
+
+            <div class="col-lg-4">Event Data
+                <input type="text" pInputText [(ngModel)]="uiEventDataObj" (keyup)="onChange()"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="saveNeeded">
+        <div class="col-lg-2">
+            <button pButton label="Save" type="button" (click)="onSaveClick()"></button>
+        </div>
+    </div>
+
+</div>

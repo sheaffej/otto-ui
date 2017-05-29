@@ -1,0 +1,105 @@
+<div class="container">
+
+    <div class="row" *ngIf="debug">
+        <div class="col-lg-12">
+            {{jsonString}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4">Condition: 
+            <p-dropdown [options]="uiConditionOptions" [(ngModel)]="uiCondition" 
+                (onChange)="onConditionChange()" placeholder="Select Condition">
+            </p-dropdown>
+            <button pButton label="Remove" type="button" (click)="onRemoveClick()"></button>
+        </div>
+    </div>
+
+    <div *ngIf="(uiCondition == 'and') || (uiCondition =='or')">
+      <div class="row" *ngFor="let cond of condition.conditions">
+        <rule-condition [condition]="cond" [parentCondition]="condition"></rule-condition>
+      </div>
+    </div>
+
+    <div class="row">
+      <div *ngIf="(uiCondition == 'state') || (uiCondition == 'numeric_state') || uiCondition == 'zone'">
+        <!-- Entity ID -->
+        <div class="col-lg-4">Entity Id:
+            <p-dropdown [options]="uiEntityIdOptions" [(ngModel)]="uiEntityId" filter=true
+            (onChange)="onChange()" placeholder="Select Entity ID">
+            </p-dropdown>
+        </div>
+      </div>
+
+      <div *ngIf="uiCondition == 'state'">
+        <!-- State -->
+        <div class="col-lg-4">State: 
+          <input type="text" pInputText [(ngModel)]="uiState" (keyup)="onChange()"/>
+        </div>
+      </div>
+
+      <div *ngIf="uiCondition == 'numeric_state'">
+        <!-- Above Value -->
+        <div class="col-lg-2">Above: 
+          <p-spinner size="10" [(ngModel)]="uiAboveValue" (onChange)="onChange()"></p-spinner>
+        </div>
+        <!-- Below Value -->
+        <div class="col-lg-2">Below: 
+          <p-spinner size="10" [(ngModel)]="uiBelowValue" (onChange)="onChange()"></p-spinner>
+        </div>
+      </div>
+
+
+      <div *ngIf="uiCondition == 'sun'">
+        <!-- Sun After -->
+        <div class="col-lg-2">After: 
+          <p-dropdown [options]="uiSunOptions" [(ngModel)]="uiSunAfter"
+            (onChange)="onChange()" placeholder="Select">
+          </p-dropdown>
+        </div>
+        <!-- Sun After Offset -->
+        <div class="col-lg-3">After offset: {{uiSunAfterOffset}}
+          <p-inputMask mask="99:99:99" [(ngModel)]="uiSunAfterOffset" placeholder="HH:MM:SS"></p-inputMask>
+        </div>
+        <!-- Sun Before -->
+        <div class="col-lg-2">Before: 
+          <p-dropdown [options]="uiSunOptions" [(ngModel)]="uiSunBefore"
+            (onChange)="onChange()" placeholder="Select"> 
+          </p-dropdown>
+        </div>
+        <!-- Sun Before Offset -->
+        <div class="col-lg-3">Before offset: 
+          <p-inputMask mask="99:99:99" [(ngModel)]="uiSunBelowOffset" placeholder="HH:MM:SS"></p-inputMask>
+        </div>
+      </div>
+
+      <div *ngIf="uiCondition == 'time'">
+        <!-- Time After -->
+        <div class="col-lg-3">After: 
+          <p-inputMask mask="99:99:99" [(ngModel)]="uiTimeAfter" placeholder="HH:MM:SS"></p-inputMask>
+        </div>
+        <!-- Time Before -->
+        <div class="col-lg-3">Before: 
+          <p-inputMask mask="99:99:99" [(ngModel)]="uiTimeBefore" placeholder="HH:MM:SS"></p-inputMask>
+        </div>
+        <!-- Time Weekday -->
+        <div class="col-lg-4">
+          <p-selectButton [options]="uiTimeWeekdayOptions" [(ngModel)]="uiTimeWeekday" 
+            multiple="multiple" (onChange)="onChange()">
+          </p-selectButton>
+        </div>
+      </div>
+
+      <div *ngIf="uiCondition == 'zone'">
+        <div class="col-lg-2">Zone: 
+          <p-dropdown [options]="uiZoneOptions" [(ngModel)]="uiZone"
+            (onChange)="onChange()" placeholder="Select Zone">
+          </p-dropdown>
+        </div>
+      </div>
+
+
+
+    </div>
+
+</div>

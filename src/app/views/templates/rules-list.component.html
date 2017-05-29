@@ -1,0 +1,38 @@
+<div>
+    <div class="container panel panel-default" *ngFor="let rule of rules">
+        <div class="row panel-heading">
+            <div class="col-lg-2">ID: {{rule.id}}</div>
+            <div class="col-lg-2">Group: {{rule.group}}</div>
+            <div class="col-lg-6">Description: {{rule.description}}</div>
+            <div class="col-lg-2">Enabled: {{rule.enabled}}</div>
+            
+            <button pButton label="Add Trigger" type="button" (click)="onAddTriggerClick(rule)"></button>
+
+        </div>
+
+        <div *ngFor="let trigger of rule.triggers; let i = index">
+            <div class="row panel-body bg-success">
+                <rule-trigger [rule]="rule" [triggerIndex]="i"></rule-trigger>
+            </div>
+        </div>
+        
+        <div class="row panel-body bg-warning">
+            <div class="col-lg-12">
+                <rule-condition [condition]="rule.condition"></rule-condition>      
+            </div>
+        </div>
+        
+        <div class="row panel-body bg-info" *ngFor="let actionSeq of rule.action_sequences; let i = index">
+            <div class="col-lg-1">Action:</div>
+            <div class="col-lg-11" >
+                rule-action goes here
+            </div>
+        </div>
+
+        <div class="row panel-footer">
+            <div class="col-lg-12">JSON: {{rule}}</div>
+        </div>
+    </div>
+</div>
+
+
