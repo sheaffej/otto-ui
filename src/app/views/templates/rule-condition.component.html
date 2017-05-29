@@ -16,8 +16,8 @@
     </div>
 
     <div *ngIf="(uiCondition == 'and') || (uiCondition =='or')">
-      <div class="row" *ngFor="let cond of condition.conditions">
-        <rule-condition [condition]="cond" [parentCondition]="condition"></rule-condition>
+      <div class="row" *ngFor="let cond of condition.conditions; let i = index">
+        <rule-condition [condition]="cond" [parentCondition]="condition" [parentIndex]="i"></rule-condition>
       </div>
     </div>
 
@@ -101,5 +101,11 @@
 
 
     </div>
+    <div class="row" *ngIf="saveNeeded">
+      <div class="col-lg-2">
+        <button pButton label="Save" type="button" (click)="onSaveClick()"></button>
+      </div>
+    </div>
+
 
 </div>

@@ -15,7 +15,9 @@ import {
 export class RuleConditionComponent implements OnInit {
 
   @Input() condition: RuleCondition;
+  @Input() rule: AutomationRule;
   @Input() parentCondition: RuleCondition;
+  @Input() parentIndex: number;
 
   debug: boolean = true;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
@@ -127,15 +129,13 @@ export class RuleConditionComponent implements OnInit {
         this.uiZone = this.condition.zone;
       }
 
-      // And
+      // And & Or
       else if ( 
         (this.condition instanceof AndCondition) || 
         (this.condition instanceof OrCondition) ) 
       {
         this.uiNestedConditions = this.condition.conditions;
       }
-
-      // Or
 
     }
 
@@ -159,7 +159,57 @@ export class RuleConditionComponent implements OnInit {
   }
 
   checkSaveNeeded(): void {
+    let needed = false;
 
+    if (this.condition == null) {   // New trigger not yet saved
+      this.saveNeeded = true;
+      return;
+    }
+
+    if (this.uiCondition != this.condition.condition) { needed = true; }
+
+    if (
+      (this.condition instanceof StateCondition) || 
+      (this.condition instanceof NumericStateCondition) ||
+      (this.condition instanceof ZoneCondition)
+    ) {
+        if (this.uiEntityId != this.condition.entity_id) { needed = true;}
+    }
+
+    if (this.condition instanceof StateCondition) {
+      if (this.uiState != this.condition.state) { needed = true; }
+    }
+
+    else if (this.condition instanceof NumericStateCondition) {
+      if (this.uiAboveValue != this.condition.above_value) { needed = true; }
+      if (this.uiBelowValue != this.condition.below_value) { needed = true; }
+    }
+
+    else if (this.condition instanceof SunCondition) {
+      if (this.uiSunAfter != this.condition.after) { needed = true; }
+      if (this.uiSunAfterOffset != this.condition.after_offset) { needed = true; }
+      if (this.uiSunBefore != this.condition.before) { needed = true; }
+      if (this.uiSunBeforeOffset != this.condition.before_offset) { needed = true; }
+    }
+
+    else if (this.condition instanceof TimeCondition) {
+      if (this.uiTimeAfter != this.condition.after) { needed = true; }
+      if (this.uiTimeBefore != this.condition.before) { needed = true; }
+      if (this.uiTimeWeekday != this.condition.weekday) { needed = true; }
+    }
+
+    else if (this.condition instanceof ZoneCondition) {
+      if (this.uiZone != this.condition.zone) { needed = true; }
+    }
+
+    else if (
+      (this.condition instanceof AndCondition) ||
+      (this.condition instanceof OrCondition)
+    ) {
+      if (this.uiNestedConditions.length != this.condition.conditions.length) { needed = true; }
+    }
+
+    this.saveNeeded = needed;
   }
 
   onSaveClick(): void {
@@ -167,7 +217,15 @@ export class RuleConditionComponent implements OnInit {
   }
 
   onRemoveClick(): void {
-
+    if (this.parentCondition == null) {
+      this.rule.remove_condition();
+    }
+    else if (
+      (this.parentCondition instanceof AndCondition) ||
+      (this.parentCondition instanceof OrCondition)
+    ){
+      this.parentCondition.conditions.splice(this.parentIndex, 1);
+    }
   }
 
 } // class RuleConditionComponent

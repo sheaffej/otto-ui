@@ -51,6 +51,10 @@ export class AutomationRule {
     this._condition = condition;
   }
 
+  remove_condition(): void {
+    this._condition = null;
+  }
+
   add_action_sequence(action_sequence: RuleActionSequence): void {
     this._action_sequences.push(action_sequence);
   }

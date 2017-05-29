@@ -82,6 +82,9 @@ var AutomationRule = (function () {
     AutomationRule.prototype.add_condition = function (condition) {
         this._condition = condition;
     };
+    AutomationRule.prototype.remove_condition = function () {
+        this._condition = null;
+    };
     AutomationRule.prototype.add_action_sequence = function (action_sequence) {
         this._action_sequences.push(action_sequence);
     };

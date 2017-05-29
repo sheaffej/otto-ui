@@ -144,7 +144,7 @@ export class RuleTriggerComponent implements OnInit {
       return;
     }
 
-    if (this.uiPlatform != this.trigger.platform) {needed = true;}
+    if (this.uiPlatform != this.trigger.platform) {needed = true; }
 
     if (
       (this.trigger instanceof StateTrigger) || (this.trigger instanceof NumericStateTrigger)) {
