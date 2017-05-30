@@ -150,7 +150,35 @@ export class RuleConditionComponent implements OnInit {
 
 
   onConditionChange(): void {
-    this.checkSaveNeeded();
+    // When the platform changes, we just re-intitialize the condition
+    if (this.uiCondition == 'state') {
+      this.uiEntityId = null;
+      this.uiState = null;
+    }
+    else if (this.uiCondition == 'numeric_state') {
+      this.uiEntityId = null;
+      this.uiAboveValue = null;
+      this.uiBelowValue = null;
+    }
+    else if (this.uiCondition == 'sun') {
+      this.uiSunAfter = null;
+      this.uiSunAfterOffset = null;
+      this.uiSunBefore = null;
+      this.uiSunBeforeOffset = null;
+    }
+    else if (this.uiCondition == 'time') {
+      this.uiTimeAfter = null;
+      this.uiTimeBefore = null;
+      this.uiTimeWeekday = null;
+    }
+    else if (this.uiCondition == 'zone') {
+      this.uiEntityId = null;
+      this.uiZone = null;
+    }
+    else if ((this.uiCondition == 'and') || (this.uiCondition == 'or')) {
+      this.uiNestedConditions = [];   // initialize to an empty array
+    }
+    this.saveNeeded = true;
   }
 
   onChange(): void {
@@ -215,6 +243,16 @@ export class RuleConditionComponent implements OnInit {
   onSaveClick(): void {
 
   }
+
+
+  onAddClick(): void {
+    console.log("Add Condition clicked");
+    if (this.uiNestedConditions == null) {
+      this.uiNestedConditions = []; 
+    }
+    this.uiNestedConditions.push(null);
+  }
+
 
   onRemoveClick(): void {
     if (this.parentCondition == null) {

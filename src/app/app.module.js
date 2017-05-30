@@ -13,6 +13,7 @@ var animations_1 = require("@angular/platform-browser/animations");
 var primeng_1 = require("primeng/primeng");
 var app_component_1 = require("./app.component");
 var rules_list_component_1 = require("./views/rules-list.component");
+var rule_automation_component_1 = require("./views/rule-automation.component");
 var rule_condition_component_1 = require("./views/rule-condition.component");
 var rule_trigger_component_1 = require("./views/rule-trigger.component");
 var otto_rest_service_1 = require("./services/otto-rest.service");
@@ -38,6 +39,7 @@ AppModule = __decorate([
         declarations: [
             app_component_1.AppComponent,
             rules_list_component_1.RulesListComponent,
+            rule_automation_component_1.AutomationRuleComponent,
             rule_condition_component_1.RuleConditionComponent,
             rule_trigger_component_1.RuleTriggerComponent,
             rule_condition_component_1.RuleConditionComponent,

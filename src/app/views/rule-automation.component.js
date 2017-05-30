@@ -9,27 +9,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var rule_automation_1 = require("../objects/rule-automation");
 var otto_rest_service_1 = require("../services/otto-rest.service");
-var RulesListComponent = (function () {
-    function RulesListComponent(ottoService) {
+var AutomationRuleComponent = (function () {
+    function AutomationRuleComponent(ottoService) {
         this.ottoService = ottoService;
-        this.rules = [];
     }
-    RulesListComponent.prototype.ngOnInit = function () {
-        this.getRules();
+    AutomationRuleComponent.prototype.ngOnInit = function () {
     };
-    RulesListComponent.prototype.getRules = function () {
-        var _this = this;
-        this.ottoService.getRules().then(function (rules) { return _this.rules = rules; });
+    AutomationRuleComponent.prototype.onAddTriggerClick = function () {
+        this.rule.triggers.push(null);
     };
-    return RulesListComponent;
-}()); // class RulesListComponent
-RulesListComponent = __decorate([
+    AutomationRuleComponent.prototype.onAddConditionClick = function () {
+    };
+    return AutomationRuleComponent;
+}()); // class RuleAutomationComponent
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", rule_automation_1.AutomationRule)
+], AutomationRuleComponent.prototype, "rule", void 0);
+AutomationRuleComponent = __decorate([
     core_1.Component({
-        selector: 'rules-list',
-        templateUrl: './templates/rules-list.component.html',
+        selector: 'rule-automation',
+        templateUrl: './templates/rule-automation.component.html',
     }),
     __metadata("design:paramtypes", [otto_rest_service_1.OttoRestService])
-], RulesListComponent);
-exports.RulesListComponent = RulesListComponent;
-//# sourceMappingURL=rules-list.component.js.map
+], AutomationRuleComponent);
+exports.AutomationRuleComponent = AutomationRuleComponent;
+//# sourceMappingURL=rule-automation.component.js.map

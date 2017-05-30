@@ -94,7 +94,35 @@ var RuleConditionComponent = (function () {
         }
     };
     RuleConditionComponent.prototype.onConditionChange = function () {
-        this.checkSaveNeeded();
+        // When the platform changes, we just re-intitialize the condition
+        if (this.uiCondition == 'state') {
+            this.uiEntityId = null;
+            this.uiState = null;
+        }
+        else if (this.uiCondition == 'numeric_state') {
+            this.uiEntityId = null;
+            this.uiAboveValue = null;
+            this.uiBelowValue = null;
+        }
+        else if (this.uiCondition == 'sun') {
+            this.uiSunAfter = null;
+            this.uiSunAfterOffset = null;
+            this.uiSunBefore = null;
+            this.uiSunBeforeOffset = null;
+        }
+        else if (this.uiCondition == 'time') {
+            this.uiTimeAfter = null;
+            this.uiTimeBefore = null;
+            this.uiTimeWeekday = null;
+        }
+        else if (this.uiCondition == 'zone') {
+            this.uiEntityId = null;
+            this.uiZone = null;
+        }
+        else if ((this.uiCondition == 'and') || (this.uiCondition == 'or')) {
+            this.uiNestedConditions = []; // initialize to an empty array
+        }
+        this.saveNeeded = true;
     };
     RuleConditionComponent.prototype.onChange = function () {
         console.log(this.uiTimeWeekday);
@@ -168,6 +196,13 @@ var RuleConditionComponent = (function () {
         this.saveNeeded = needed;
     };
     RuleConditionComponent.prototype.onSaveClick = function () {
+    };
+    RuleConditionComponent.prototype.onAddClick = function () {
+        console.log("Add Condition clicked");
+        if (this.uiNestedConditions == null) {
+            this.uiNestedConditions = [];
+        }
+        this.uiNestedConditions.push(null);
     };
     RuleConditionComponent.prototype.onRemoveClick = function () {
         if (this.parentCondition == null) {

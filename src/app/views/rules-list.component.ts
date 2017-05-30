@@ -21,8 +21,4 @@ export class RulesListComponent implements OnInit {
     this.ottoService.getRules().then(rules => this.rules = rules);
   }
 
-  onAddTriggerClick(rule: AutomationRule): void {
-    rule.triggers.push(null);
-  }
-
-}
+}  // class RulesListComponent

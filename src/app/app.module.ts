@@ -9,6 +9,7 @@ import { DropdownModule, InputTextModule, SpinnerModule,
 
 import { AppComponent }  from './app.component';
 import { RulesListComponent } from './views/rules-list.component'
+import { AutomationRuleComponent } from './views/rule-automation.component';
 import { RuleConditionComponent } from './views/rule-condition.component';
 import { RuleTriggerComponent } from './views/rule-trigger.component';
 
@@ -30,6 +31,7 @@ import { OttoRestService } from './services/otto-rest.service'
   declarations: [ 
     AppComponent,
     RulesListComponent,
+    AutomationRuleComponent,
     RuleConditionComponent,
     RuleTriggerComponent,
     RuleConditionComponent,
