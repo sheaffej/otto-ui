@@ -30,6 +30,7 @@
     </div>
 
     <div class="row panel-footer">
-        <div class="col-lg-12">JSON: {{rule}}</div>
+        <!--<div >JSON: {{rule | json}}</div>-->
+        <prettyjson class="col-lg-11" [obj]="rule"></prettyjson>
     </div>
 </div>

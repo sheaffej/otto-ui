@@ -80,7 +80,7 @@ export class RuleTriggerComponent implements OnInit {
   } // constructor
 
   // Properties
-  get jsonString(): string { return JSON.stringify(this.trigger); }
+  // get jsonString(): string { return JSON.stringify(this.trigger); }
 
   ngOnInit() {
     this.trigger = this.rule.triggers[this.triggerIndex];

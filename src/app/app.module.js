@@ -11,9 +11,11 @@ var http_1 = require("@angular/http");
 var forms_1 = require("@angular/forms");
 var animations_1 = require("@angular/platform-browser/animations");
 var primeng_1 = require("primeng/primeng");
+var angular2_prettyjson_1 = require("angular2-prettyjson");
 var app_component_1 = require("./app.component");
 var rules_list_component_1 = require("./views/rules-list.component");
 var rule_automation_component_1 = require("./views/rule-automation.component");
+// import { RuleConditionComponent } from './views/rule-condition.component';
 var rule_condition_component_1 = require("./views/rule-condition.component");
 var rule_trigger_component_1 = require("./views/rule-trigger.component");
 var otto_rest_service_1 = require("./services/otto-rest.service");
@@ -29,6 +31,7 @@ AppModule = __decorate([
             http_1.HttpModule,
             forms_1.FormsModule,
             animations_1.BrowserAnimationsModule,
+            angular2_prettyjson_1.PrettyJsonModule,
             primeng_1.DropdownModule,
             primeng_1.InputTextModule,
             primeng_1.SpinnerModule,

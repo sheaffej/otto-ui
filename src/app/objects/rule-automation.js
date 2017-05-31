@@ -13,9 +13,9 @@ var AutomationRule = (function () {
         this._condition = null;
         this._action_sequences = [];
         // Overriden Property Functions
-        this.toString = function () {
-            return JSON.stringify(_this);
-        };
+        // public toString = () => {
+        //   return JSON.stringify(this);
+        // }
         this.toJSON = function () {
             var o = {};
             o.id = _this._id;

@@ -24,6 +24,12 @@ export class RuleConditionComponent implements OnInit {
   mediumText: string = "xxxxxxx20-charxxxxxx";
   saveNeeded: boolean = false;
 
+  // We need the uiXXX copies of the data in the rule condition
+  // because ngModel needs to bind to an object, and if we replace
+  // the rule condition in the rule, it breaks how ngModel works
+  // Therefore, we simply re-create the rule condition in the rule
+  // every time there is a change in the UI (using the uiXXX values)
+
   // Condition
   uiCondition: string;
   uiConditionOptions: SelectItem[];
@@ -89,7 +95,7 @@ export class RuleConditionComponent implements OnInit {
   }
 
   // Properties
-  get jsonString(): string { return JSON.stringify(this.condition); }
+  // get jsonString(): string { return JSON.stringify(this.condition); }
 
 
   ngOnInit(): void {
@@ -141,6 +147,7 @@ export class RuleConditionComponent implements OnInit {
 
   } // ngOnInit()
 
+
   populateOptions(option_list: SelectItem[], options: string[]): void {
     option_list.length = 0;   // Clear the array
     for (let option of options) {
@@ -151,6 +158,8 @@ export class RuleConditionComponent implements OnInit {
 
   onConditionChange(): void {
     // When the platform changes, we just re-intitialize the condition
+
+    // Set the uiXXX fields to initial values
     if (this.uiCondition == 'state') {
       this.uiEntityId = null;
       this.uiState = null;
@@ -178,70 +187,50 @@ export class RuleConditionComponent implements OnInit {
     else if ((this.uiCondition == 'and') || (this.uiCondition == 'or')) {
       this.uiNestedConditions = [];   // initialize to an empty array
     }
-    this.saveNeeded = true;
+    // Now recreate the condition
+    this.recreateCondition();
   }
+
 
   onChange(): void {
-    console.log(this.uiTimeWeekday);
-    this.checkSaveNeeded();
+    this.recreateCondition();
   }
 
-  checkSaveNeeded(): void {
-    let needed = false;
 
-    if (this.condition == null) {   // New trigger not yet saved
-      this.saveNeeded = true;
-      return;
+  recreateCondition(): void {
+    // When the platform changes, we just re-intitialize the condition
+    if (this.uiCondition == 'state') {
+      this.replaceCondition(new StateCondition(this.uiEntityId, this.uiState));
     }
-
-    if (this.uiCondition != this.condition.condition) { needed = true; }
-
-    if (
-      (this.condition instanceof StateCondition) || 
-      (this.condition instanceof NumericStateCondition) ||
-      (this.condition instanceof ZoneCondition)
-    ) {
-        if (this.uiEntityId != this.condition.entity_id) { needed = true;}
+    else if (this.uiCondition == 'numeric_state') {
+      this.replaceCondition(new NumericStateCondition(this.uiEntityId, this.uiAboveValue, this.uiBelowValue));
     }
-
-    if (this.condition instanceof StateCondition) {
-      if (this.uiState != this.condition.state) { needed = true; }
+    else if (this.uiCondition == 'sun') {
+      this.replaceCondition(new SunCondition(this.uiSunAfter, this.uiSunBefore, this.uiSunAfterOffset, this.uiSunBeforeOffset));
     }
-
-    else if (this.condition instanceof NumericStateCondition) {
-      if (this.uiAboveValue != this.condition.above_value) { needed = true; }
-      if (this.uiBelowValue != this.condition.below_value) { needed = true; }
+    else if (this.uiCondition == 'time') {
+      this.replaceCondition(new TimeCondition(this.uiTimeAfter, this.uiTimeBefore, this.uiTimeWeekday));
     }
-
-    else if (this.condition instanceof SunCondition) {
-      if (this.uiSunAfter != this.condition.after) { needed = true; }
-      if (this.uiSunAfterOffset != this.condition.after_offset) { needed = true; }
-      if (this.uiSunBefore != this.condition.before) { needed = true; }
-      if (this.uiSunBeforeOffset != this.condition.before_offset) { needed = true; }
+    else if (this.uiCondition == 'zone') {
+      this.replaceCondition(new ZoneCondition(this.uiEntityId, this.uiZone));
     }
-
-    else if (this.condition instanceof TimeCondition) {
-      if (this.uiTimeAfter != this.condition.after) { needed = true; }
-      if (this.uiTimeBefore != this.condition.before) { needed = true; }
-      if (this.uiTimeWeekday != this.condition.weekday) { needed = true; }
+    else if (this.uiCondition == 'and') {
+      this.replaceCondition(new AndCondition());
     }
-
-    else if (this.condition instanceof ZoneCondition) {
-      if (this.uiZone != this.condition.zone) { needed = true; }
-    }
-
-    else if (
-      (this.condition instanceof AndCondition) ||
-      (this.condition instanceof OrCondition)
-    ) {
-      if (this.uiNestedConditions.length != this.condition.conditions.length) { needed = true; }
-    }
-
-    this.saveNeeded = needed;
+    else if (this.uiCondition == 'or') {
+      this.replaceCondition(new OrCondition());
+    }    
   }
 
-  onSaveClick(): void {
 
+  replaceCondition(newCondition: RuleCondition) {
+    if (this.parentCondition != null) {
+      if ((this.parentCondition instanceof AndCondition) || (this.parentCondition instanceof OrCondition)) {
+        this.parentCondition.conditions[this.parentIndex] = newCondition;
+      }
+    } else {
+      this.rule.add_condition(newCondition);
+    }
   }
 
 

@@ -1,9 +1,8 @@
 <div class="container">
 
     <div class="row" *ngIf="debug">
-        <div class="col-lg-12">
-            {{jsonString}}
-        </div>
+        <!--<div class="col-lg-12"> {{trigger | json}} </div>-->
+        <prettyjson class="col-lg-11" [obj]="trigger"></prettyjson>
     </div>
 
     <div class="row">

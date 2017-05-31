@@ -6,10 +6,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DropdownModule, InputTextModule, SpinnerModule, 
   ButtonModule, SelectButtonModule, InputMaskModule } from 'primeng/primeng';
+import {PrettyJsonModule} from 'angular2-prettyjson';
 
 import { AppComponent }  from './app.component';
 import { RulesListComponent } from './views/rules-list.component'
 import { AutomationRuleComponent } from './views/rule-automation.component';
+// import { RuleConditionComponent } from './views/rule-condition.component';
 import { RuleConditionComponent } from './views/rule-condition.component';
 import { RuleTriggerComponent } from './views/rule-trigger.component';
 
@@ -21,6 +23,7 @@ import { OttoRestService } from './services/otto-rest.service'
     HttpModule,
     FormsModule,
     BrowserAnimationsModule,
+    PrettyJsonModule,
     DropdownModule,
     InputTextModule,
     SpinnerModule,

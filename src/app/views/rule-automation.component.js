@@ -9,6 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var angular2_prettyjson_1 = require("angular2-prettyjson");
 var rule_automation_1 = require("../objects/rule-automation");
 var otto_rest_service_1 = require("../services/otto-rest.service");
 var AutomationRuleComponent = (function () {
@@ -32,6 +33,7 @@ AutomationRuleComponent = __decorate([
     core_1.Component({
         selector: 'rule-automation',
         templateUrl: './templates/rule-automation.component.html',
+        entryComponents: [angular2_prettyjson_1.PrettyJsonComponent],
     }),
     __metadata("design:paramtypes", [otto_rest_service_1.OttoRestService])
 ], AutomationRuleComponent);

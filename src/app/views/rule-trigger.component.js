@@ -47,12 +47,8 @@ var RuleTriggerComponent = (function () {
         }
         this.saveNeeded = false;
     } // constructor
-    Object.defineProperty(RuleTriggerComponent.prototype, "jsonString", {
-        // Properties
-        get: function () { return JSON.stringify(this.trigger); },
-        enumerable: true,
-        configurable: true
-    });
+    // Properties
+    // get jsonString(): string { return JSON.stringify(this.trigger); }
     RuleTriggerComponent.prototype.ngOnInit = function () {
         this.trigger = this.rule.triggers[this.triggerIndex];
         if (this.trigger != null) {

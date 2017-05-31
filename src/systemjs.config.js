@@ -29,6 +29,7 @@
       'rxjs':                      'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       'primeng':                   'npm:primeng',
+      'angular2-prettyjson': 'npm:angular2-prettyjson'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -45,6 +46,10 @@
       },
       primeng: {
         defaultExtension: 'js',
+      },
+      'angular2-prettyjson': {
+        defaultExtension: 'js',
+        main: './index.umd.js'
       }
     }
   });

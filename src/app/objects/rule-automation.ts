@@ -65,9 +65,9 @@ export class AutomationRule {
 
 
   // Overriden Property Functions
-  public toString = () => {
-    return JSON.stringify(this);
-  }
+  // public toString = () => {
+  //   return JSON.stringify(this);
+  // }
 
   public toJSON = () => {
     let o: any = {};

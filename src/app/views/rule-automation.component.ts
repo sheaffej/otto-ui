@@ -1,11 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import {PrettyJsonComponent} from 'angular2-prettyjson';
+
 import { AutomationRule } from '../objects/rule-automation'
 import { OttoRestService } from '../services/otto-rest.service'
 
 @Component({
   selector: 'rule-automation',
   templateUrl: './templates/rule-automation.component.html',
+  entryComponents: [PrettyJsonComponent],
 })
 export class AutomationRuleComponent implements OnInit {
     
