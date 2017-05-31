@@ -47,6 +47,10 @@ export class AutomationRule {
     this._triggers = this._triggers.splice(index, 1);
   }
 
+  replace_trigger(trigger: RuleTrigger, index: number): void {
+    this._triggers[index] = trigger;
+  }
+
   add_condition(condition: RuleCondition): void {
     this._condition = condition;
   }

@@ -24,10 +24,10 @@
 
         <div *ngIf="(uiPlatform == 'state')">
             <div class="col-lg-3">To State:
-                <input type="text" pInputText [(ngModel)]="uiToState" (keyup)="onChange()"/>
+                <input type="text" pInputText [(ngModel)]="uiToState" (onBlur)="onChange()"/>
             </div>
             <div class="col-lg-3">From State:
-                <input type="text" pInputText [(ngModel)]="uiFromState" (keyup)="onChange()"/>
+                <input type="text" pInputText [(ngModel)]="uiFromState" (onBlur)="onChange()"/>
             </div>
         </div>
 

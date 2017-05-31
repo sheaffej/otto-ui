@@ -22,7 +22,6 @@ export class RuleConditionComponent implements OnInit {
   debug: boolean = true;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
   mediumText: string = "xxxxxxx20-charxxxxxx";
-  saveNeeded: boolean = false;
 
   // We need the uiXXX copies of the data in the rule condition
   // because ngModel needs to bind to an object, and if we replace
@@ -91,7 +90,6 @@ export class RuleConditionComponent implements OnInit {
     ottoService.getZones().then(zones => this.populateOptions(this.uiZoneOptions, zones))
     this.uiZoneOptions = [{label: this.mediumText, value: null}];    
 
-    this.saveNeeded = false;
   }
 
   // Properties
@@ -198,7 +196,7 @@ export class RuleConditionComponent implements OnInit {
 
 
   recreateCondition(): void {
-    // When the platform changes, we just re-intitialize the condition
+    // When the condition changes, we just re-intitialize the condition
     if (this.uiCondition == 'state') {
       this.replaceCondition(new StateCondition(this.uiEntityId, this.uiState));
     }

@@ -13,6 +13,8 @@ var otto_rest_service_1 = require("../services/otto-rest.service");
 var rule_automation_1 = require("../objects/rule-automation");
 var rule_triggers_1 = require("../objects/rule-triggers");
 var RuleTriggerComponent = (function () {
+    // Buttons
+    // saveNeeded: boolean;
     function RuleTriggerComponent(ottoService) {
         var _this = this;
         this.ottoService = ottoService;
@@ -45,7 +47,7 @@ var RuleTriggerComponent = (function () {
             var option = options_2[_a];
             this.uiEventTypeOptions.push({ label: option, value: option });
         }
-        this.saveNeeded = false;
+        // this.saveNeeded = false;
     } // constructor
     // Properties
     // get jsonString(): string { return JSON.stringify(this.trigger); }
@@ -79,6 +81,7 @@ var RuleTriggerComponent = (function () {
     };
     RuleTriggerComponent.prototype.onPlatformChange = function () {
         // When the platform changes, we just re-intitialize the trigger
+        // Set the uiXXX fields to initial values
         if (this.uiPlatform == 'state') {
             this.uiEntityId = null;
             this.uiToState = null;
@@ -93,65 +96,25 @@ var RuleTriggerComponent = (function () {
             this.uiEventType = null;
             this.uiEventDataObj = '{}';
         }
-        this.checkSaveNeeded();
+        this.recreateTrigger();
     };
     RuleTriggerComponent.prototype.onChange = function () {
-        this.checkSaveNeeded();
+        this.recreateTrigger();
     };
-    RuleTriggerComponent.prototype.checkSaveNeeded = function () {
-        var needed = false;
-        if (this.trigger == null) {
-            this.saveNeeded = true;
-            return;
-        }
-        if (this.uiPlatform != this.trigger.platform) {
-            needed = true;
-        }
-        if ((this.trigger instanceof rule_triggers_1.StateTrigger) || (this.trigger instanceof rule_triggers_1.NumericStateTrigger)) {
-            if (this.uiEntityId != this.trigger.entity_id) {
-                needed = true;
-            }
-        }
-        if (this.trigger instanceof rule_triggers_1.StateTrigger) {
-            if (this.uiToState != this.trigger.to) {
-                needed = true;
-            }
-            if (this.uiFromState != this.trigger.from) {
-                needed = true;
-            }
-        }
-        else if (this.trigger instanceof rule_triggers_1.NumericStateTrigger) {
-            if (this.uiAboveValue != this.trigger.above_value) {
-                needed = true;
-            }
-            if (this.uiBelowValue != this.trigger.below_value) {
-                needed = true;
-            }
-        }
-        else if (this.trigger instanceof rule_triggers_1.EventTrigger) {
-            if (this.uiEventType != this.trigger.event_type) {
-                needed = true;
-            }
-            if (this.uiEventDataObj != JSON.stringify(this.trigger.event_data_obj)) {
-                needed = true;
-            }
-        }
-        this.saveNeeded = needed;
-    };
-    RuleTriggerComponent.prototype.onSaveClick = function () {
-        var trigger = null;
+    RuleTriggerComponent.prototype.recreateTrigger = function () {
+        // When the platform changes, we just re-intitialize the trigger
         if (this.uiPlatform == 'state') {
-            var to = this.uiToState == '' ? null : this.uiToState;
-            var from = this.uiFromState == '' ? null : this.uiFromState;
-            trigger = new rule_triggers_1.StateTrigger(this.uiEntityId, to, from);
+            this.replaceTrigger(new rule_triggers_1.StateTrigger(this.uiEntityId, this.uiToState, this.uiFromState));
         }
         else if (this.uiPlatform == 'numeric_state') {
-            trigger = new rule_triggers_1.NumericStateTrigger(this.uiEntityId, this.uiAboveValue, this.uiBelowValue);
+            this.replaceTrigger(new rule_triggers_1.NumericStateTrigger(this.uiEntityId, this.uiAboveValue, this.uiBelowValue));
         }
         else if (this.uiPlatform == 'event') {
-            trigger = new rule_triggers_1.EventTrigger(this.uiEventType, JSON.parse(this.uiEventDataObj));
+            this.replaceTrigger(new rule_triggers_1.EventTrigger(this.uiEventType, this.uiEventDataObj));
         }
-        this.rule.triggers[this.triggerIndex] = trigger; // replace the trigger in the rule object
+    };
+    RuleTriggerComponent.prototype.replaceTrigger = function (trigger) {
+        this.rule.replace_trigger(trigger, this.triggerIndex);
     };
     RuleTriggerComponent.prototype.onRemoveClick = function () {
         this.rule.triggers.splice(this.triggerIndex, 1);

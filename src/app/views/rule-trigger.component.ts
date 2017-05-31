@@ -17,7 +17,14 @@ export class RuleTriggerComponent implements OnInit {
 
   debug: boolean = true;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
-  
+
+  // We need the uiXXX copies of the data in the rule condition
+  // because ngModel needs to bind to an object, and if we replace
+  // the rule condition in the rule, it breaks how ngModel works
+  // Therefore, we simply re-create the rule condition in the rule
+  // every time there is a change in the UI (using the uiXXX values)
+
+
   // Platform
   uiPlatformOptions: SelectItem[];
   uiPlatform: string;
@@ -44,7 +51,7 @@ export class RuleTriggerComponent implements OnInit {
   uiEventDataObj: any;
 
   // Buttons
-  saveNeeded: boolean;
+  // saveNeeded: boolean;
 
 
   constructor(private ottoService: OttoRestService) {
@@ -76,33 +83,41 @@ export class RuleTriggerComponent implements OnInit {
       this.uiEventTypeOptions.push({label: option, value: option });
     }
 
-    this.saveNeeded = false;
+    // this.saveNeeded = false;
   } // constructor
 
   // Properties
   // get jsonString(): string { return JSON.stringify(this.trigger); }
 
+
   ngOnInit() {
+
     this.trigger = this.rule.triggers[this.triggerIndex];
 
     if (this.trigger != null) {
+    
       this.uiPlatform = this.trigger.platform;
+    
       if (this.trigger instanceof StateTrigger) {
         this.uiEntityId = this.trigger.entity_id;
         this.uiToState = this.trigger.to;
         this.uiFromState = this.trigger.from;
       }
+    
       else if (this.trigger instanceof NumericStateTrigger) {
         this.uiEntityId = this.trigger.entity_id;
         this.uiAboveValue = this.trigger.above_value;
         this.uiBelowValue = this.trigger.below_value;
       }
+    
       else if (this.trigger instanceof EventTrigger) {
         this.uiEventType = this.trigger.event_type;
         this.uiEventDataObj = JSON.stringify(this.trigger.event_data_obj);
       }
     }
+
   }
+
 
   populateEntityIdOptions(entities: string[]): void {
     this.uiEntityIdOptions = [];
@@ -112,8 +127,11 @@ export class RuleTriggerComponent implements OnInit {
     }
   }
 
+
   onPlatformChange(): void {
     // When the platform changes, we just re-intitialize the trigger
+
+    // Set the uiXXX fields to initial values
     if (this.uiPlatform == 'state') {
       this.uiEntityId = null;
       this.uiToState = null;
@@ -128,64 +146,34 @@ export class RuleTriggerComponent implements OnInit {
       this.uiEventType = null;
       this.uiEventDataObj = '{}';
     }
-    this.checkSaveNeeded();
+
+    this.recreateTrigger();
   }
+
 
   onChange(): void {
-    this.checkSaveNeeded();
+    this.recreateTrigger();
   }
 
 
-  checkSaveNeeded(): void {
-    let needed = false;
-
-    if (this.trigger == null) {   // New trigger not yet saved
-      this.saveNeeded = true;
-      return;
-    }
-
-    if (this.uiPlatform != this.trigger.platform) {needed = true; }
-
-    if (
-      (this.trigger instanceof StateTrigger) || (this.trigger instanceof NumericStateTrigger)) {
-        if (this.uiEntityId != this.trigger.entity_id) { needed = true;}
-    }
-
-    if (this.trigger instanceof StateTrigger) {
-      if (this.uiToState != this.trigger.to) { needed = true; }
-      if (this.uiFromState != this.trigger.from) {needed = true; }
-    }
-
-    else if (this.trigger instanceof NumericStateTrigger) {
-      if (this.uiAboveValue != this.trigger.above_value) { needed = true; }
-      if (this.uiBelowValue != this.trigger.below_value) { needed = true; }
-    }
-
-    else if (this.trigger instanceof EventTrigger) {
-      if (this.uiEventType != this.trigger.event_type) { needed = true; }
-      if (this.uiEventDataObj != JSON.stringify(this.trigger.event_data_obj)) { needed = true; }
-    }
-
-    this.saveNeeded = needed;
-  }
-
-
-  onSaveClick(): void {
-    let trigger = null;
+  recreateTrigger(): void {
+    // When the platform changes, we just re-intitialize the trigger
     if (this.uiPlatform == 'state') {
-      let to = this.uiToState == '' ? null : this.uiToState;
-      let from = this.uiFromState == '' ? null : this.uiFromState;
-      trigger = new StateTrigger(this.uiEntityId, to, from);
+      this.replaceTrigger(new StateTrigger(this.uiEntityId, this.uiToState, this.uiFromState));
     }
     else if (this.uiPlatform == 'numeric_state') {
-      trigger = new NumericStateTrigger(this.uiEntityId, this.uiAboveValue, this.uiBelowValue);
+      this.replaceTrigger(new NumericStateTrigger(this.uiEntityId, this.uiAboveValue, this.uiBelowValue));
     }
     else if (this.uiPlatform == 'event') {
-      trigger = new EventTrigger(this.uiEventType, JSON.parse(this.uiEventDataObj));
+      this.replaceTrigger(new EventTrigger(this.uiEventType, this.uiEventDataObj));
     }
-
-    this.rule.triggers[this.triggerIndex] = trigger; // replace the trigger in the rule object
   }
+
+
+  replaceTrigger(trigger: RuleTrigger): void {
+    this.rule.replace_trigger(trigger, this.triggerIndex);
+  }
+
 
   onRemoveClick(): void {
     this.rule.triggers.splice(this.triggerIndex, 1);

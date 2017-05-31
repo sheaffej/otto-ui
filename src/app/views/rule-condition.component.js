@@ -19,7 +19,6 @@ var RuleConditionComponent = (function () {
         this.debug = true;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
         this.mediumText = "xxxxxxx20-charxxxxxx";
-        this.saveNeeded = false;
         // Condition options
         this.uiConditionOptions = [];
         var options = ["and", "or", "state", "numeric_state", "sun", "time", "zone"];
@@ -45,7 +44,6 @@ var RuleConditionComponent = (function () {
         this.uiEntityIdOptions = [{ label: this.longText, value: null }];
         ottoService.getZones().then(function (zones) { return _this.populateOptions(_this.uiZoneOptions, zones); });
         this.uiZoneOptions = [{ label: this.mediumText, value: null }];
-        this.saveNeeded = false;
     }
     // Properties
     // get jsonString(): string { return JSON.stringify(this.condition); }
@@ -126,7 +124,7 @@ var RuleConditionComponent = (function () {
         this.recreateCondition();
     };
     RuleConditionComponent.prototype.recreateCondition = function () {
-        // When the platform changes, we just re-intitialize the condition
+        // When the condition changes, we just re-intitialize the condition
         if (this.uiCondition == 'state') {
             this.replaceCondition(new rule_conditions_1.StateCondition(this.uiEntityId, this.uiState));
         }
