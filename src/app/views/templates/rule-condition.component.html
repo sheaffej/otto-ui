@@ -37,7 +37,7 @@
       <div *ngIf="uiCondition == 'state'">
         <!-- State -->
         <div class="col-lg-4">State: 
-          <input type="text" pInputText [(ngModel)]="uiState" (keyup)="onChange()"/>
+          <input type="text" pInputText [(ngModel)]="uiState" (blur)="onChange()"/>
         </div>
       </div>
 

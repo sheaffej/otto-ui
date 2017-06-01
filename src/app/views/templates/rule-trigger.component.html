@@ -24,10 +24,11 @@
 
         <div *ngIf="(uiPlatform == 'state')">
             <div class="col-lg-3">To State:
-                <input type="text" pInputText [(ngModel)]="uiToState" (onBlur)="onChange()"/>
+                <input type="text" pInputText [(ngModel)]="uiToState" (blur)="onChange()"/>
+
             </div>
             <div class="col-lg-3">From State:
-                <input type="text" pInputText [(ngModel)]="uiFromState" (onBlur)="onChange()"/>
+                <input type="text" pInputText [(ngModel)]="uiFromState" (blur)="onChange()"/>
             </div>
         </div>
 
@@ -48,7 +49,7 @@
             </div>
 
             <div class="col-lg-4">Event Data
-                <input type="text" pInputText [(ngModel)]="uiEventDataObj" (keyup)="onChange()"/>
+                <input type="text" pInputText [(ngModel)]="uiEventDataObj" (blur)="onChange()"/>
             </div>
         </div>
     </div>
