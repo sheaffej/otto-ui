@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import {PrettyJsonComponent} from 'angular2-prettyjson';
 
 import { AutomationRule } from '../objects/rule-automation'
+import { AndCondition } from '../objects/rule-conditions';
 import { OttoRestService } from '../services/otto-rest.service'
 
 @Component({
@@ -27,7 +28,7 @@ export class AutomationRuleComponent implements OnInit {
     }
 
     onAddConditionClick(): void {
-
+        this.rule.add_condition(new AndCondition());
     }
 
 } // class RuleAutomationComponent

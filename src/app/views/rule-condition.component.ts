@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
+import {PrettyJsonComponent} from 'angular2-prettyjson';
 
 import { OttoRestService } from '../services/otto-rest.service'
 import { AutomationRule } from '../objects/rule-automation';
@@ -7,6 +8,7 @@ import {
   RuleCondition, AndCondition, OrCondition, StateCondition, 
   NumericStateCondition, SunCondition, TimeCondition, ZoneCondition 
   } from '../objects/rule-conditions';
+import { RuleActionSequence } from '../objects/rule-actions';
 
 @Component({
   selector: 'rule-condition',
@@ -15,8 +17,8 @@ import {
 export class RuleConditionComponent implements OnInit {
 
   @Input() condition: RuleCondition;
-  @Input() rule: AutomationRule;
-  @Input() parentCondition: RuleCondition;
+  // @Input() rule: AutomationRule;
+  @Input() parent: any;
   @Input() parentIndex: number;
 
   debug: boolean = true;
@@ -222,35 +224,51 @@ export class RuleConditionComponent implements OnInit {
 
 
   replaceCondition(newCondition: RuleCondition) {
-    if (this.parentCondition != null) {
-      if ((this.parentCondition instanceof AndCondition) || (this.parentCondition instanceof OrCondition)) {
-        this.parentCondition.conditions[this.parentIndex] = newCondition;
-      }
-    } else {
-      this.rule.add_condition(newCondition);
+    if (this.parent == null) {
+      console.log("ERROR: this.parent is NULL in replaceCondition");
+    }
+
+    if (this.parent instanceof AutomationRule) {
+      this.parent.add_condition(newCondition);    // Add overwrites previous condition
+    }
+    else if ((this.parent instanceof AndCondition) || (this.parent instanceof OrCondition)) {
+      this.parent.conditions[this.parentIndex] = newCondition;
+    }
+    else if (this.parent instanceof RuleActionSequence) {
+      this.parent.condition = newCondition;
     }
   }
 
 
   onAddClick(): void {
     console.log("Add Condition clicked");
-    if (this.uiNestedConditions == null) {
-      this.uiNestedConditions = []; 
+    if ((this.condition instanceof AndCondition) ||
+      (this.condition instanceof OrCondition))
+    {
+      if (this.condition.conditions == null) {
+        this.condition.conditions = []; 
+      }
+      this.condition.conditions.push(null);
     }
-    this.uiNestedConditions.push(null);
   }
 
 
   onRemoveClick(): void {
-    if (this.parentCondition == null) {
-      this.rule.remove_condition();
+    if (this.parent == null) {
+      console.log("ERROR: this.parent is NULL in onRemoveClick");
+      return;
+    }
+    
+    if (this.parent instanceof AutomationRule) {
+      this.parent.remove_condition();
     }
     else if (
-      (this.parentCondition instanceof AndCondition) ||
-      (this.parentCondition instanceof OrCondition)
+      (this.parent instanceof AndCondition) ||
+      (this.parent instanceof OrCondition)
     ){
-      this.parentCondition.conditions.splice(this.parentIndex, 1);
+      this.parent.conditions.splice(this.parentIndex, 1);
     }
+    // this.recreateCondition()
   }
 
 } // class RuleConditionComponent

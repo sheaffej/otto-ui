@@ -10,27 +10,28 @@
 
     </div>
 
+    <!-- Triggers -->
     <div *ngFor="let trigger of rule.triggers; let i = index">
         <div class="row panel-body bg-success">
             <rule-trigger [rule]="rule" [triggerIndex]="i"></rule-trigger>
         </div>
     </div>
 
+    <!-- Condition -->
     <div class="row panel-body bg-warning" *ngIf="rule.condition != null">
         <div class="col-lg-12">
-            <rule-condition [condition]="rule.condition" [rule]="rule"></rule-condition>      
+            <rule-condition [condition]="rule.condition" [parent]="rule"></rule-condition>      
         </div>
     </div>
 
+    <!-- Action Sequence -->
     <div class="row panel-body bg-info" *ngFor="let actionSeq of rule.action_sequences; let i = index">
-        <div class="col-lg-1">Action:</div>
-        <div class="col-lg-11" >
-            rule-action goes here
+        <div class="col-lg-12" >
+            <rule-action-seq [actionSeq]="actionSeq"></rule-action-seq>
         </div>
     </div>
 
     <div class="row panel-footer">
-        <!--<div >JSON: {{rule | json}}</div>-->
         <prettyjson class="col-lg-11" [obj]="rule"></prettyjson>
     </div>
 </div>

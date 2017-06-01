@@ -1,0 +1,11 @@
+<div class="container">
+
+    <div class="row" *ngIf="debug">
+        <prettyjson class="col-lg-11" [obj]="actionSeq"></prettyjson>
+    </div>
+
+    <div>
+        <rule-condition [condition]="actionSeq.condition" [parent]="actionSeq"></rule-condition>
+    </div>
+
+</div>

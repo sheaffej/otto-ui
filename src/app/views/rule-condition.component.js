@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var otto_rest_service_1 = require("../services/otto-rest.service");
 var rule_automation_1 = require("../objects/rule-automation");
 var rule_conditions_1 = require("../objects/rule-conditions");
+var rule_actions_1 = require("../objects/rule-actions");
 var RuleConditionComponent = (function () {
     function RuleConditionComponent(ottoService) {
         var _this = this;
@@ -148,30 +149,42 @@ var RuleConditionComponent = (function () {
         }
     };
     RuleConditionComponent.prototype.replaceCondition = function (newCondition) {
-        if (this.parentCondition != null) {
-            if ((this.parentCondition instanceof rule_conditions_1.AndCondition) || (this.parentCondition instanceof rule_conditions_1.OrCondition)) {
-                this.parentCondition.conditions[this.parentIndex] = newCondition;
-            }
+        if (this.parent == null) {
+            console.log("ERROR: this.parent is NULL in replaceCondition");
         }
-        else {
-            this.rule.add_condition(newCondition);
+        if (this.parent instanceof rule_automation_1.AutomationRule) {
+            this.parent.add_condition(newCondition); // Add overwrites previous condition
+        }
+        else if ((this.parent instanceof rule_conditions_1.AndCondition) || (this.parent instanceof rule_conditions_1.OrCondition)) {
+            this.parent.conditions[this.parentIndex] = newCondition;
+        }
+        else if (this.parent instanceof rule_actions_1.RuleActionSequence) {
+            this.parent.condition = newCondition;
         }
     };
     RuleConditionComponent.prototype.onAddClick = function () {
         console.log("Add Condition clicked");
-        if (this.uiNestedConditions == null) {
-            this.uiNestedConditions = [];
+        if ((this.condition instanceof rule_conditions_1.AndCondition) ||
+            (this.condition instanceof rule_conditions_1.OrCondition)) {
+            if (this.condition.conditions == null) {
+                this.condition.conditions = [];
+            }
+            this.condition.conditions.push(null);
         }
-        this.uiNestedConditions.push(null);
     };
     RuleConditionComponent.prototype.onRemoveClick = function () {
-        if (this.parentCondition == null) {
-            this.rule.remove_condition();
+        if (this.parent == null) {
+            console.log("ERROR: this.parent is NULL in onRemoveClick");
+            return;
         }
-        else if ((this.parentCondition instanceof rule_conditions_1.AndCondition) ||
-            (this.parentCondition instanceof rule_conditions_1.OrCondition)) {
-            this.parentCondition.conditions.splice(this.parentIndex, 1);
+        if (this.parent instanceof rule_automation_1.AutomationRule) {
+            this.parent.remove_condition();
         }
+        else if ((this.parent instanceof rule_conditions_1.AndCondition) ||
+            (this.parent instanceof rule_conditions_1.OrCondition)) {
+            this.parent.conditions.splice(this.parentIndex, 1);
+        }
+        // this.recreateCondition()
     };
     return RuleConditionComponent;
 }()); // class RuleConditionComponent
@@ -181,12 +194,8 @@ __decorate([
 ], RuleConditionComponent.prototype, "condition", void 0);
 __decorate([
     core_1.Input(),
-    __metadata("design:type", rule_automation_1.AutomationRule)
-], RuleConditionComponent.prototype, "rule", void 0);
-__decorate([
-    core_1.Input(),
-    __metadata("design:type", rule_conditions_1.RuleCondition)
-], RuleConditionComponent.prototype, "parentCondition", void 0);
+    __metadata("design:type", Object)
+], RuleConditionComponent.prototype, "parent", void 0);
 __decorate([
     core_1.Input(),
     __metadata("design:type", Number)

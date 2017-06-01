@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var angular2_prettyjson_1 = require("angular2-prettyjson");
 var rule_automation_1 = require("../objects/rule-automation");
+var rule_conditions_1 = require("../objects/rule-conditions");
 var otto_rest_service_1 = require("../services/otto-rest.service");
 var AutomationRuleComponent = (function () {
     function AutomationRuleComponent(ottoService) {
@@ -22,6 +23,7 @@ var AutomationRuleComponent = (function () {
         this.rule.triggers.push(null);
     };
     AutomationRuleComponent.prototype.onAddConditionClick = function () {
+        this.rule.add_condition(new rule_conditions_1.AndCondition());
     };
     return AutomationRuleComponent;
 }()); // class RuleAutomationComponent

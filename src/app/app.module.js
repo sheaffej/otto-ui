@@ -15,9 +15,9 @@ var angular2_prettyjson_1 = require("angular2-prettyjson");
 var app_component_1 = require("./app.component");
 var rules_list_component_1 = require("./views/rules-list.component");
 var rule_automation_component_1 = require("./views/rule-automation.component");
-// import { RuleConditionComponent } from './views/rule-condition.component';
 var rule_condition_component_1 = require("./views/rule-condition.component");
 var rule_trigger_component_1 = require("./views/rule-trigger.component");
+var rule_action_seq_component_1 = require("./views/rule-action-seq.component");
 var otto_rest_service_1 = require("./services/otto-rest.service");
 var AppModule = (function () {
     function AppModule() {
@@ -46,6 +46,7 @@ AppModule = __decorate([
             rule_condition_component_1.RuleConditionComponent,
             rule_trigger_component_1.RuleTriggerComponent,
             rule_condition_component_1.RuleConditionComponent,
+            rule_action_seq_component_1.RuleActionSeqComponent,
         ],
         providers: [otto_rest_service_1.OttoRestService],
         bootstrap: [app_component_1.AppComponent]

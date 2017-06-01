@@ -110,7 +110,7 @@ var RuleTriggerComponent = (function () {
             this.replaceTrigger(new rule_triggers_1.NumericStateTrigger(this.uiEntityId, this.uiAboveValue, this.uiBelowValue));
         }
         else if (this.uiPlatform == 'event') {
-            this.replaceTrigger(new rule_triggers_1.EventTrigger(this.uiEventType, this.uiEventDataObj));
+            this.replaceTrigger(new rule_triggers_1.EventTrigger(this.uiEventType, JSON.parse(this.uiEventDataObj)));
         }
     };
     RuleTriggerComponent.prototype.replaceTrigger = function (trigger) {

@@ -11,10 +11,9 @@ import {PrettyJsonModule} from 'angular2-prettyjson';
 import { AppComponent }  from './app.component';
 import { RulesListComponent } from './views/rules-list.component'
 import { AutomationRuleComponent } from './views/rule-automation.component';
-// import { RuleConditionComponent } from './views/rule-condition.component';
 import { RuleConditionComponent } from './views/rule-condition.component';
 import { RuleTriggerComponent } from './views/rule-trigger.component';
-
+import { RuleActionSeqComponent } from './views/rule-action-seq.component';
 import { OttoRestService } from './services/otto-rest.service'
 
 @NgModule({
@@ -38,6 +37,7 @@ import { OttoRestService } from './services/otto-rest.service'
     RuleConditionComponent,
     RuleTriggerComponent,
     RuleConditionComponent,
+    RuleActionSeqComponent,
   ],
   providers: [ OttoRestService ],
   bootstrap:    [ AppComponent ]

@@ -1,7 +1,6 @@
 <div class="container">
 
     <div class="row" *ngIf="debug">
-        <!--<div class="col-lg-12">{{ condition | json }}</div>-->
         <prettyjson class="col-lg-11" [obj]="condition"></prettyjson>
 
     </div>
@@ -18,8 +17,8 @@
     <div *ngIf="(uiCondition == 'and') || (uiCondition =='or')">
       <button pButton label="Add" type="button" (click)="onAddClick()"></button>
       <div *ngIf="uiCondition != null">
-        <div class="row" *ngFor="let cond of uiNestedConditions; let i = index">
-          <rule-condition [condition]="cond" [parentCondition]="condition" [parentIndex]="i"></rule-condition>
+        <div class="row" *ngFor="let cond of condition.conditions; let i = index">
+          <rule-condition [condition]="cond" [parent]="condition" [parentIndex]="i"></rule-condition>
         </div>
       </div>
     </div>
@@ -37,7 +36,7 @@
       <div *ngIf="uiCondition == 'state'">
         <!-- State -->
         <div class="col-lg-4">State: 
-          <input type="text" pInputText [(ngModel)]="uiState" (blur)="onChange()"/>
+          <input type="text" pInputText [(ngModel)]="uiState" (blur)="onChange()" (keyup.enter)="onChange()"/>
         </div>
       </div>
 
@@ -62,7 +61,7 @@
         </div>
         <!-- Sun After Offset -->
         <div class="col-lg-3">After offset: {{uiSunAfterOffset}}
-          <p-inputMask mask="99:99:99" [(ngModel)]="uiSunAfterOffset" placeholder="HH:MM:SS"></p-inputMask>
+          <p-inputMask mask="99:99:99" [(ngModel)]="uiSunAfterOffset" placeholder="HH:MM:SS" (onComplete)="onChange()"></p-inputMask>
         </div>
         <!-- Sun Before -->
         <div class="col-lg-2">Before: 
@@ -72,18 +71,18 @@
         </div>
         <!-- Sun Before Offset -->
         <div class="col-lg-3">Before offset: 
-          <p-inputMask mask="99:99:99" [(ngModel)]="uiSunBelowOffset" placeholder="HH:MM:SS"></p-inputMask>
+          <p-inputMask mask="99:99:99" [(ngModel)]="uiSunBeforeOffset" placeholder="HH:MM:SS" (onComplete)="onChange()"></p-inputMask>
         </div>
       </div>
 
       <div *ngIf="uiCondition == 'time'">
         <!-- Time After -->
         <div class="col-lg-3">After: 
-          <p-inputMask mask="99:99:99" [(ngModel)]="uiTimeAfter" placeholder="HH:MM:SS"></p-inputMask>
+          <p-inputMask mask="99:99:99" [(ngModel)]="uiTimeAfter" placeholder="HH:MM:SS" (onComplete)="onChange()"></p-inputMask>
         </div>
         <!-- Time Before -->
         <div class="col-lg-3">Before: 
-          <p-inputMask mask="99:99:99" [(ngModel)]="uiTimeBefore" placeholder="HH:MM:SS"></p-inputMask>
+          <p-inputMask mask="99:99:99" [(ngModel)]="uiTimeBefore" placeholder="HH:MM:SS" (onComplete)="onChange()"></p-inputMask>
         </div>
         <!-- Time Weekday -->
         <div class="col-lg-4">

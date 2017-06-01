@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
+import {PrettyJsonComponent} from 'angular2-prettyjson';
+
 
 import { OttoRestService } from '../services/otto-rest.service'
 import { AutomationRule } from '../objects/rule-automation';
@@ -113,6 +115,7 @@ export class RuleTriggerComponent implements OnInit {
       else if (this.trigger instanceof EventTrigger) {
         this.uiEventType = this.trigger.event_type;
         this.uiEventDataObj = JSON.stringify(this.trigger.event_data_obj);
+        // this.uiEventDataObj = this.trigger.event_data_obj;
       }
     }
 
@@ -165,7 +168,7 @@ export class RuleTriggerComponent implements OnInit {
       this.replaceTrigger(new NumericStateTrigger(this.uiEntityId, this.uiAboveValue, this.uiBelowValue));
     }
     else if (this.uiPlatform == 'event') {
-      this.replaceTrigger(new EventTrigger(this.uiEventType, this.uiEventDataObj));
+      this.replaceTrigger(new EventTrigger(this.uiEventType, JSON.parse(this.uiEventDataObj)));
     }
   }
 
