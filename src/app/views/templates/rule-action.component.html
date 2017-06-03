@@ -1,0 +1,48 @@
+<div class="container">
+
+    <div class="row" *ngIf="debug">
+        <prettyjson class="col-lg-11" [obj]="trigger"></prettyjson>
+    </div>
+
+    <div class="row">
+        <!-- Action Type -->
+        <div class="col-lg-4">Action Type: 
+            <p-dropdown [options]="uiActionTypeOptions" [(ngModel)]="uiActionType" 
+                (onChange)="onActionTypeChange()" placeholder="Select Type">
+            </p-dropdown>
+            <button pButton label="Remove" type="button" (click)="onRemoveClick()"></button>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Domain -->
+        <div class="col-lg-6" *ngIf="uiActionType == 'service'" >
+            Domain:
+            <p-dropdown [options]="uiDomainOptions" [(ngModel)]="uiDomain" filter=true
+            (onChange)="onChange()" placeholder="Select Domain">
+            </p-dropdown>
+        </div>
+
+        <!-- Service -->
+        <div class="col-lg-6" *ngIf="uiActionType == 'service'" >
+            Service:
+            <p-dropdown [options]="uiServiceOptions" [(ngModel)]="uiService" filter=true
+            (onChange)="onChange()" placeholder="Select Service">
+            </p-dropdown>
+        </div>
+
+        <!-- Service Data -->
+        <div class="col-lg-4" *ngIf="uiActionType == 'service'">
+            State: 
+            <input type="text" pInputText [(ngModel)]="uiDataObj" (blur)="onChange()" (keyup.enter)="onChange()"/>
+        </div>
+
+        <!-- Delay -->
+        <div class="col-lg-3" *ngIf="uiActionType == 'delay'">
+            Delay: {{uiDelay}}
+            <p-inputMask mask="99:99:99" [(ngModel)]="uiDelay" placeholder="HH:MM:SS" (onComplete)="onChange()"></p-inputMask>
+        </div>
+
+    </div>
+
+</div>

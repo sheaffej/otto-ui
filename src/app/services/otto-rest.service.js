@@ -12,13 +12,16 @@ var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/toPromise");
 var rule_automation_1 = require("../objects/rule-automation");
+var services_1 = require("../objects/services");
 var OttoRestService = (function () {
+    // private entitiesRequested: boolean;
     function OttoRestService(http) {
         this.http = http;
         this.ottoRestUrl = 'http://localhost:5000/rest';
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.rules = [];
         this.entities = [];
+        this.serviceDomains = [];
         this.getEntities();
     }
     OttoRestService.prototype.getRules = function () {
@@ -34,7 +37,7 @@ var OttoRestService = (function () {
         var _this = this;
         if (this.entities.length == 0) {
             // console.log("getEntities getting a fresh copy");
-            this.entitiesRequested = true;
+            // this.entitiesRequested = true;
             return this.http.get(this.ottoRestUrl + "/entities")
                 .toPromise()
                 .then(function (response) {
@@ -52,6 +55,18 @@ var OttoRestService = (function () {
                 .then(function (entities) { return entities.filter(function (entity) { return entity.startsWith("zone."); }); });
         }
         return Promise.resolve(this.entities.filter(function (entity) { return entity.startsWith("zone."); }));
+    };
+    OttoRestService.prototype.getServices = function () {
+        var _this = this;
+        if (this.serviceDomains.length == 0) {
+            return this.http.get(this.ottoRestUrl + "/services")
+                .toPromise()
+                .then(function (response) {
+                _this.serviceDomains = services_1.ServiceDomain.fromRestResponse(response.json().data);
+                return _this.serviceDomains;
+            })
+                .catch(this.handleError);
+        }
     };
     OttoRestService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only

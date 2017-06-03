@@ -14,6 +14,7 @@ import { AutomationRuleComponent } from './views/rule-automation.component';
 import { RuleConditionComponent } from './views/rule-condition.component';
 import { RuleTriggerComponent } from './views/rule-trigger.component';
 import { RuleActionSeqComponent } from './views/rule-action-seq.component';
+import { RuleAction } from './views/rule-action.component';
 import { OttoRestService } from './services/otto-rest.service'
 
 @NgModule({
@@ -38,6 +39,7 @@ import { OttoRestService } from './services/otto-rest.service'
     RuleTriggerComponent,
     RuleConditionComponent,
     RuleActionSeqComponent,
+    RuleAction,
   ],
   providers: [ OttoRestService ],
   bootstrap:    [ AppComponent ]

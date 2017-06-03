@@ -19,6 +19,10 @@ export class RuleActionSequence {
     this._sequence = this._sequence.splice(index, 1);
   }
 
+  replace_action(index: number, action: RuleActionItem) {
+    this._sequence[index] = action;
+  }
+
   // Overridden Property Functions
   public toJSON = () => {
     let o: any = {};

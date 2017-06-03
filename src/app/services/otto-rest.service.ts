@@ -4,6 +4,7 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { AutomationRule } from '../objects/rule-automation'
+import { ServiceDomain } from '../objects/services';
 
 
 @Injectable()
@@ -14,8 +15,9 @@ export class OttoRestService {
   
   private rules: AutomationRule[] = [];
   private entities: string[] = [];
+  private serviceDomains: ServiceDomain[] = [];
 
-  private entitiesRequested: boolean;
+  // private entitiesRequested: boolean;
 
   constructor(private http: Http){ 
     this.getEntities();
@@ -35,7 +37,7 @@ export class OttoRestService {
   getEntities(): Promise<string[]> {
     if (this.entities.length == 0) {   // Get a fresh copy of the rules
       // console.log("getEntities getting a fresh copy");
-      this.entitiesRequested = true;
+      // this.entitiesRequested = true;
       return this.http.get(`${this.ottoRestUrl}/entities`)
         .toPromise()
         .then(response => {
@@ -54,6 +56,18 @@ export class OttoRestService {
         .then((entities) => entities.filter((entity) => entity.startsWith("zone.")));
     }
     return Promise.resolve(this.entities.filter((entity) => entity.startsWith("zone.")));
+  }
+
+  getServices(): Promise<ServiceDomain[]> {
+    if (this.serviceDomains.length == 0) {
+      return this.http.get(`${this.ottoRestUrl}/services`)
+        .toPromise()
+        .then(response => {
+          this.serviceDomains = ServiceDomain.fromRestResponse(response.json().data);
+          return this.serviceDomains;
+        })
+        .catch(this.handleError);
+    }
   }
 
 

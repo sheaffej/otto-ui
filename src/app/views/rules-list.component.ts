@@ -14,11 +14,13 @@ export class RulesListComponent implements OnInit {
   constructor (private ottoService: OttoRestService) {}
 
   ngOnInit(): void {
-    this.getRules();
+    // this.getRules();
+    this.ottoService.getRules().then(rules => this.rules = rules);
+    this.ottoService.getServices();
   }
 
-  getRules(): void {
-    this.ottoService.getRules().then(rules => this.rules = rules);
-  }
+  // getRules(): void {
+  //   this.ottoService.getRules().then(rules => this.rules = rules);
+  // }
 
 }  // class RulesListComponent

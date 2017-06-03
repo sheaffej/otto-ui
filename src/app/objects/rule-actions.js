@@ -30,6 +30,9 @@ var RuleActionSequence = (function () {
     RuleActionSequence.prototype.remove_action = function (index) {
         this._sequence = this._sequence.splice(index, 1);
     };
+    RuleActionSequence.prototype.replace_action = function (index, action) {
+        this._sequence[index] = action;
+    };
     // Static methods
     RuleActionSequence.fromObject = function (obj) {
         // console.log("RASeq.fromObject: " + JSON.stringify(obj))

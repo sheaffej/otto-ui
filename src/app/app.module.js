@@ -18,6 +18,7 @@ var rule_automation_component_1 = require("./views/rule-automation.component");
 var rule_condition_component_1 = require("./views/rule-condition.component");
 var rule_trigger_component_1 = require("./views/rule-trigger.component");
 var rule_action_seq_component_1 = require("./views/rule-action-seq.component");
+var rule_action_component_1 = require("./views/rule-action.component");
 var otto_rest_service_1 = require("./services/otto-rest.service");
 var AppModule = (function () {
     function AppModule() {
@@ -47,6 +48,7 @@ AppModule = __decorate([
             rule_trigger_component_1.RuleTriggerComponent,
             rule_condition_component_1.RuleConditionComponent,
             rule_action_seq_component_1.RuleActionSeqComponent,
+            rule_action_component_1.RuleAction,
         ],
         providers: [otto_rest_service_1.OttoRestService],
         bootstrap: [app_component_1.AppComponent]

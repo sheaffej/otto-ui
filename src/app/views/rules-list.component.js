@@ -16,11 +16,10 @@ var RulesListComponent = (function () {
         this.rules = [];
     }
     RulesListComponent.prototype.ngOnInit = function () {
-        this.getRules();
-    };
-    RulesListComponent.prototype.getRules = function () {
         var _this = this;
+        // this.getRules();
         this.ottoService.getRules().then(function (rules) { return _this.rules = rules; });
+        this.ottoService.getServices();
     };
     return RulesListComponent;
 }()); // class RulesListComponent

@@ -4,8 +4,16 @@
         <prettyjson class="col-lg-11" [obj]="actionSeq"></prettyjson>
     </div>
 
+    <!-- Action Condition -->
     <div>
         <rule-condition [condition]="actionSeq.condition" [parent]="actionSeq"></rule-condition>
+    </div>
+
+    <!-- Action Items -->
+    <div *ngFor="let action of actionSeq.sequence; let i = index">
+        <div class="row panel-body bg-success">
+            <rule-action [action]="action" [parentSeq]="actionSeq" [parentIndex]="i"></rule-action>
+        </div>
     </div>
 
 </div>
