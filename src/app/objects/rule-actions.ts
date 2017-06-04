@@ -57,7 +57,12 @@ export class RuleActionSequence {
 
 
 export class RuleActionItem {
-  constructor() {}
+
+  // actionType: string;
+
+  // constructor(actionType: string) {
+  //   this.actionType = actionType;
+  // }
 
   static fromObject(obj: any): RuleActionItem {
     // console.log("RuleActionItem.fromObject:  " + JSON.stringify(obj));
@@ -102,6 +107,11 @@ export class ConditionAction extends RuleActionItem {
     super();
     this.condition = condition;
   }
+
+  replaceCondition(newCondition: RuleCondition) {
+    this.condition = newCondition;
+  }
+
 }
 
 

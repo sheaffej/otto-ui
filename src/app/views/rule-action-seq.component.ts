@@ -19,4 +19,8 @@ export class RuleActionSeqComponent implements OnInit {
 
     ngOnInit() { }
 
+    onAddActionClick(): void {
+        this.actionSeq.sequence.push(null);
+    }
+
 } // class RuleActionSeqComponent

@@ -23,7 +23,6 @@ var ServiceDomain = (function () {
                 newDomain.addService(service);
             }
             domains.push(newDomain);
-            console.log(JSON.stringify(newDomain));
         }
         return domains;
     };

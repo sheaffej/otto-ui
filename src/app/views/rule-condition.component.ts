@@ -8,7 +8,7 @@ import {
   RuleCondition, AndCondition, OrCondition, StateCondition, 
   NumericStateCondition, SunCondition, TimeCondition, ZoneCondition 
   } from '../objects/rule-conditions';
-import { RuleActionSequence } from '../objects/rule-actions';
+import { RuleActionSequence, ConditionAction } from '../objects/rule-actions';
 
 @Component({
   selector: 'rule-condition',
@@ -21,7 +21,7 @@ export class RuleConditionComponent implements OnInit {
   @Input() parent: any;
   @Input() parentIndex: number;
 
-  debug: boolean = true;
+  debug: boolean = false;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
   mediumText: string = "xxxxxxx20-charxxxxxx";
 
@@ -94,10 +94,6 @@ export class RuleConditionComponent implements OnInit {
 
   }
 
-  // Properties
-  // get jsonString(): string { return JSON.stringify(this.condition); }
-
-
   ngOnInit(): void {
 
     if (this.condition != null) {
@@ -144,6 +140,7 @@ export class RuleConditionComponent implements OnInit {
       }
 
     }
+    // console.log("Condition ngOnInit done");
 
   } // ngOnInit()
 
@@ -153,6 +150,7 @@ export class RuleConditionComponent implements OnInit {
     for (let option of options) {
       option_list.push({label: option, value: option});
     }    
+    // console.log("Condition Populate Options done");
   }
 
 
@@ -236,6 +234,9 @@ export class RuleConditionComponent implements OnInit {
     }
     else if (this.parent instanceof RuleActionSequence) {
       this.parent.condition = newCondition;
+    }
+    else if (this.parent instanceof ConditionAction) {
+      this.parent.replaceCondition(newCondition);
     }
   }
 

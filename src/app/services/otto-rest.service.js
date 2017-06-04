@@ -59,14 +59,55 @@ var OttoRestService = (function () {
     OttoRestService.prototype.getServices = function () {
         var _this = this;
         if (this.serviceDomains.length == 0) {
+            console.log("getServices refreshing values");
             return this.http.get(this.ottoRestUrl + "/services")
                 .toPromise()
                 .then(function (response) {
                 _this.serviceDomains = services_1.ServiceDomain.fromRestResponse(response.json().data);
+                // console.log("serviceDomains.length = " + this.serviceDomains.length);
                 return _this.serviceDomains;
             })
                 .catch(this.handleError);
         }
+        return Promise.resolve(this.serviceDomains.slice());
+    };
+    OttoRestService.prototype.getServiceDomainNames = function () {
+        // let promise: Promise<ServiceDomain[]>;
+        // if (this.serviceDomains.length == 0) {   // Get a fresh copy of the entities
+        // return this.getServices()
+        // .then(domains => this.serviceDomains.map(domain => domain.domain));
+        // promise = this.getServices();
+        // }
+        // else {
+        // promise = Promise.resolve(this.serviceDomains);
+        // }
+        // return Promise.resolve(this.serviceDomains.map(domain => domain.domain));
+        var _this = this;
+        return this.getServices().then(function (domains) { return _this.serviceDomains.map(function (domain) { return domain.domain; }); });
+    };
+    OttoRestService.prototype.getServiceNames = function (domainName) {
+        // let promise: Promise<ServiceDomain[]>;
+        // if (this.serviceDomains.length == 0) {   // Get a fresh copy of the entities
+        // return this.getServices()
+        //   .then(domains => 
+        //       domains.filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
+        //         .services.map(service => service.service_name)
+        //   );
+        // promise = this.getServices();
+        // } 
+        // else { 
+        // console.log("getServiceNames using cached values"); 
+        // promise = Promise.resolve(this.serviceDomains);
+        // }
+        // return Promise.resolve(
+        //   this.serviceDomains
+        //     .filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
+        //     .services.map(service => service.service_name)
+        // );
+        return this.getServices().then(function (domains) {
+            return domains.filter(function (domain) { return domain.domain == domainName; })[0] // Return only 1 domain
+                .services.map(function (service) { return service.service_name; });
+        });
     };
     OttoRestService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only

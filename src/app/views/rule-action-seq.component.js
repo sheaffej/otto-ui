@@ -15,6 +15,9 @@ var RuleActionSeqComponent = (function () {
         this.debug = true;
     }
     RuleActionSeqComponent.prototype.ngOnInit = function () { };
+    RuleActionSeqComponent.prototype.onAddActionClick = function () {
+        this.actionSeq.sequence.push(null);
+    };
     return RuleActionSeqComponent;
 }()); // class RuleActionSeqComponent
 __decorate([

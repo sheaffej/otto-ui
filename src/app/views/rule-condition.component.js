@@ -17,7 +17,7 @@ var RuleConditionComponent = (function () {
     function RuleConditionComponent(ottoService) {
         var _this = this;
         this.ottoService = ottoService;
-        this.debug = true;
+        this.debug = false;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
         this.mediumText = "xxxxxxx20-charxxxxxx";
         // Condition options
@@ -46,8 +46,6 @@ var RuleConditionComponent = (function () {
         ottoService.getZones().then(function (zones) { return _this.populateOptions(_this.uiZoneOptions, zones); });
         this.uiZoneOptions = [{ label: this.mediumText, value: null }];
     }
-    // Properties
-    // get jsonString(): string { return JSON.stringify(this.condition); }
     RuleConditionComponent.prototype.ngOnInit = function () {
         if (this.condition != null) {
             this.uiCondition = this.condition.condition;
@@ -80,6 +78,7 @@ var RuleConditionComponent = (function () {
                 this.uiNestedConditions = this.condition.conditions;
             }
         }
+        // console.log("Condition ngOnInit done");
     }; // ngOnInit()
     RuleConditionComponent.prototype.populateOptions = function (option_list, options) {
         option_list.length = 0; // Clear the array
@@ -87,6 +86,7 @@ var RuleConditionComponent = (function () {
             var option = options_4[_i];
             option_list.push({ label: option, value: option });
         }
+        // console.log("Condition Populate Options done");
     };
     RuleConditionComponent.prototype.onConditionChange = function () {
         // When the platform changes, we just re-intitialize the condition
@@ -160,6 +160,9 @@ var RuleConditionComponent = (function () {
         }
         else if (this.parent instanceof rule_actions_1.RuleActionSequence) {
             this.parent.condition = newCondition;
+        }
+        else if (this.parent instanceof rule_actions_1.ConditionAction) {
+            this.parent.replaceCondition(newCondition);
         }
     };
     RuleConditionComponent.prototype.onAddClick = function () {

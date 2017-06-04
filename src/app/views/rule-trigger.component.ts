@@ -17,7 +17,7 @@ export class RuleTriggerComponent implements OnInit {
   @Input() triggerIndex: number;
   trigger: RuleTrigger;
 
-  debug: boolean = true;
+  debug: boolean = false;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
 
   // We need the uiXXX copies of the data in the rule condition

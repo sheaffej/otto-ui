@@ -14,6 +14,7 @@ var rule_conditions_1 = require("../objects/rule-conditions");
 var otto_rest_service_1 = require("../services/otto-rest.service");
 var RuleAction = (function () {
     function RuleAction(ottoService) {
+        var _this = this;
         this.ottoService = ottoService;
         this.debug = true;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
@@ -24,20 +25,66 @@ var RuleAction = (function () {
             var option = options_1[_i];
             this.uiActionTypeOptions.push({ label: option, value: option });
         }
-        // Domain Options
-        // Service Options
+        // Domain & Service Options
+        this.uiDomainOptions = [{ label: this.longText, value: '' }]; // Don't set to null, as that is
+        this.uiServiceOptions = [{ label: this.longText, value: '' }]; // the default value, set to '' instead
+        ottoService.getServices().then(function (domains) { return _this.processServiceDomains(domains); });
     }
     RuleAction.prototype.ngOnInit = function () {
+        if (this.action != null) {
+            if (this.action instanceof rule_actions_1.ServiceAction) {
+                console.log("I am a ServiceAction");
+                this.uiActionType = "service";
+                this.uiDomain = this.action.domain;
+                this.uiService = this.action.service;
+                console.log(this.uiService);
+                this.uiDataObj = JSON.stringify(this.action.data);
+            }
+            else if (this.action instanceof rule_actions_1.DelayAction) {
+                this.uiActionType = "delay";
+                this.uiDelay = this.action.delay;
+            }
+            else if (this.action instanceof rule_actions_1.ConditionAction) {
+                this.uiActionType = "condition";
+            }
+        }
     };
-    RuleAction.prototype.populateOptions = function (option_list, options) {
-        option_list.length = 0; // Clear the array
-        for (var _i = 0, options_2 = options; _i < options_2.length; _i++) {
-            var option = options_2[_i];
-            option_list.push({ label: option, value: option });
+    RuleAction.prototype.processServiceDomains = function (domains) {
+        this.serviceDomains = domains;
+        this.populateDomainOptions(); // This will also call populateServiceOptions
+    };
+    RuleAction.prototype.populateDomainOptions = function () {
+        var _this = this;
+        var curUiDomain = this.uiDomain;
+        this.uiDomain = null;
+        this.uiDomainOptions.length = 0; // Clear the array    
+        this.serviceDomains.map(function (domain) { return _this.uiDomainOptions.push({ label: domain.domain, value: domain.domain }); });
+        // Re-select dropdown
+        if (this.action instanceof rule_actions_1.ServiceAction) {
+            setTimeout(function () {
+                _this.uiDomain = curUiDomain;
+                _this.populateServiceOptions(); // Re-popluate Service Options
+            }, 100);
+        }
+    };
+    RuleAction.prototype.populateServiceOptions = function () {
+        var _this = this;
+        if ((this.serviceDomains != null) && (this.uiDomain != null)) {
+            var curUiService_1 = this.uiService;
+            this.uiService = null;
+            this.uiServiceOptions.length = 0; // Clear the array
+            this.serviceDomains
+                .filter(function (domain) { return domain.domain == _this.uiDomain; })[0] // Return only 1 domain
+                .services.map(function (service) { return _this.uiServiceOptions.push({ label: service.service_name, value: service.service_name }); });
+            // Re-select the dropdown
+            if (this.action instanceof rule_actions_1.ServiceAction) {
+                setTimeout(function () { return _this.uiService = curUiService_1; }, 100);
+            }
         }
     };
     RuleAction.prototype.onActionTypeChange = function () {
         // When the actionType changes, we just re-intitialize the action
+        console.log("Action type changed: " + this.uiActionType);
         // Set the uiXXX fields to initial values
         if (this.uiActionType == 'service') {
             this.uiDomain = null;
@@ -48,25 +95,31 @@ var RuleAction = (function () {
             this.uiDelay = null;
         }
         else if (this.uiActionType == 'condition') {
-            // A ConditionAction has no uiXXX elements
-            // because all the uiXXX elements are in the RuleCondition (not RuleActionItem).
-            // So just create a new, default ConditionAction/AndCondition
-            this.action = new rule_actions_1.ConditionAction(new rule_conditions_1.AndCondition());
         }
         this.recreateAction();
+    };
+    RuleAction.prototype.onDomainChange = function () {
+        console.log("Domain Change => " + this.uiDomain);
+        // Update Service Options based on the current domain
+        this.uiService = '';
+        this.populateServiceOptions();
+        this.onChange();
     };
     RuleAction.prototype.onChange = function () {
         this.recreateAction();
     };
     RuleAction.prototype.onRemoveClick = function () {
-        throw new Error("onRemoveClick not implemented");
+        // throw new Error("onRemoveClick not implemented");
+        this.parentSeq.sequence.splice(this.parentIndex, 1);
     };
     RuleAction.prototype.recreateAction = function () {
         // When the action changes, we just re-intitialize the action
         if (this.uiActionType == 'service') {
-            this.replaceAction(new rule_actions_1.ServiceAction(this.uiDomain, this.uiService, this.uiDataObj));
+            this.replaceAction(new rule_actions_1.ServiceAction(this.uiDomain, this.uiService, JSON.parse(this.uiDataObj)));
         }
-        else if (this.uiActionType == 'numeric_state') {
+        else if (this.uiActionType == 'condition') {
+            // Do nothing since Condition has its own component with its own uiXXX elements
+            this.replaceAction(new rule_actions_1.ConditionAction(new rule_conditions_1.AndCondition()));
         }
         else if (this.uiActionType == 'delay') {
             this.replaceAction(new rule_actions_1.DelayAction(this.uiDelay));

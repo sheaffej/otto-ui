@@ -58,6 +58,10 @@ exports.RuleActionSequence = RuleActionSequence;
 var RuleActionItem = (function () {
     function RuleActionItem() {
     }
+    // actionType: string;
+    // constructor(actionType: string) {
+    //   this.actionType = actionType;
+    // }
     RuleActionItem.fromObject = function (obj) {
         // console.log("RuleActionItem.fromObject:  " + JSON.stringify(obj));
         var action = null;
@@ -98,6 +102,9 @@ var ConditionAction = (function (_super) {
         _this.condition = condition;
         return _this;
     }
+    ConditionAction.prototype.replaceCondition = function (newCondition) {
+        this.condition = newCondition;
+    };
     return ConditionAction;
 }(RuleActionItem));
 exports.ConditionAction = ConditionAction;

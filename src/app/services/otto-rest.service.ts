@@ -51,7 +51,7 @@ export class OttoRestService {
   }
 
   getZones(): Promise<string[]> {
-    if (this.entities.length == 0) {   // Get a fresh copy of the rules
+    if (this.entities.length == 0) {   // Get a fresh copy of the entities
       return this.getEntities()
         .then((entities) => entities.filter((entity) => entity.startsWith("zone.")));
     }
@@ -60,14 +60,59 @@ export class OttoRestService {
 
   getServices(): Promise<ServiceDomain[]> {
     if (this.serviceDomains.length == 0) {
+      console.log("getServices refreshing values");
       return this.http.get(`${this.ottoRestUrl}/services`)
         .toPromise()
         .then(response => {
           this.serviceDomains = ServiceDomain.fromRestResponse(response.json().data);
+          // console.log("serviceDomains.length = " + this.serviceDomains.length);
           return this.serviceDomains;
         })
         .catch(this.handleError);
-    }
+    } 
+    return Promise.resolve(this.serviceDomains.slice());
+  }
+
+  getServiceDomainNames(): Promise<string[]> {
+    // let promise: Promise<ServiceDomain[]>;
+    // if (this.serviceDomains.length == 0) {   // Get a fresh copy of the entities
+      // return this.getServices()
+        // .then(domains => this.serviceDomains.map(domain => domain.domain));
+      // promise = this.getServices();
+    // }
+    // else {
+      // promise = Promise.resolve(this.serviceDomains);
+    // }
+    // return Promise.resolve(this.serviceDomains.map(domain => domain.domain));
+
+    return this.getServices().then(domains => this.serviceDomains.map(domain => domain.domain))
+  }
+
+  getServiceNames(domainName: string): Promise<string[]> {
+    // let promise: Promise<ServiceDomain[]>;
+    // if (this.serviceDomains.length == 0) {   // Get a fresh copy of the entities
+      // return this.getServices()
+      //   .then(domains => 
+      //       domains.filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
+      //         .services.map(service => service.service_name)
+      //   );
+      // promise = this.getServices();
+    // } 
+    // else { 
+      // console.log("getServiceNames using cached values"); 
+      // promise = Promise.resolve(this.serviceDomains);
+    // }
+    
+    // return Promise.resolve(
+    //   this.serviceDomains
+    //     .filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
+    //     .services.map(service => service.service_name)
+    // );
+
+    return this.getServices().then(domains => 
+            domains.filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
+              .services.map(service => service.service_name)
+    );
   }
 
 

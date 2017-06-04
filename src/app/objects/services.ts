@@ -28,7 +28,7 @@ export class ServiceDomain {
         newDomain.addService(service);
       }
       domains.push(newDomain);
-      console.log(JSON.stringify(newDomain));
+      // console.log(JSON.stringify(newDomain));
     }
     return domains;
   }

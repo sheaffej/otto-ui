@@ -18,7 +18,7 @@ var RuleTriggerComponent = (function () {
     function RuleTriggerComponent(ottoService) {
         var _this = this;
         this.ottoService = ottoService;
-        this.debug = true;
+        this.debug = false;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
         // Platform Options
         this.uiPlatformOptions = [];

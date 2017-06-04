@@ -10,6 +10,8 @@
     </div>
 
     <!-- Action Items -->
+    <button pButton label="Add Action" type="button" (click)="onAddActionClick()"></button>
+
     <div *ngFor="let action of actionSeq.sequence; let i = index">
         <div class="row panel-body bg-success">
             <rule-action [action]="action" [parentSeq]="actionSeq" [parentIndex]="i"></rule-action>
