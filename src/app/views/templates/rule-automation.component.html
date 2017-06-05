@@ -13,7 +13,10 @@
     <!-- Triggers -->
     <div *ngFor="let trigger of rule.triggers; let i = index">
         <div class="row panel-body bg-success">
-            <rule-trigger [rule]="rule" [triggerIndex]="i"></rule-trigger>
+            <!--<rule-trigger [rule]="rule" [triggerIndex]="i"></rule-trigger>-->
+            <rule-trigger [trigger]="trigger" [index]="i" 
+                (onReCreate)='onTriggerReCreate($event, i)' (onRemove)='onTriggerRemove(i)'>
+            </rule-trigger>
         </div>
     </div>
 

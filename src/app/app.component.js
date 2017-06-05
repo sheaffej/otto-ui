@@ -14,19 +14,24 @@ var AppComponent = (function () {
     function AppComponent(ottoService) {
         this.ottoService = ottoService;
         this.title = 'Ottomation UI';
+        this.show = false;
+        this.showDelay = 500;
     }
     AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
         // Populate the OttoRestService caches
         this.ottoService.getServices();
         this.ottoService.getEntities();
         this.ottoService.getRules();
+        // Trigger showing of views after OttoRestService has cached
+        setTimeout(function () { return _this.show = true; }, this.showDelay);
     };
     return AppComponent;
 }()); // class AppComponent
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n  <h1>{{title}}</h1>\n  <rules-list></rules-list>\n  ",
+        template: "\n  <h1>{{title}}</h1>\n  <div *ngIf=\"show\">\n    <rules-list></rules-list>\n  </div>\n  ",
     }),
     __metadata("design:paramtypes", [otto_rest_service_1.OttoRestService])
 ], AppComponent);

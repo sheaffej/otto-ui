@@ -1,11 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
 import {PrettyJsonComponent} from 'angular2-prettyjson';
 
-
-import { OttoRestService } from '../services/otto-rest.service'
 import { AutomationRule } from '../objects/rule-automation';
 import { RuleTrigger, StateTrigger, NumericStateTrigger, EventTrigger } from '../objects/rule-triggers';
+import { OttoRestService } from '../services/otto-rest.service'
 
 @Component({
   selector: 'rule-trigger',
@@ -13,9 +12,11 @@ import { RuleTrigger, StateTrigger, NumericStateTrigger, EventTrigger } from '..
 })
 export class RuleTriggerComponent implements OnInit {
 
-  @Input() rule: AutomationRule;
-  @Input() triggerIndex: number;
-  trigger: RuleTrigger;
+  // @Input() rule: AutomationRule;
+  @Input() trigger: RuleTrigger;
+  @Input('index') triggerIndex: number;
+  @Output() onReCreate = new EventEmitter<RuleTrigger>();
+  @Output() onRemove = new EventEmitter();
 
   debug: boolean = false;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
@@ -25,7 +26,6 @@ export class RuleTriggerComponent implements OnInit {
   // the rule condition in the rule, it breaks how ngModel works
   // Therefore, we simply re-create the rule condition in the rule
   // every time there is a change in the UI (using the uiXXX values)
-
 
   // Platform
   uiPlatformOptions: SelectItem[];
@@ -52,23 +52,21 @@ export class RuleTriggerComponent implements OnInit {
   uiEventType: string;
   uiEventDataObj: any;
 
-  // Buttons
-  // saveNeeded: boolean;
+
+  constructor(private ottoService: OttoRestService) { }
 
 
-  constructor(private ottoService: OttoRestService) {
-    // Platform Options
+  ngOnInit() {
+    // Load Platform Options
     this.uiPlatformOptions = [];
     let options = ["state", "numeric_state", "event"];
-    for (let option of options) {
-      this.uiPlatformOptions.push({label: option, value: option});
-    }
+    options.map(option => this.uiPlatformOptions.push({label: option, value: option}));
 
-    // Entity Id Options
-    ottoService.getEntities().then(entities => this.populateEntityIdOptions(entities))
+    // Load Entity Id Options
     this.uiEntityIdOptions = [{label: this.longText, value: null}];
+    this.ottoService.getEntities().then(entities => this.populateEntityIdOptions(entities))
 
-    // Event Type
+    // Load Event Type
     this.uiEventTypeOptions = [];
     options = [
       "homeassistant_start", 
@@ -81,20 +79,10 @@ export class RuleTriggerComponent implements OnInit {
       "platform_discovered",
       "component_loaded",
     ];
-    for (let option of options) {
-      this.uiEventTypeOptions.push({label: option, value: option });
-    }
+    options.map(option => this.uiEventTypeOptions.push({label: option, value: option }));
 
-    // this.saveNeeded = false;
-  } // constructor
-
-  // Properties
-  // get jsonString(): string { return JSON.stringify(this.trigger); }
-
-
-  ngOnInit() {
-
-    this.trigger = this.rule.triggers[this.triggerIndex];
+    // Initialize uiXXX components
+    // this.trigger = this.rule.triggers[this.triggerIndex];
 
     if (this.trigger != null) {
     
@@ -115,11 +103,10 @@ export class RuleTriggerComponent implements OnInit {
       else if (this.trigger instanceof EventTrigger) {
         this.uiEventType = this.trigger.event_type;
         this.uiEventDataObj = JSON.stringify(this.trigger.event_data_obj);
-        // this.uiEventDataObj = this.trigger.event_data_obj;
       }
     }
 
-  }
+  }  // ngOnInit
 
 
   populateEntityIdOptions(entities: string[]): void {
@@ -174,12 +161,12 @@ export class RuleTriggerComponent implements OnInit {
 
 
   replaceTrigger(trigger: RuleTrigger): void {
-    this.rule.replace_trigger(trigger, this.triggerIndex);
+    this.onReCreate.emit(trigger);
   }
 
 
   onRemoveClick(): void {
-    this.rule.triggers.splice(this.triggerIndex, 1);
+    this.onRemove.emit();
   }
 
 } // class RuleTriggerComponent

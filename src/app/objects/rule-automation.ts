@@ -5,8 +5,6 @@ import { RuleActionSequence } from './rule-actions';
 
 export class AutomationRule {
   
-  // private obj: any;
-
   private _id: string;
   private _description: string = null;
   private _group: string = null;
@@ -44,12 +42,13 @@ export class AutomationRule {
   }
 
   remove_trigger(index: number): void {
-    this._triggers = this._triggers.splice(index, 1);
+    this._triggers.splice(index, 1);
   }
 
   replace_trigger(trigger: RuleTrigger, index: number): void {
     this._triggers[index] = trigger;
   }
+
 
   add_condition(condition: RuleCondition): void {
     this._condition = condition;
@@ -58,6 +57,7 @@ export class AutomationRule {
   remove_condition(): void {
     this._condition = null;
   }
+
 
   add_action_sequence(action_sequence: RuleActionSequence): void {
     this._action_sequences.push(action_sequence);

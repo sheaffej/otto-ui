@@ -15,7 +15,6 @@ export class RulesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.ottoService.getRules().then(rules => this.rules = rules);
-    this.ottoService.getServices();
   }
 
 }  // class RulesListComponent

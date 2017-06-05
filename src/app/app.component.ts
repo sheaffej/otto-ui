@@ -5,11 +5,15 @@ import { OttoRestService } from './services/otto-rest.service';
   selector: 'my-app',
   template: `
   <h1>{{title}}</h1>
-  <rules-list></rules-list>
+  <div *ngIf="show">
+    <rules-list></rules-list>
+  </div>
   `,
 })
 export class AppComponent implements OnInit { 
   title = 'Ottomation UI'; 
+  show: boolean = false;
+  showDelay: number = 500;
 
   constructor(private ottoService: OttoRestService) {}
 
@@ -18,6 +22,9 @@ export class AppComponent implements OnInit {
     this.ottoService.getServices();
     this.ottoService.getEntities();
     this.ottoService.getRules();
+
+    // Trigger showing of views after OttoRestService has cached
+    setTimeout(() => this.show = true, this.showDelay);
   }
 
 } // class AppComponent

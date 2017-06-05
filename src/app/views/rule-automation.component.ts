@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-
 import {PrettyJsonComponent} from 'angular2-prettyjson';
 
 import { AutomationRule } from '../objects/rule-automation'
+import { RuleTrigger } from '../objects/rule-triggers';
 import { AndCondition } from '../objects/rule-conditions';
 import { OttoRestService } from '../services/otto-rest.service'
 
@@ -15,20 +15,26 @@ export class AutomationRuleComponent implements OnInit {
     
     @Input() rule: AutomationRule;
 
-    constructor(private ottoService: OttoRestService) {
+    constructor(private ottoService: OttoRestService) {}
 
-    }
-
-    ngOnInit(): void {
-
-    }
+    ngOnInit(): void {}
 
     onAddTriggerClick(): void {
-        this.rule.triggers.push(null);
+        this.rule.add_trigger(null);
     }
 
     onAddConditionClick(): void {
         this.rule.add_condition(new AndCondition());
+    }
+
+    onTriggerReCreate(newTrigger: RuleTrigger, index: number): void {
+        console.log("Re-creating index: " + index);
+        this.rule.replace_trigger(newTrigger, index);
+    }
+
+    onTriggerRemove(index: number): void {
+        console.log("Removing index: " + index);
+        this.rule.remove_trigger(index);
     }
 
 } // class RuleAutomationComponent

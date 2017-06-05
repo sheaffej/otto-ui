@@ -17,13 +17,20 @@ var AutomationRuleComponent = (function () {
     function AutomationRuleComponent(ottoService) {
         this.ottoService = ottoService;
     }
-    AutomationRuleComponent.prototype.ngOnInit = function () {
-    };
+    AutomationRuleComponent.prototype.ngOnInit = function () { };
     AutomationRuleComponent.prototype.onAddTriggerClick = function () {
-        this.rule.triggers.push(null);
+        this.rule.add_trigger(null);
     };
     AutomationRuleComponent.prototype.onAddConditionClick = function () {
         this.rule.add_condition(new rule_conditions_1.AndCondition());
+    };
+    AutomationRuleComponent.prototype.onTriggerReCreate = function (newTrigger, index) {
+        console.log("Re-creating index: " + index);
+        this.rule.replace_trigger(newTrigger, index);
+    };
+    AutomationRuleComponent.prototype.onTriggerRemove = function (index) {
+        console.log("Removing index: " + index);
+        this.rule.remove_trigger(index);
     };
     return AutomationRuleComponent;
 }()); // class RuleAutomationComponent

@@ -77,7 +77,7 @@ var AutomationRule = (function () {
         this._triggers.push(trigger);
     };
     AutomationRule.prototype.remove_trigger = function (index) {
-        this._triggers = this._triggers.splice(index, 1);
+        this._triggers.splice(index, 1);
     };
     AutomationRule.prototype.replace_trigger = function (trigger, index) {
         this._triggers[index] = trigger;
