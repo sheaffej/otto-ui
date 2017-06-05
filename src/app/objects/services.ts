@@ -1,14 +1,14 @@
 export class ServiceDomain {
 
   domain: string;
-  services: Service[];
+  services: ServiceInfo[];
 
   constructor(domain: string) {
     this.domain = domain;
     this.services = [];
   }
 
-  addService(service: Service): void {
+  addService(service: ServiceInfo): void {
     this.services.push(service);
   }
 
@@ -21,7 +21,7 @@ export class ServiceDomain {
 
       for (let service_obj of domain.services) {
 
-        let service = new Service(domain_name, service_obj.service, service_obj.description);
+        let service = new ServiceInfo(domain_name, service_obj.service, service_obj.description);
         for (let field of service_obj.fields) {
           service.fields.push(new ServiceField(field.name, field.description, field.example));
         }
@@ -35,7 +35,7 @@ export class ServiceDomain {
 
 } // class ServiceDomain
 
-export class Service {
+export class ServiceInfo {
   domain: string;
   service_name: string;
   description: string;

@@ -35,6 +35,7 @@
         <div class="col-lg-4" *ngIf="uiActionType == 'service'">
             Service Data: 
             <input type="text" pInputText [(ngModel)]="uiDataObj" (blur)="onChange()" (keyup.enter)="onChange()"/>
+            <service-info [domain]="uiDomain" [service]='uiService'></service-info>
         </div>
 
         <!-- Delay -->

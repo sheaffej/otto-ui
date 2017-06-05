@@ -14,6 +14,7 @@ import { AutomationRuleComponent } from './views/rule-automation.component';
 import { RuleConditionComponent } from './views/rule-condition.component';
 import { RuleTriggerComponent } from './views/rule-trigger.component';
 import { RuleActionSeqComponent } from './views/rule-action-seq.component';
+import { ServiceInfoComponent } from './views/service-info.component';
 import { RuleAction } from './views/rule-action.component';
 import { OttoRestService } from './services/otto-rest.service'
 
@@ -40,6 +41,7 @@ import { OttoRestService } from './services/otto-rest.service'
     RuleConditionComponent,
     RuleActionSeqComponent,
     RuleAction,
+    ServiceInfoComponent,
   ],
   providers: [ OttoRestService ],
   bootstrap:    [ AppComponent ]

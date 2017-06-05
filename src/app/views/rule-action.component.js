@@ -14,10 +14,12 @@ var rule_conditions_1 = require("../objects/rule-conditions");
 var otto_rest_service_1 = require("../services/otto-rest.service");
 var RuleAction = (function () {
     function RuleAction(ottoService) {
-        var _this = this;
         this.ottoService = ottoService;
         this.debug = true;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
+    }
+    RuleAction.prototype.ngOnInit = function () {
+        var _this = this;
         // Action Type Options
         this.uiActionTypeOptions = [];
         var options = ["service", "delay", "condition"];
@@ -28,16 +30,15 @@ var RuleAction = (function () {
         // Domain & Service Options
         this.uiDomainOptions = [{ label: this.longText, value: '' }]; // Don't set to null, as that is
         this.uiServiceOptions = [{ label: this.longText, value: '' }]; // the default value, set to '' instead
-        ottoService.getServices().then(function (domains) { return _this.processServiceDomains(domains); });
-    }
-    RuleAction.prototype.ngOnInit = function () {
+        this.ottoService.getServices().then(function (domains) { return _this.processServiceDomains(domains); });
+        // Initialize uiXXX properties
         if (this.action != null) {
             if (this.action instanceof rule_actions_1.ServiceAction) {
-                console.log("I am a ServiceAction");
+                // console.log("I am a ServiceAction");
                 this.uiActionType = "service";
                 this.uiDomain = this.action.domain;
                 this.uiService = this.action.service;
-                console.log(this.uiService);
+                // console.log(this.uiService);
                 this.uiDataObj = JSON.stringify(this.action.data);
             }
             else if (this.action instanceof rule_actions_1.DelayAction) {

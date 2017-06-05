@@ -17,7 +17,6 @@ var RulesListComponent = (function () {
     }
     RulesListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // this.getRules();
         this.ottoService.getRules().then(function (rules) { return _this.rules = rules; });
         this.ottoService.getServices();
     };

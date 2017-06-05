@@ -46,7 +46,9 @@ export class RuleAction implements OnInit {
   uiDelay: string;
 
 
-  constructor(private ottoService: OttoRestService) {
+  constructor(private ottoService: OttoRestService) {}
+
+  ngOnInit() {  
     // Action Type Options
     this.uiActionTypeOptions = [];
     let options = ["service", "delay", "condition"];
@@ -57,19 +59,17 @@ export class RuleAction implements OnInit {
     // Domain & Service Options
     this.uiDomainOptions = [{label: this.longText, value: ''}];   // Don't set to null, as that is
     this.uiServiceOptions = [{label: this.longText, value: ''}];  // the default value, set to '' instead
-    ottoService.getServices().then(domains => this.processServiceDomains(domains))
+    this.ottoService.getServices().then(domains => this.processServiceDomains(domains))
 
-  }
-
-  ngOnInit() {  
+    // Initialize uiXXX properties
     if (this.action != null) {
 
       if (this.action instanceof ServiceAction){
-        console.log("I am a ServiceAction");
+        // console.log("I am a ServiceAction");
         this.uiActionType = "service";
         this.uiDomain = this.action.domain;
         this.uiService = this.action.service;
-        console.log(this.uiService);
+        // console.log(this.uiService);
         this.uiDataObj = JSON.stringify(this.action.data);
       }
       else if (this.action instanceof DelayAction) {
