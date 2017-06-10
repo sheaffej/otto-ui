@@ -6,10 +6,10 @@
 
     <div class="row">
         <!-- Action Type -->
-        <div class="col-lg-4">Action Type: 
+        <div class="col-lg-4">Execute
             <p-dropdown [options]="uiActionTypeOptions" [(ngModel)]="uiActionType" 
                 (onChange)="onActionTypeChange()" placeholder="Select Type">
-            </p-dropdown>
+            </p-dropdown> action
             <button pButton label="Remove" type="button" (click)="onRemoveClick()"></button>
         </div>
     </div>
@@ -35,7 +35,9 @@
         <div class="col-lg-4" *ngIf="uiActionType == 'service'">
             Service Data: 
             <input type="text" pInputText [(ngModel)]="uiDataObj" (blur)="onChange()" (keyup.enter)="onChange()"/>
-            <service-info [domain]="uiDomain" [service]='uiService'></service-info>
+            <div *ngIf="uiService != null">
+                <service-info [domain]="uiDomain" [service]='uiService'></service-info>
+            </div>
         </div>
 
         <!-- Delay -->
@@ -44,9 +46,12 @@
             <p-inputMask mask="99:99:99" [(ngModel)]="uiDelay" placeholder="HH:MM:SS" (onComplete)="onChange()"></p-inputMask>
         </div>
 
+        <!-- Condition -->
         <div class="col-lg-3" *ngIf="uiActionType == 'condition'">
             Condition: 
-            <rule-condition [condition]="action.condition" [parent]="action"></rule-condition>
+            <rule-condition [condition]="action.condition"
+                (onReCreate)='onConditionReCreate($event)' (onRemove)='onConditionRemove()'>
+            </rule-condition>
         </div>
 
     </div>

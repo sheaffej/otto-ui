@@ -12,9 +12,7 @@ import { OttoRestService } from '../services/otto-rest.service'
 })
 export class RuleTriggerComponent implements OnInit {
 
-  // @Input() rule: AutomationRule;
   @Input() trigger: RuleTrigger;
-  @Input('index') triggerIndex: number;
   @Output() onReCreate = new EventEmitter<RuleTrigger>();
   @Output() onRemove = new EventEmitter();
 

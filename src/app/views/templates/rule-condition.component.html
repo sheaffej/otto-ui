@@ -2,9 +2,8 @@
 
     <div class="row" *ngIf="debug">
         <prettyjson class="col-lg-11" [obj]="condition"></prettyjson>
-
     </div>
-
+ 
     <div class="row">
         <div class="col-lg-4">Condition: 
             <p-dropdown [options]="uiConditionOptions" [(ngModel)]="uiCondition" 
@@ -18,7 +17,10 @@
       <button pButton label="Add" type="button" (click)="onAddClick()"></button>
       <div *ngIf="uiCondition != null">
         <div class="row" *ngFor="let cond of condition.conditions; let i = index">
-          <rule-condition [condition]="cond" [parent]="condition" [parentIndex]="i"></rule-condition>
+          <!--<rule-condition [condition]="cond" [parent]="condition" [parentIndex]="i"></rule-condition>-->
+          <rule-condition [condition]="cond"
+            (onReCreate)='onConditionReCreate($event, i)' (onRemove)='onConditionRemove(i)'>
+          </rule-condition>
         </div>
       </div>
     </div>

@@ -4,9 +4,17 @@
         <prettyjson class="col-lg-11" [obj]="actionSeq"></prettyjson>
     </div>
 
+    <button pButton label="Remove Sequence" type="button" (click)="onRemoveSeqClick()"></button>
+    
+
     <!-- Action Condition -->
-    <div>
-        <rule-condition [condition]="actionSeq.condition" [parent]="actionSeq"></rule-condition>
+    <div *ngIf='actionSeq.condition != null'>
+        <rule-condition [condition]="actionSeq.condition" 
+            (onReCreate)='onConditionReCreate($event)' (onRemove)='onConditionRemove()'>
+        </rule-condition>
+    </div>
+    <div *ngIf='actionSeq.condition == null'>
+        <button pButton label="Add Condition" type="button" (click)="onAddConditionClick()"></button>
     </div>
 
     <!-- Action Items -->
@@ -14,7 +22,9 @@
 
     <div *ngFor="let action of actionSeq.sequence; let i = index">
         <div class="row panel-body bg-success">
-            <rule-action [action]="action" [parentSeq]="actionSeq" [parentIndex]="i"></rule-action>
+            <rule-action [action]="action" 
+                (onReCreate)='onActionReCreate($event, i)' (onRemove)='onActionRemove(i)'>
+            </rule-action>
         </div>
     </div>
 

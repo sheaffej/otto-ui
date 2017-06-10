@@ -117,10 +117,6 @@ __decorate([
     __metadata("design:type", rule_triggers_1.RuleTrigger)
 ], RuleTriggerComponent.prototype, "trigger", void 0);
 __decorate([
-    core_1.Input('index'),
-    __metadata("design:type", Number)
-], RuleTriggerComponent.prototype, "triggerIndex", void 0);
-__decorate([
     core_1.Output(),
     __metadata("design:type", Object)
 ], RuleTriggerComponent.prototype, "onReCreate", void 0);

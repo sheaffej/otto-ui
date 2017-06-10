@@ -47,6 +47,25 @@ var RuleCondition = (function () {
     return RuleCondition;
 }());
 exports.RuleCondition = RuleCondition;
+var ParentCondition = (function (_super) {
+    __extends(ParentCondition, _super);
+    function ParentCondition(condition) {
+        var _this = _super.call(this, condition) || this;
+        _this.conditions = [];
+        return _this;
+    }
+    ParentCondition.prototype.add_condition = function (condition) {
+        this.conditions.push(condition);
+    };
+    ParentCondition.prototype.remove_condition = function (index) {
+        this.conditions.splice(index, 1);
+    };
+    ParentCondition.prototype.replace_condition = function (condition, index) {
+        this.conditions[index] = condition;
+    };
+    return ParentCondition;
+}(RuleCondition));
+exports.ParentCondition = ParentCondition;
 var AndCondition = (function (_super) {
     __extends(AndCondition, _super);
     function AndCondition() {
@@ -54,11 +73,8 @@ var AndCondition = (function (_super) {
         _this.conditions = [];
         return _this;
     }
-    AndCondition.prototype.add_condition = function (condition) {
-        this.conditions.push(condition);
-    };
     return AndCondition;
-}(RuleCondition));
+}(ParentCondition));
 exports.AndCondition = AndCondition;
 var OrCondition = (function (_super) {
     __extends(OrCondition, _super);
@@ -67,11 +83,8 @@ var OrCondition = (function (_super) {
         _this.conditions = [];
         return _this;
     }
-    OrCondition.prototype.add_condition = function (condition) {
-        this.conditions.push(condition);
-    };
     return OrCondition;
-}(RuleCondition));
+}(ParentCondition));
 exports.OrCondition = OrCondition;
 var NumericStateCondition = (function (_super) {
     __extends(NumericStateCondition, _super);

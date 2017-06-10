@@ -64,7 +64,7 @@ export class AutomationRule {
   }
 
   remove_action_sequence(index: number): void {
-    this._action_sequences = this._action_sequences.splice(index, 1);
+    this._action_sequences.splice(index, 1);
   }
 
 

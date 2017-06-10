@@ -2,31 +2,43 @@ import { RuleCondition } from './rule-conditions';
 
 export class RuleActionSequence {
 
-  condition: RuleCondition = null;
-  
+  private _condition: RuleCondition = null;
   private _sequence: RuleActionItem[] = [];
 
   constructor() {}
 
   // Accessor methods
   get sequence(): RuleActionItem[] { return this._sequence }
+  get condition(): RuleCondition { return this._condition }
 
   add_action(action:RuleActionItem): void {
     this._sequence.push(action);
   }
 
   remove_action(index: number): void {
-    this._sequence = this._sequence.splice(index, 1);
+    this._sequence.splice(index, 1);
   }
 
   replace_action(index: number, action: RuleActionItem) {
     this._sequence[index] = action;
   }
 
+  add_condition(condition: RuleCondition) {
+    this._condition = condition;
+  }
+
+  remove_condition() {
+    this._condition = null;
+  }
+
+  replace_condition(condition: RuleCondition) {
+    this._condition = condition;
+  }
+
   // Overridden Property Functions
   public toJSON = () => {
     let o: any = {};
-    o.action_condition = this.condition;
+    o.action_condition = this._condition;
     o.action_sequence = this._sequence;
     return o;
   }
@@ -39,7 +51,7 @@ export class RuleActionSequence {
 
     if ("action_condition" in obj) {
       // console.log("adding action_condition: " + obj.action_condition.condition);
-      actionSeq.condition = RuleCondition.fromObject(obj.action_condition);
+      actionSeq._condition = RuleCondition.fromObject(obj.action_condition);
     }
 
     if ("action_sequence" in obj) {

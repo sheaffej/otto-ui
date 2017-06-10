@@ -8,12 +8,12 @@ var rule_conditions_1 = require("./rule-conditions");
 var RuleActionSequence = (function () {
     function RuleActionSequence() {
         var _this = this;
-        this.condition = null;
+        this._condition = null;
         this._sequence = [];
         // Overridden Property Functions
         this.toJSON = function () {
             var o = {};
-            o.action_condition = _this.condition;
+            o.action_condition = _this._condition;
             o.action_sequence = _this._sequence;
             return o;
         };
@@ -24,14 +24,28 @@ var RuleActionSequence = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(RuleActionSequence.prototype, "condition", {
+        get: function () { return this._condition; },
+        enumerable: true,
+        configurable: true
+    });
     RuleActionSequence.prototype.add_action = function (action) {
         this._sequence.push(action);
     };
     RuleActionSequence.prototype.remove_action = function (index) {
-        this._sequence = this._sequence.splice(index, 1);
+        this._sequence.splice(index, 1);
     };
     RuleActionSequence.prototype.replace_action = function (index, action) {
         this._sequence[index] = action;
+    };
+    RuleActionSequence.prototype.add_condition = function (condition) {
+        this._condition = condition;
+    };
+    RuleActionSequence.prototype.remove_condition = function () {
+        this._condition = null;
+    };
+    RuleActionSequence.prototype.replace_condition = function (condition) {
+        this._condition = condition;
     };
     // Static methods
     RuleActionSequence.fromObject = function (obj) {
@@ -39,7 +53,7 @@ var RuleActionSequence = (function () {
         var actionSeq = new RuleActionSequence();
         if ("action_condition" in obj) {
             // console.log("adding action_condition: " + obj.action_condition.condition);
-            actionSeq.condition = rule_conditions_1.RuleCondition.fromObject(obj.action_condition);
+            actionSeq._condition = rule_conditions_1.RuleCondition.fromObject(obj.action_condition);
         }
         if ("action_sequence" in obj) {
             // console.log("adding action_sequence: " + JSON.stringify(obj.action_sequence));

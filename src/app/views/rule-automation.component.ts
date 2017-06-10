@@ -3,7 +3,8 @@ import {PrettyJsonComponent} from 'angular2-prettyjson';
 
 import { AutomationRule } from '../objects/rule-automation'
 import { RuleTrigger } from '../objects/rule-triggers';
-import { AndCondition } from '../objects/rule-conditions';
+import { AndCondition, RuleCondition } from '../objects/rule-conditions';
+import { RuleActionSequence } from '../objects/rule-actions';
 import { OttoRestService } from '../services/otto-rest.service'
 
 @Component({
@@ -27,14 +28,30 @@ export class AutomationRuleComponent implements OnInit {
         this.rule.add_condition(new AndCondition());
     }
 
+    onAddActionSequenceClick(): void {
+        this.rule.add_action_sequence(new RuleActionSequence());
+    }
+
     onTriggerReCreate(newTrigger: RuleTrigger, index: number): void {
-        console.log("Re-creating index: " + index);
+        // console.log("Re-creating index: " + index);
         this.rule.replace_trigger(newTrigger, index);
     }
 
     onTriggerRemove(index: number): void {
         console.log("Removing index: " + index);
         this.rule.remove_trigger(index);
+    }
+
+    onConditionReCreate(newCondition: RuleCondition): void {
+        this.rule.add_condition(newCondition); // Overwrites previous condition
+    }
+
+    onConditionRemove(): void {
+        this.rule.remove_condition();
+    }
+
+    onActionSequenceRemove(index: number): void {
+        this.rule.remove_action_sequence(index);
     }
 
 } // class RuleAutomationComponent

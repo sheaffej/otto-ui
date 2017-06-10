@@ -19,12 +19,15 @@ var ServiceInfoComponent = (function () {
         var _this = this;
         this.ottService.getServices().then(function (domains) { return _this.populateServiceInfo(domains); });
     };
+    // TODO we can't display the Service Info when services == null
     ServiceInfoComponent.prototype.populateServiceInfo = function (serviceDomains) {
         var _this = this;
-        this.serviceInfo =
-            serviceDomains
-                .filter(function (domain) { return domain.domain === _this.domain; })[0] // Only the first
-                .services.filter(function (service) { return service.service_name === _this.service; })[0]; // Only the first
+        if ((this.domain != null) && (this.service != null)) {
+            this.serviceInfo =
+                serviceDomains
+                    .filter(function (domain) { return domain.domain === _this.domain; })[0] // Only the first
+                    .services.filter(function (service) { return service.service_name === _this.service; })[0]; // Only the first
+        }
     };
     return ServiceInfoComponent;
 }()); // class DataFieldsComponent

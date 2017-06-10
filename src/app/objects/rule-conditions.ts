@@ -62,29 +62,41 @@ export class RuleCondition {
 
 }
 
+export class ParentCondition extends RuleCondition {
+  conditions: RuleCondition[] = [];
 
-export class AndCondition extends RuleCondition {
+  constructor(condition: string) {
+    super(condition);
+  }  
+  
+  add_condition(condition: RuleCondition): void {
+    this.conditions.push(condition);
+  }
+
+  remove_condition(index: number) {
+    this.conditions.splice(index, 1);
+  }
+
+  replace_condition(condition: RuleCondition, index: number): void {
+    this.conditions[index] = condition;
+  }
+}
+
+
+export class AndCondition extends ParentCondition {
   conditions: RuleCondition[] = [];
 
   constructor() {
     super("and");
   }
-
-  add_condition(condition: RuleCondition): void {
-    this.conditions.push(condition);
-  }
 }
 
 
-export class OrCondition extends RuleCondition {
+export class OrCondition extends ParentCondition {
   conditions: RuleCondition[] = [];
 
   constructor() {
-    super("or");
-  }
-
-  add_condition(condition: RuleCondition): void {
-    this.conditions.push(condition);
+    super("or"); 
   }
 }
 

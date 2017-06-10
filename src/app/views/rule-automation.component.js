@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 var angular2_prettyjson_1 = require("angular2-prettyjson");
 var rule_automation_1 = require("../objects/rule-automation");
 var rule_conditions_1 = require("../objects/rule-conditions");
+var rule_actions_1 = require("../objects/rule-actions");
 var otto_rest_service_1 = require("../services/otto-rest.service");
 var AutomationRuleComponent = (function () {
     function AutomationRuleComponent(ottoService) {
@@ -24,13 +25,25 @@ var AutomationRuleComponent = (function () {
     AutomationRuleComponent.prototype.onAddConditionClick = function () {
         this.rule.add_condition(new rule_conditions_1.AndCondition());
     };
+    AutomationRuleComponent.prototype.onAddActionSequenceClick = function () {
+        this.rule.add_action_sequence(new rule_actions_1.RuleActionSequence());
+    };
     AutomationRuleComponent.prototype.onTriggerReCreate = function (newTrigger, index) {
-        console.log("Re-creating index: " + index);
+        // console.log("Re-creating index: " + index);
         this.rule.replace_trigger(newTrigger, index);
     };
     AutomationRuleComponent.prototype.onTriggerRemove = function (index) {
         console.log("Removing index: " + index);
         this.rule.remove_trigger(index);
+    };
+    AutomationRuleComponent.prototype.onConditionReCreate = function (newCondition) {
+        this.rule.add_condition(newCondition); // Overwrites previous condition
+    };
+    AutomationRuleComponent.prototype.onConditionRemove = function () {
+        this.rule.remove_condition();
+    };
+    AutomationRuleComponent.prototype.onActionSequenceRemove = function (index) {
+        this.rule.remove_action_sequence(index);
     };
     return AutomationRuleComponent;
 }()); // class RuleAutomationComponent

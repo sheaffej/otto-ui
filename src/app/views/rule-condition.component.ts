@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
 import {PrettyJsonComponent} from 'angular2-prettyjson';
 
 import { OttoRestService } from '../services/otto-rest.service'
 import { AutomationRule } from '../objects/rule-automation';
 import { 
-  RuleCondition, AndCondition, OrCondition, StateCondition, 
+  RuleCondition, ParentCondition, AndCondition, OrCondition, StateCondition, 
   NumericStateCondition, SunCondition, TimeCondition, ZoneCondition 
   } from '../objects/rule-conditions';
 import { RuleActionSequence, ConditionAction } from '../objects/rule-actions';
@@ -18,8 +18,10 @@ export class RuleConditionComponent implements OnInit {
 
   @Input() condition: RuleCondition;
   // @Input() rule: AutomationRule;
-  @Input() parent: any;
-  @Input() parentIndex: number;
+  // @Input() parent: any;
+  // @Input('index') parentIndex: number;
+  @Output() onReCreate = new EventEmitter<RuleCondition>();
+  @Output() onRemove = new EventEmitter();
 
   debug: boolean = false;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
@@ -64,38 +66,42 @@ export class RuleConditionComponent implements OnInit {
   uiZone: string;
   uiZoneOptions: SelectItem[];
 
-  constructor(private ottoService: OttoRestService) {
-    // Condition options
-    this.uiConditionOptions = [];
-    let options = ["and", "or", "state", "numeric_state", "sun", "time", "zone"];
-    for (let option of options) {
-      this.uiConditionOptions.push({label: option, value: option});
-    }
-
-    // Sun options
-    this.uiSunOptions = [];
-    options = ["sunrise", "sunset"];
-    for (let option of options) {
-      this.uiSunOptions.push({label: option, value: option});
-    }
-
-    // Time Weekday options
-    this.uiTimeWeekdayOptions = [];
-    options = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-    for (let option of options) {
-      this.uiTimeWeekdayOptions.push({label: option, value: option});
-    }
-
-    ottoService.getEntities().then(entities => this.populateOptions(this.uiEntityIdOptions, entities))
-    this.uiEntityIdOptions = [{label: this.longText, value: null}];
-
-    ottoService.getZones().then(zones => this.populateOptions(this.uiZoneOptions, zones))
-    this.uiZoneOptions = [{label: this.mediumText, value: null}];    
-
-  }
+  constructor(private ottoService: OttoRestService) {}
 
   ngOnInit(): void {
+    // Create Condition options
+    this.uiConditionOptions = [];
+    let options = ["and", "or", "state", "numeric_state", "sun", "time", "zone"];
+    options.map(option => this.uiConditionOptions.push({label: option, value: option}));
+    // for (let option of options) {
+    //   this.uiConditionOptions.push({label: option, value: option});
+    // }
 
+    // Create Sun options
+    this.uiSunOptions = [];
+    options = ["sunrise", "sunset"];
+    options.map(option => this.uiSunOptions.push({label: option, value: option}));
+    // for (let option of options) {
+    //   this.uiSunOptions.push({label: option, value: option});
+    // }
+
+    // Create Time Weekday options
+    this.uiTimeWeekdayOptions = [];
+    options = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+    options.map(option => this.uiTimeWeekdayOptions.push({label: option, value: option}));
+    // for (let option of options) {
+    //   this.uiTimeWeekdayOptions.push({label: option, value: option});
+    // }
+
+    // Create Entity ID Options
+    this.uiEntityIdOptions = [{label: this.longText, value: null}];
+    this.ottoService.getEntities().then(entities => this.populateOptions(this.uiEntityIdOptions, entities))
+
+    // Create Zone Options
+    this.uiZoneOptions = [{label: this.mediumText, value: null}];    
+    this.ottoService.getZones().then(zones => this.populateOptions(this.uiZoneOptions, zones))
+
+    // Initialize uiXXX components
     if (this.condition != null) {
 
       this.uiCondition = this.condition.condition;
@@ -132,15 +138,10 @@ export class RuleConditionComponent implements OnInit {
       }
 
       // And & Or
-      else if ( 
-        (this.condition instanceof AndCondition) || 
-        (this.condition instanceof OrCondition) ) 
-      {
+      else if (this.condition instanceof ParentCondition) {
         this.uiNestedConditions = this.condition.conditions;
       }
-
     }
-    // console.log("Condition ngOnInit done");
 
   } // ngOnInit()
 
@@ -150,7 +151,6 @@ export class RuleConditionComponent implements OnInit {
     for (let option of options) {
       option_list.push({label: option, value: option});
     }    
-    // console.log("Condition Populate Options done");
   }
 
 
@@ -222,54 +222,68 @@ export class RuleConditionComponent implements OnInit {
 
 
   replaceCondition(newCondition: RuleCondition) {
-    if (this.parent == null) {
-      console.log("ERROR: this.parent is NULL in replaceCondition");
-    }
+    // if (this.parent == null) {
+    //   console.log("ERROR: this.parent is NULL in replaceCondition");
+    // }
 
-    if (this.parent instanceof AutomationRule) {
-      this.parent.add_condition(newCondition);    // Add overwrites previous condition
-    }
-    else if ((this.parent instanceof AndCondition) || (this.parent instanceof OrCondition)) {
-      this.parent.conditions[this.parentIndex] = newCondition;
-    }
-    else if (this.parent instanceof RuleActionSequence) {
-      this.parent.condition = newCondition;
-    }
-    else if (this.parent instanceof ConditionAction) {
-      this.parent.replaceCondition(newCondition);
-    }
+    // if (this.parent instanceof AutomationRule) {
+    //   this.parent.add_condition(newCondition);    // Add overwrites previous condition
+    // }
+    // else if ((this.parent instanceof AndCondition) || (this.parent instanceof OrCondition)) {
+    //   this.parent.conditions[this.parentIndex] = newCondition;
+    // }
+    // else if (this.parent instanceof RuleActionSequence) {
+    //   this.parent.condition = newCondition;
+    // }
+    // else if (this.parent instanceof ConditionAction) {
+    //   this.parent.replaceCondition(newCondition);
+    // }
+    this.onReCreate.emit(newCondition);
   }
 
 
   onAddClick(): void {
-    console.log("Add Condition clicked");
-    if ((this.condition instanceof AndCondition) ||
-      (this.condition instanceof OrCondition))
-    {
+    // console.log("Add Condition clicked");
+    if (this.condition instanceof ParentCondition) {
       if (this.condition.conditions == null) {
         this.condition.conditions = []; 
       }
-      this.condition.conditions.push(null);
+      // this.condition.conditions.push(null);
+      this.condition.add_condition(null);
     }
   }
 
 
   onRemoveClick(): void {
-    if (this.parent == null) {
-      console.log("ERROR: this.parent is NULL in onRemoveClick");
-      return;
-    }
+    // if (this.parent == null) {
+    //   console.log("ERROR: this.parent is NULL in onRemoveClick");
+    //   return;
+    // }
     
-    if (this.parent instanceof AutomationRule) {
-      this.parent.remove_condition();
-    }
-    else if (
-      (this.parent instanceof AndCondition) ||
-      (this.parent instanceof OrCondition)
-    ){
-      this.parent.conditions.splice(this.parentIndex, 1);
-    }
-    // this.recreateCondition()
+    // if (this.parent instanceof AutomationRule) {
+    //   this.parent.remove_condition();
+    // }
+    // else if (
+    //   (this.parent instanceof AndCondition) ||
+    //   (this.parent instanceof OrCondition)
+    // ){
+    //   this.parent.conditions.splice(this.parentIndex, 1);
+    // }
+    this.onRemove.emit();    
+  }
+
+  onConditionReCreate(newCondition: RuleCondition, index: number): void {
+      // this.rule.add_condition(newCondition); // Overwrites previous condition
+      if (this.condition instanceof ParentCondition) {
+        this.condition.replace_condition(newCondition, index);
+      }
+  }
+
+  onConditionRemove(index: number): void {
+      // this.rule.remove_condition();
+      if (this.condition instanceof ParentCondition) {
+        this.condition.remove_condition(index);
+      }
   }
 
 } // class RuleConditionComponent

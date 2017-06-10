@@ -17,7 +17,9 @@ var RulesListComponent = (function () {
     }
     RulesListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.ottoService.getRules().then(function (rules) { return _this.rules = rules; });
+        // this.ottoService.getRules().then(rules => this.rules = rules);
+        this.ottoService.getRules().then(function (rules) { return _this.rules = rules.slice(0, 1); });
+        console.log('TEMP: Only displaying 1st rule');
     };
     return RulesListComponent;
 }()); // class RulesListComponent

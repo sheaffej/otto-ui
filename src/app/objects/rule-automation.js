@@ -92,7 +92,7 @@ var AutomationRule = (function () {
         this._action_sequences.push(action_sequence);
     };
     AutomationRule.prototype.remove_action_sequence = function (index) {
-        this._action_sequences = this._action_sequences.splice(index, 1);
+        this._action_sequences.splice(index, 1);
     };
     // Static Methods
     AutomationRule.from_object = function (obj) {

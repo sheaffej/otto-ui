@@ -40,6 +40,8 @@ AppModule = __decorate([
             primeng_1.ButtonModule,
             primeng_1.SelectButtonModule,
             primeng_1.InputMaskModule,
+            primeng_1.CheckboxModule,
+            primeng_1.PanelModule,
         ],
         declarations: [
             app_component_1.AppComponent,
@@ -49,7 +51,7 @@ AppModule = __decorate([
             rule_trigger_component_1.RuleTriggerComponent,
             rule_condition_component_1.RuleConditionComponent,
             rule_action_seq_component_1.RuleActionSeqComponent,
-            rule_action_component_1.RuleAction,
+            rule_action_component_1.RuleActionComponent,
             service_info_component_1.ServiceInfoComponent,
         ],
         providers: [otto_rest_service_1.OttoRestService],

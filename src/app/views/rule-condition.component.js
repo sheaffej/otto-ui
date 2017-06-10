@@ -10,43 +10,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var otto_rest_service_1 = require("../services/otto-rest.service");
-var rule_automation_1 = require("../objects/rule-automation");
 var rule_conditions_1 = require("../objects/rule-conditions");
-var rule_actions_1 = require("../objects/rule-actions");
 var RuleConditionComponent = (function () {
     function RuleConditionComponent(ottoService) {
-        var _this = this;
         this.ottoService = ottoService;
+        // @Input() rule: AutomationRule;
+        // @Input() parent: any;
+        // @Input('index') parentIndex: number;
+        this.onReCreate = new core_1.EventEmitter();
+        this.onRemove = new core_1.EventEmitter();
         this.debug = false;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
         this.mediumText = "xxxxxxx20-charxxxxxx";
-        // Condition options
-        this.uiConditionOptions = [];
-        var options = ["and", "or", "state", "numeric_state", "sun", "time", "zone"];
-        for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
-            var option = options_1[_i];
-            this.uiConditionOptions.push({ label: option, value: option });
-        }
-        // Sun options
-        this.uiSunOptions = [];
-        options = ["sunrise", "sunset"];
-        for (var _a = 0, options_2 = options; _a < options_2.length; _a++) {
-            var option = options_2[_a];
-            this.uiSunOptions.push({ label: option, value: option });
-        }
-        // Time Weekday options
-        this.uiTimeWeekdayOptions = [];
-        options = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-        for (var _b = 0, options_3 = options; _b < options_3.length; _b++) {
-            var option = options_3[_b];
-            this.uiTimeWeekdayOptions.push({ label: option, value: option });
-        }
-        ottoService.getEntities().then(function (entities) { return _this.populateOptions(_this.uiEntityIdOptions, entities); });
-        this.uiEntityIdOptions = [{ label: this.longText, value: null }];
-        ottoService.getZones().then(function (zones) { return _this.populateOptions(_this.uiZoneOptions, zones); });
-        this.uiZoneOptions = [{ label: this.mediumText, value: null }];
     }
     RuleConditionComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        // Create Condition options
+        this.uiConditionOptions = [];
+        var options = ["and", "or", "state", "numeric_state", "sun", "time", "zone"];
+        options.map(function (option) { return _this.uiConditionOptions.push({ label: option, value: option }); });
+        // for (let option of options) {
+        //   this.uiConditionOptions.push({label: option, value: option});
+        // }
+        // Create Sun options
+        this.uiSunOptions = [];
+        options = ["sunrise", "sunset"];
+        options.map(function (option) { return _this.uiSunOptions.push({ label: option, value: option }); });
+        // for (let option of options) {
+        //   this.uiSunOptions.push({label: option, value: option});
+        // }
+        // Create Time Weekday options
+        this.uiTimeWeekdayOptions = [];
+        options = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+        options.map(function (option) { return _this.uiTimeWeekdayOptions.push({ label: option, value: option }); });
+        // for (let option of options) {
+        //   this.uiTimeWeekdayOptions.push({label: option, value: option});
+        // }
+        // Create Entity ID Options
+        this.uiEntityIdOptions = [{ label: this.longText, value: null }];
+        this.ottoService.getEntities().then(function (entities) { return _this.populateOptions(_this.uiEntityIdOptions, entities); });
+        // Create Zone Options
+        this.uiZoneOptions = [{ label: this.mediumText, value: null }];
+        this.ottoService.getZones().then(function (zones) { return _this.populateOptions(_this.uiZoneOptions, zones); });
+        // Initialize uiXXX components
         if (this.condition != null) {
             this.uiCondition = this.condition.condition;
             if (this.condition instanceof rule_conditions_1.StateCondition) {
@@ -73,20 +79,17 @@ var RuleConditionComponent = (function () {
                 this.uiEntityId = this.condition.entity_id;
                 this.uiZone = this.condition.zone;
             }
-            else if ((this.condition instanceof rule_conditions_1.AndCondition) ||
-                (this.condition instanceof rule_conditions_1.OrCondition)) {
+            else if (this.condition instanceof rule_conditions_1.ParentCondition) {
                 this.uiNestedConditions = this.condition.conditions;
             }
         }
-        // console.log("Condition ngOnInit done");
     }; // ngOnInit()
     RuleConditionComponent.prototype.populateOptions = function (option_list, options) {
         option_list.length = 0; // Clear the array
-        for (var _i = 0, options_4 = options; _i < options_4.length; _i++) {
-            var option = options_4[_i];
+        for (var _i = 0, options_1 = options; _i < options_1.length; _i++) {
+            var option = options_1[_i];
             option_list.push({ label: option, value: option });
         }
-        // console.log("Condition Populate Options done");
     };
     RuleConditionComponent.prototype.onConditionChange = function () {
         // When the platform changes, we just re-intitialize the condition
@@ -149,45 +152,60 @@ var RuleConditionComponent = (function () {
         }
     };
     RuleConditionComponent.prototype.replaceCondition = function (newCondition) {
-        if (this.parent == null) {
-            console.log("ERROR: this.parent is NULL in replaceCondition");
-        }
-        if (this.parent instanceof rule_automation_1.AutomationRule) {
-            this.parent.add_condition(newCondition); // Add overwrites previous condition
-        }
-        else if ((this.parent instanceof rule_conditions_1.AndCondition) || (this.parent instanceof rule_conditions_1.OrCondition)) {
-            this.parent.conditions[this.parentIndex] = newCondition;
-        }
-        else if (this.parent instanceof rule_actions_1.RuleActionSequence) {
-            this.parent.condition = newCondition;
-        }
-        else if (this.parent instanceof rule_actions_1.ConditionAction) {
-            this.parent.replaceCondition(newCondition);
-        }
+        // if (this.parent == null) {
+        //   console.log("ERROR: this.parent is NULL in replaceCondition");
+        // }
+        // if (this.parent instanceof AutomationRule) {
+        //   this.parent.add_condition(newCondition);    // Add overwrites previous condition
+        // }
+        // else if ((this.parent instanceof AndCondition) || (this.parent instanceof OrCondition)) {
+        //   this.parent.conditions[this.parentIndex] = newCondition;
+        // }
+        // else if (this.parent instanceof RuleActionSequence) {
+        //   this.parent.condition = newCondition;
+        // }
+        // else if (this.parent instanceof ConditionAction) {
+        //   this.parent.replaceCondition(newCondition);
+        // }
+        this.onReCreate.emit(newCondition);
     };
     RuleConditionComponent.prototype.onAddClick = function () {
-        console.log("Add Condition clicked");
-        if ((this.condition instanceof rule_conditions_1.AndCondition) ||
-            (this.condition instanceof rule_conditions_1.OrCondition)) {
+        // console.log("Add Condition clicked");
+        if (this.condition instanceof rule_conditions_1.ParentCondition) {
             if (this.condition.conditions == null) {
                 this.condition.conditions = [];
             }
-            this.condition.conditions.push(null);
+            // this.condition.conditions.push(null);
+            this.condition.add_condition(null);
         }
     };
     RuleConditionComponent.prototype.onRemoveClick = function () {
-        if (this.parent == null) {
-            console.log("ERROR: this.parent is NULL in onRemoveClick");
-            return;
+        // if (this.parent == null) {
+        //   console.log("ERROR: this.parent is NULL in onRemoveClick");
+        //   return;
+        // }
+        // if (this.parent instanceof AutomationRule) {
+        //   this.parent.remove_condition();
+        // }
+        // else if (
+        //   (this.parent instanceof AndCondition) ||
+        //   (this.parent instanceof OrCondition)
+        // ){
+        //   this.parent.conditions.splice(this.parentIndex, 1);
+        // }
+        this.onRemove.emit();
+    };
+    RuleConditionComponent.prototype.onConditionReCreate = function (newCondition, index) {
+        // this.rule.add_condition(newCondition); // Overwrites previous condition
+        if (this.condition instanceof rule_conditions_1.ParentCondition) {
+            this.condition.replace_condition(newCondition, index);
         }
-        if (this.parent instanceof rule_automation_1.AutomationRule) {
-            this.parent.remove_condition();
+    };
+    RuleConditionComponent.prototype.onConditionRemove = function (index) {
+        // this.rule.remove_condition();
+        if (this.condition instanceof rule_conditions_1.ParentCondition) {
+            this.condition.remove_condition(index);
         }
-        else if ((this.parent instanceof rule_conditions_1.AndCondition) ||
-            (this.parent instanceof rule_conditions_1.OrCondition)) {
-            this.parent.conditions.splice(this.parentIndex, 1);
-        }
-        // this.recreateCondition()
     };
     return RuleConditionComponent;
 }()); // class RuleConditionComponent
@@ -196,13 +214,13 @@ __decorate([
     __metadata("design:type", rule_conditions_1.RuleCondition)
 ], RuleConditionComponent.prototype, "condition", void 0);
 __decorate([
-    core_1.Input(),
+    core_1.Output(),
     __metadata("design:type", Object)
-], RuleConditionComponent.prototype, "parent", void 0);
+], RuleConditionComponent.prototype, "onReCreate", void 0);
 __decorate([
-    core_1.Input(),
-    __metadata("design:type", Number)
-], RuleConditionComponent.prototype, "parentIndex", void 0);
+    core_1.Output(),
+    __metadata("design:type", Object)
+], RuleConditionComponent.prototype, "onRemove", void 0);
 RuleConditionComponent = __decorate([
     core_1.Component({
         selector: 'rule-condition',

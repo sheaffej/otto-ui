@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
 import {PrettyJsonComponent} from 'angular2-prettyjson';
 
@@ -13,10 +13,12 @@ import { ServiceDomain } from '../objects/services';
   templateUrl: './templates/rule-action.component.html'
 })
 
-export class RuleAction implements OnInit {
+export class RuleActionComponent implements OnInit {
   @Input() action: RuleActionItem;
-  @Input() parentSeq: RuleActionSequence;
-  @Input() parentIndex: number;
+  // @Input() parentSeq: RuleActionSequence;
+  // @Input() parentIndex: number;
+  @Output() onReCreate = new EventEmitter<RuleActionItem>();
+  @Output() onRemove = new EventEmitter();
   
   debug: boolean = true;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
@@ -85,29 +87,26 @@ export class RuleAction implements OnInit {
   private processServiceDomains(domains: ServiceDomain[]): void {
     this.serviceDomains = domains;
     this.populateDomainOptions();    // This will also call populateServiceOptions
+    this.populateServiceOptions();
   }
 
   populateDomainOptions(): void {
-    let curUiDomain = this.uiDomain;
-    this.uiDomain = null;
-
     this.uiDomainOptions.length = 0;  // Clear the array    
     this.serviceDomains.map(domain => this.uiDomainOptions.push({label: domain.domain, value: domain.domain}));
     
     // Re-select dropdown
-    if (this.action instanceof ServiceAction) {
-      setTimeout(() => {
-        this.uiDomain = curUiDomain;
-        this.populateServiceOptions();  // Re-popluate Service Options
-      }, 100);
-    }
+    // if (this.action instanceof ServiceAction) {
+    //   let curUiDomain = this.uiDomain;
+    //   this.uiDomain = null;
+    //   setTimeout(() => {
+    //     this.uiDomain = curUiDomain;
+    //     this.populateServiceOptions();  // Re-popluate Service Options
+    //   }, 0);
+    // }
   }
 
   populateServiceOptions(): void {
     if ((this.serviceDomains != null) && (this.uiDomain != null)) {
-      let curUiService = this.uiService;
-      this.uiService = null;
-
       this.uiServiceOptions.length = 0; // Clear the array
       this.serviceDomains
         .filter(domain => domain.domain == this.uiDomain)[0]   // Return only 1 domain
@@ -115,10 +114,12 @@ export class RuleAction implements OnInit {
               { label: service.service_name, value: service.service_name }
         ));
     
-      // Re-select the dropdown
-      if (this.action instanceof ServiceAction) {
-        setTimeout(() => this.uiService = curUiService, 100);
-      }
+      // // Re-select the dropdown
+      // if (this.action instanceof ServiceAction) {
+      //   let curUiService = this.uiService;
+      //   this.uiService = null;
+      //   setTimeout(() => this.uiService = curUiService, 100);
+      // }
     }
   }
 
@@ -129,9 +130,9 @@ export class RuleAction implements OnInit {
 
     // Set the uiXXX fields to initial values
     if (this.uiActionType == 'service') {
-    this.uiDomain = null;
-    this.uiService = null;
-    this.uiDataObj = {};
+      this.uiDomain = null;
+      this.uiService = null;
+      this.uiDataObj = JSON.stringify({});
     }
     else if (this.uiActionType == 'delay') {
       this.uiDelay = null;
@@ -162,13 +163,20 @@ export class RuleAction implements OnInit {
 
   onRemoveClick(): void {
     // throw new Error("onRemoveClick not implemented");
-    this.parentSeq.sequence.splice(this.parentIndex, 1);
+    // this.parentSeq.sequence.splice(this.parentIndex, 1);
+    this.onRemove.emit();
   }
 
 
   recreateAction(): void {
     // When the action changes, we just re-intitialize the action
     if (this.uiActionType == 'service') {
+      // console.log(this.uiDataObj);
+      // if (this.uiDataObj == null) { 
+      //   // console.log("uiDataObj was null");
+      //   this.uiDataObj = {}; 
+      // }
+      // console.log(this.uiDataObj);
       this.replaceAction(new ServiceAction(this.uiDomain, this.uiService, JSON.parse(this.uiDataObj)));
     }
     else if (this.uiActionType == 'condition') {
@@ -181,11 +189,28 @@ export class RuleAction implements OnInit {
   }
 
   replaceAction(newAction: RuleActionItem) {
-    if (this.parentSeq == null) {
-    console.log("ERROR: this.parent is NULL in replaceCondition");
-    }
+    // if (this.parentSeq == null) {
+    // console.log("ERROR: this.parent is NULL in replaceCondition");
+    // }
 
-    this.parentSeq.replace_action(this.parentIndex, newAction);
+    // this.parentSeq.replace_action(this.parentIndex, newAction);
+    this.onReCreate.emit(newAction);
   }
+
+  onConditionReCreate(newCondition: RuleCondition): void {
+    // this.rule.add_condition(newCondition); // Overwrites previous condition
+    if (this.action instanceof ConditionAction) {
+      this.action.condition = newCondition;
+    }
+  }
+
+  onConditionRemove(): void {
+    // this.rule.remove_condition();
+    // this.actionSeq.condition.remove_condition(index);
+
+    //  NEED TO IMPLEMENT
+    //  Emit event to remove this action from parent
+  }
+
 
 } // class RuleAction

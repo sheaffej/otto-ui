@@ -5,7 +5,8 @@ import { FormsModule }   from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DropdownModule, InputTextModule, SpinnerModule, 
-  ButtonModule, SelectButtonModule, InputMaskModule } from 'primeng/primeng';
+  ButtonModule, SelectButtonModule, InputMaskModule, 
+  CheckboxModule, PanelModule } from 'primeng/primeng';
 import {PrettyJsonModule} from 'angular2-prettyjson';
 
 import { AppComponent }  from './app.component';
@@ -15,7 +16,7 @@ import { RuleConditionComponent } from './views/rule-condition.component';
 import { RuleTriggerComponent } from './views/rule-trigger.component';
 import { RuleActionSeqComponent } from './views/rule-action-seq.component';
 import { ServiceInfoComponent } from './views/service-info.component';
-import { RuleAction } from './views/rule-action.component';
+import { RuleActionComponent } from './views/rule-action.component';
 import { OttoRestService } from './services/otto-rest.service'
 
 @NgModule({
@@ -31,6 +32,8 @@ import { OttoRestService } from './services/otto-rest.service'
     ButtonModule,
     SelectButtonModule,
     InputMaskModule,
+    CheckboxModule,
+    PanelModule,
   ],
   declarations: [ 
     AppComponent,
@@ -40,7 +43,7 @@ import { OttoRestService } from './services/otto-rest.service'
     RuleTriggerComponent,
     RuleConditionComponent,
     RuleActionSeqComponent,
-    RuleAction,
+    RuleActionComponent,
     ServiceInfoComponent,
   ],
   providers: [ OttoRestService ],
