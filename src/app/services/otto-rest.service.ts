@@ -17,7 +17,6 @@ export class OttoRestService {
   private entities: string[] = [];
   private serviceDomains: ServiceDomain[] = [];
 
-  // private entitiesRequested: boolean;
 
   constructor(private http: Http){ 
     this.getEntities();
@@ -74,45 +73,32 @@ export class OttoRestService {
   }
 
   getServiceDomainNames(): Promise<string[]> {
-    // let promise: Promise<ServiceDomain[]>;
-    // if (this.serviceDomains.length == 0) {   // Get a fresh copy of the entities
-      // return this.getServices()
-        // .then(domains => this.serviceDomains.map(domain => domain.domain));
-      // promise = this.getServices();
-    // }
-    // else {
-      // promise = Promise.resolve(this.serviceDomains);
-    // }
-    // return Promise.resolve(this.serviceDomains.map(domain => domain.domain));
-
     return this.getServices().then(domains => this.serviceDomains.map(domain => domain.domain))
   }
 
   getServiceNames(domainName: string): Promise<string[]> {
-    // let promise: Promise<ServiceDomain[]>;
-    // if (this.serviceDomains.length == 0) {   // Get a fresh copy of the entities
-      // return this.getServices()
-      //   .then(domains => 
-      //       domains.filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
-      //         .services.map(service => service.service_name)
-      //   );
-      // promise = this.getServices();
-    // } 
-    // else { 
-      // console.log("getServiceNames using cached values"); 
-      // promise = Promise.resolve(this.serviceDomains);
-    // }
-    
-    // return Promise.resolve(
-    //   this.serviceDomains
-    //     .filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
-    //     .services.map(service => service.service_name)
-    // );
-
     return this.getServices().then(domains => 
             domains.filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
               .services.map(service => service.service_name)
     );
+  }
+
+
+  getRule(id: string): Promise<AutomationRule> {
+    return this.getRules().then(rules => rules.filter(rule => rule.id == id)[0])
+  }
+
+  saveRule(rule: AutomationRule): Promise<OttoRestResponse> {
+    let url = `${this.ottoRestUrl}/rule`;
+    let headers = new Headers(); 
+    headers.append("Content-Type", "application/json");
+
+    // console.log(JSON.stringify(rule.toJSON()));
+
+    return this.http.put(url, JSON.stringify({data: rule.toJSON()}), {headers: headers})
+      .toPromise()
+      .then(response => response.json() as OttoRestResponse)
+      .catch(this.handleError);
   }
 
 
@@ -122,10 +108,7 @@ export class OttoRestService {
   }
 
 
-  // getHeroesSlowly(): Promise<Hero[]> {
-  //   // Simulate server latency with 2 second delay
-  //   return new Promise(resolve => { setTimeout(() => resolve(this.getHeroes()), 1000); } );
-  // }
+
 
   // getHero(id: number): Promise<Hero> {
   //   // return this.getHeroes()
@@ -171,7 +154,12 @@ export class OttoRestService {
   //     .catch(this.handleError);
   // }
 
+} // class OttoRestService
+
+
+export interface OttoRestResponse {
+  success: boolean;
+  id: string;
+  message: string;
+  data: any;
 }
-
-
-

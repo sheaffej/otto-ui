@@ -14,7 +14,6 @@ require("rxjs/add/operator/toPromise");
 var rule_automation_1 = require("../objects/rule-automation");
 var services_1 = require("../objects/services");
 var OttoRestService = (function () {
-    // private entitiesRequested: boolean;
     function OttoRestService(http) {
         this.http = http;
         this.ottoRestUrl = 'http://localhost:5000/rest';
@@ -72,49 +71,34 @@ var OttoRestService = (function () {
         return Promise.resolve(this.serviceDomains.slice());
     };
     OttoRestService.prototype.getServiceDomainNames = function () {
-        // let promise: Promise<ServiceDomain[]>;
-        // if (this.serviceDomains.length == 0) {   // Get a fresh copy of the entities
-        // return this.getServices()
-        // .then(domains => this.serviceDomains.map(domain => domain.domain));
-        // promise = this.getServices();
-        // }
-        // else {
-        // promise = Promise.resolve(this.serviceDomains);
-        // }
-        // return Promise.resolve(this.serviceDomains.map(domain => domain.domain));
         var _this = this;
         return this.getServices().then(function (domains) { return _this.serviceDomains.map(function (domain) { return domain.domain; }); });
     };
     OttoRestService.prototype.getServiceNames = function (domainName) {
-        // let promise: Promise<ServiceDomain[]>;
-        // if (this.serviceDomains.length == 0) {   // Get a fresh copy of the entities
-        // return this.getServices()
-        //   .then(domains => 
-        //       domains.filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
-        //         .services.map(service => service.service_name)
-        //   );
-        // promise = this.getServices();
-        // } 
-        // else { 
-        // console.log("getServiceNames using cached values"); 
-        // promise = Promise.resolve(this.serviceDomains);
-        // }
-        // return Promise.resolve(
-        //   this.serviceDomains
-        //     .filter(domain => domain.domain == domainName)[0]   // Return only 1 domain
-        //     .services.map(service => service.service_name)
-        // );
         return this.getServices().then(function (domains) {
             return domains.filter(function (domain) { return domain.domain == domainName; })[0] // Return only 1 domain
                 .services.map(function (service) { return service.service_name; });
         });
+    };
+    OttoRestService.prototype.getRule = function (id) {
+        return this.getRules().then(function (rules) { return rules.filter(function (rule) { return rule.id == id; })[0]; });
+    };
+    OttoRestService.prototype.saveRule = function (rule) {
+        var url = this.ottoRestUrl + "/rule";
+        var headers = new http_1.Headers();
+        headers.append("Content-Type", "application/json");
+        // console.log(JSON.stringify(rule.toJSON()));
+        return this.http.put(url, JSON.stringify({ data: rule.toJSON() }), { headers: headers })
+            .toPromise()
+            .then(function (response) { return response.json(); })
+            .catch(this.handleError);
     };
     OttoRestService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
     };
     return OttoRestService;
-}());
+}()); // class OttoRestService
 OttoRestService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http])

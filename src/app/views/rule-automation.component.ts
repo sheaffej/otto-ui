@@ -13,45 +13,53 @@ import { OttoRestService } from '../services/otto-rest.service'
   entryComponents: [PrettyJsonComponent],
 })
 export class AutomationRuleComponent implements OnInit {
-    
-    @Input() rule: AutomationRule;
+  
+  @Input() rule: AutomationRule;
 
-    constructor(private ottoService: OttoRestService) {}
+  constructor(private ottoService: OttoRestService) {}
 
-    ngOnInit(): void {}
+  ngOnInit(): void {}
 
-    onAddTriggerClick(): void {
-        this.rule.add_trigger(null);
-    }
+  onSaveClick(): void {
+    console.log(`Saving rule ${this.rule.id}`);
+    this.ottoService.saveRule(this.rule)
+      .then(resp => {
+        console.log(resp);
+      })
+  }
 
-    onAddConditionClick(): void {
-        this.rule.add_condition(new AndCondition());
-    }
+  onAddTriggerClick(): void {
+    this.rule.add_trigger(null);
+  }
 
-    onAddActionSequenceClick(): void {
-        this.rule.add_action_sequence(new RuleActionSequence());
-    }
+  onAddConditionClick(): void {
+    this.rule.add_condition(new AndCondition());
+  }
 
-    onTriggerReCreate(newTrigger: RuleTrigger, index: number): void {
-        // console.log("Re-creating index: " + index);
-        this.rule.replace_trigger(newTrigger, index);
-    }
+  onAddActionSequenceClick(): void {
+    this.rule.add_action_sequence(new RuleActionSequence());
+  }
 
-    onTriggerRemove(index: number): void {
-        console.log("Removing index: " + index);
-        this.rule.remove_trigger(index);
-    }
+  onTriggerReCreate(newTrigger: RuleTrigger, index: number): void {
+    // console.log("Re-creating index: " + index);
+    this.rule.replace_trigger(newTrigger, index);
+  }
 
-    onConditionReCreate(newCondition: RuleCondition): void {
-        this.rule.add_condition(newCondition); // Overwrites previous condition
-    }
+  onTriggerRemove(index: number): void {
+    console.log("Removing index: " + index);
+    this.rule.remove_trigger(index);
+  }
 
-    onConditionRemove(): void {
-        this.rule.remove_condition();
-    }
+  onConditionReCreate(newCondition: RuleCondition): void {
+    this.rule.add_condition(newCondition); // Overwrites previous condition
+  }
 
-    onActionSequenceRemove(index: number): void {
-        this.rule.remove_action_sequence(index);
-    }
+  onConditionRemove(): void {
+    this.rule.remove_condition();
+  }
+
+  onActionSequenceRemove(index: number): void {
+    this.rule.remove_action_sequence(index);
+  }
 
 } // class RuleAutomationComponent

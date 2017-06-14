@@ -19,6 +19,13 @@ var AutomationRuleComponent = (function () {
         this.ottoService = ottoService;
     }
     AutomationRuleComponent.prototype.ngOnInit = function () { };
+    AutomationRuleComponent.prototype.onSaveClick = function () {
+        console.log("Saving rule " + this.rule.id);
+        this.ottoService.saveRule(this.rule)
+            .then(function (resp) {
+            console.log(resp);
+        });
+    };
     AutomationRuleComponent.prototype.onAddTriggerClick = function () {
         this.rule.add_trigger(null);
     };

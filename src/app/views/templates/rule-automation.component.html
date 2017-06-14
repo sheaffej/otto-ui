@@ -15,6 +15,10 @@
             Enabled: {{rule.enabled}}
             <p-checkbox [(ngModel)]="rule.enabled" binary="true"></p-checkbox>
         </div>
+        <div>
+            <button pButton label="Save" type="button" (click)="onSaveClick()"></button>
+        </div>
+
 
     </div>
 
