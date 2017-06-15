@@ -19,7 +19,7 @@ var RulesListComponent = (function () {
         var _this = this;
         this.ottoService.getRules().then(function (rules) { return _this.rules = rules; });
         // this.ottoService.getRules().then(rules => this.rules = rules.slice(0,1));
-        console.log('TEMP: Only displaying 1st rule');
+        // console.log('TEMP: Only displaying 1st rule');
     };
     return RulesListComponent;
 }()); // class RulesListComponent

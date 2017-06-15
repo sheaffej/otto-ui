@@ -15,7 +15,7 @@ export class RuleActionSeqComponent implements OnInit {
   @Input() actionSeq: RuleActionSequence;
   @Output() onRemove = new EventEmitter();
   
-  debug: boolean = true;
+  debug: boolean = false;
 
   constructor() { }
 

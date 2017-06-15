@@ -42,6 +42,7 @@ AppModule = __decorate([
             primeng_1.InputMaskModule,
             primeng_1.CheckboxModule,
             primeng_1.PanelModule,
+            primeng_1.DialogModule,
         ],
         declarations: [
             app_component_1.AppComponent,

@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DropdownModule, InputTextModule, SpinnerModule, 
   ButtonModule, SelectButtonModule, InputMaskModule, 
-  CheckboxModule, PanelModule } from 'primeng/primeng';
+  CheckboxModule, PanelModule, DialogModule } from 'primeng/primeng';
 import {PrettyJsonModule} from 'angular2-prettyjson';
 
 import { AppComponent }  from './app.component';
@@ -34,6 +34,7 @@ import { OttoRestService } from './services/otto-rest.service'
     InputMaskModule,
     CheckboxModule,
     PanelModule,
+    DialogModule,
   ],
   declarations: [ 
     AppComponent,

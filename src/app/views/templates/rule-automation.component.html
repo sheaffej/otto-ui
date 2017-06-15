@@ -1,60 +1,64 @@
-<div>
+<div class="container panel panel-default" >
     <div class="row panel-heading">
-        <div class="col-lg-2">ID: {{rule.id}}</div>
-        <div class="col-lg-2">
-            Group: {{rule.group}}
-            <input type="text" pInputText [(ngModel)]="rule.group"/>
-        </div>
-
-        <div class="col-lg-6">
-            Description: {{rule.description}}
-            <input type="text" pInputText [(ngModel)]="rule.description"/>
-        </div>
-
-        <div class="col-lg-2">
-            Enabled: {{rule.enabled}}
-            <p-checkbox [(ngModel)]="rule.enabled" binary="true"></p-checkbox>
-        </div>
-        <div>
+        <div class="col-lg-12">
+            ID: {{rule.id}}<br>
+            Group: <input type="text" pInputText [(ngModel)]="rule.group"/><br>
+            Description: <input type="text" pInputText [(ngModel)]="rule.description" class="form-control"/><br>
+            Enabled: <p-checkbox [(ngModel)]="rule.enabled" binary="true"></p-checkbox>
             <button pButton label="Save" type="button" (click)="onSaveClick()"></button>
         </div>
-
-
     </div>
 
     <!-- Triggers -->
-    <button pButton label="Add Trigger" type="button" (click)="onAddTriggerClick()"></button>
     <div *ngFor="let trigger of rule.triggers; let i = index">
         <div class="row panel-body bg-success">
-            <!--<rule-trigger [rule]="rule" [triggerIndex]="i"></rule-trigger>-->
-            <rule-trigger [trigger]="trigger"
-                (onReCreate)='onTriggerReCreate($event, i)' (onRemove)='onTriggerRemove(i)'>
-            </rule-trigger>
+            <div class="col-lg-12">
+                <rule-trigger [trigger]="trigger"
+                    (onReCreate)='onTriggerReCreate($event, i)' (onRemove)='onTriggerRemove(i)'>
+                </rule-trigger>
+            </div>
+        </div>
+    </div>
+    <div class="row panel-body bg-success">
+        <div class="col-lg-12">
+            <button pButton label="Add Trigger" type="button" (click)="onAddTriggerClick()"></button>
         </div>
     </div>
 
     <!-- Condition -->
-    <button pButton *ngIf="rule.condition == null" label="Add Condition" type="button" (click)="onAddConditionClick()"></button>
     <div class="row panel-body bg-warning" *ngIf="rule.condition != null">
         <div class="col-lg-12">
-            <!--<rule-condition [condition]="rule.condition" [parent]="rule"></rule-condition>      -->
             <rule-condition [condition]="rule.condition"
                 (onReCreate)='onConditionReCreate($event)' (onRemove)='onConditionRemove()'>
             </rule-condition>      
         </div>
     </div>
+    <div class="row panel-body bg-warning">
+        <div class="col-lg-12">
+            <button pButton *ngIf="rule.condition == null" label="Add Condition" type="button" (click)="onAddConditionClick()"></button>
+        </div>
+    </div>
 
     <!-- Action Sequence -->
-    <button pButton label="Add Action Sequence" type="button" (click)="onAddActionSequenceClick()"></button>
     <div class="row panel-body bg-info" *ngFor="let actionSeq of rule.action_sequences; let i = index">
         <div class="col-lg-12" >
             <rule-action-seq [actionSeq]="actionSeq" (onRemove)="onActionSequenceRemove(i)"></rule-action-seq>
         </div>
     </div>
+    <div class="row panel-body bg-info">
+        <div class="col-lg-12">
+            <button pButton label="Add Action Sequence" type="button" (click)="onAddActionSequenceClick()"></button>
+        </div>
+    </div>
 
+    <!-- Debug Footer -->
     <div class="row panel-footer">
-        <p-panel class="col-lg-11" header="Rule JSON" [toggleable]="true" [collapsed]="true">
+        <p-panel class="col-lg-12" header="Rule JSON" [toggleable]="true" [collapsed]="true">
             <prettyjson [obj]="rule"></prettyjson>
         </p-panel>
     </div>
 </div>
+
+<p-dialog header="Title" [(visible)]="showDialog" modal="modal">
+    <prettyjson [obj]="dialogContent"></prettyjson>
+</p-dialog>

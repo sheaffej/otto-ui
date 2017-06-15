@@ -16,6 +16,9 @@ export class AutomationRuleComponent implements OnInit {
   
   @Input() rule: AutomationRule;
 
+  showDialog: boolean = false;
+  dialogContent: any;
+
   constructor(private ottoService: OttoRestService) {}
 
   ngOnInit(): void {}
@@ -23,9 +26,8 @@ export class AutomationRuleComponent implements OnInit {
   onSaveClick(): void {
     console.log(`Saving rule ${this.rule.id}`);
     this.ottoService.saveRule(this.rule)
-      .then(resp => {
-        console.log(resp);
-      })
+      .then(resp => this.dialogContent = resp)
+    this.showDialog = true;
   }
 
   onAddTriggerClick(): void {

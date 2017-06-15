@@ -17,14 +17,15 @@ var otto_rest_service_1 = require("../services/otto-rest.service");
 var AutomationRuleComponent = (function () {
     function AutomationRuleComponent(ottoService) {
         this.ottoService = ottoService;
+        this.showDialog = false;
     }
     AutomationRuleComponent.prototype.ngOnInit = function () { };
     AutomationRuleComponent.prototype.onSaveClick = function () {
+        var _this = this;
         console.log("Saving rule " + this.rule.id);
         this.ottoService.saveRule(this.rule)
-            .then(function (resp) {
-            console.log(resp);
-        });
+            .then(function (resp) { return _this.dialogContent = resp; });
+        this.showDialog = true;
     };
     AutomationRuleComponent.prototype.onAddTriggerClick = function () {
         this.rule.add_trigger(null);

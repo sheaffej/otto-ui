@@ -56,7 +56,7 @@ export class StateTrigger extends RuleTrigger {
 
   public toJSON = () => {
     let o: any = {};
-      // o.platform = this.platform;
+      o.platform = this.platform;
       o.entity_id = this.entity_id;
       if (this.to != null) { o.to = this.to; }
       if (this.from != null) { o.from = this.from; }
@@ -79,7 +79,7 @@ export class NumericStateTrigger extends RuleTrigger {
 
   public toJSON = () => {
     let o: any = {};
-    // o.platform = this.platform;
+    o.platform = this.platform;
     o.entity_id = this.entity_id;
     if (this.above_value != null) { o.above_value = this.above_value; }
     if (this.below_value != null) { o.below_value = this.below_value; }    
@@ -100,7 +100,7 @@ export class EventTrigger extends RuleTrigger {
 
   public toJSON = () => {
     let o: any = {};
-    // o.platform = this.platform;
+    o.platform = this.platform;
     o.event_type = this.event_type;
     if (this.event_data_obj == null) { o.event_data = {}; }
     else { o.event_data = this.event_data_obj; }

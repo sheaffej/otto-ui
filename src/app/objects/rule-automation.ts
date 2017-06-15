@@ -100,28 +100,28 @@ export class AutomationRule {
     // Triggers
     if ("triggers" in obj) {
       for (let trig_obj of obj.triggers) {
-        console.log("adding a trigger xxxxx");
+        // console.log("adding a trigger xxxxx");
         let trig = RuleTrigger.fromObject(trig_obj);
         rule.add_trigger(trig);
-        console.log(JSON.stringify(trig));
+        // console.log(JSON.stringify(trig));
       }
     }
 
     // Rule Conditions
     if ("rule_condition" in obj) {
-      console.log("adding a RuleConddition ????");
+      // console.log("adding a RuleConddition ????");
       let cond = RuleCondition.fromObject(obj.rule_condition);
       rule.add_condition(cond);
-      console.log(JSON.stringify(cond));
+      // console.log(JSON.stringify(cond));
     }
 
     // Action Sequences
     if ("actions" in obj) {
       for (let seq_obj of obj.actions) {
-        console.log("adding a RuleActionSequence >>>>");
+        // console.log("adding a RuleActionSequence >>>>");
         let actionSeq = RuleActionSequence.fromObject(seq_obj);
         rule.add_action_sequence(actionSeq);
-        console.log(JSON.stringify(actionSeq));
+        // console.log(JSON.stringify(actionSeq));
       }
     }
 

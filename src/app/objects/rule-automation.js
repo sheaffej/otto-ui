@@ -111,27 +111,24 @@ var AutomationRule = (function () {
         if ("triggers" in obj) {
             for (var _i = 0, _a = obj.triggers; _i < _a.length; _i++) {
                 var trig_obj = _a[_i];
-                console.log("adding a trigger xxxxx");
+                // console.log("adding a trigger xxxxx");
                 var trig = rule_triggers_1.RuleTrigger.fromObject(trig_obj);
                 rule.add_trigger(trig);
-                console.log(JSON.stringify(trig));
             }
         }
         // Rule Conditions
         if ("rule_condition" in obj) {
-            console.log("adding a RuleConddition ????");
+            // console.log("adding a RuleConddition ????");
             var cond = rule_conditions_1.RuleCondition.fromObject(obj.rule_condition);
             rule.add_condition(cond);
-            console.log(JSON.stringify(cond));
         }
         // Action Sequences
         if ("actions" in obj) {
             for (var _b = 0, _c = obj.actions; _b < _c.length; _b++) {
                 var seq_obj = _c[_b];
-                console.log("adding a RuleActionSequence >>>>");
+                // console.log("adding a RuleActionSequence >>>>");
                 var actionSeq = rule_actions_1.RuleActionSequence.fromObject(seq_obj);
                 rule.add_action_sequence(actionSeq);
-                console.log(JSON.stringify(actionSeq));
             }
         }
         return rule;

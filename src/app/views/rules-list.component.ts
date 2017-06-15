@@ -16,7 +16,7 @@ export class RulesListComponent implements OnInit {
   ngOnInit(): void {
     this.ottoService.getRules().then(rules => this.rules = rules);
     // this.ottoService.getRules().then(rules => this.rules = rules.slice(0,1));
-    console.log('TEMP: Only displaying 1st rule');
+    // console.log('TEMP: Only displaying 1st rule');
   }
 
 }  // class RulesListComponent

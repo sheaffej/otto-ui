@@ -14,7 +14,7 @@ var rule_conditions_1 = require("../objects/rule-conditions");
 var RuleActionSeqComponent = (function () {
     function RuleActionSeqComponent() {
         this.onRemove = new core_1.EventEmitter();
-        this.debug = true;
+        this.debug = false;
     }
     RuleActionSeqComponent.prototype.ngOnInit = function () { };
     RuleActionSeqComponent.prototype.onRemoveSeqClick = function () {
