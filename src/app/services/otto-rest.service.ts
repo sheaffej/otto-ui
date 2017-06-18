@@ -20,20 +20,35 @@ export class OttoRestService {
 
   constructor(private http: Http){ 
     this.getEntities();
+    this.getServices();
+    this.getRules();
   }
 
   getRules(): Promise<AutomationRule[]> {
+    console.log("getRules() called");
+    
     if (this.rules.length == 0) {    // Get a fresh copy of the rules
+      console.log("getRules() fetching from REST API");
+      
       return this.http.get(`${this.ottoRestUrl}/rules`)
         .toPromise()
-        // .then(response => response.json().data as AutomationRule[])
-        .then(response => (response.json().data as any[]).map(rule_obj => AutomationRule.from_object(rule_obj)))
+        .then(response => {
+          console.log("getRules() response received");
+          this.rules = (response.json().data as any[])
+            .map(rule_obj => {
+              return AutomationRule.from_object(rule_obj);
+            });
+          return this.rules.slice();
+        })
         .catch(this.handleError);
     }
     return Promise.resolve(this.rules.slice());  // Return a copy of the cached rules
   }
 
   getEntities(): Promise<string[]> {
+    // let err = new Error();
+    // console.log(err.stack);
+
     if (this.entities.length == 0) {   // Get a fresh copy of the rules
       // console.log("getEntities getting a fresh copy");
       // this.entitiesRequested = true;

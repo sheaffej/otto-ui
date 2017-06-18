@@ -15,9 +15,11 @@ var AppComponent = (function () {
         this.ottoService = ottoService;
         this.title = 'Ottomation UI';
         // Populate the OttoRestService caches
-        this.ottoService.getServices();
-        this.ottoService.getEntities();
-        this.ottoService.getRules();
+        // console.log("Populating ottoRest cache");
+        // this.ottoService.getServices();
+        // this.ottoService.getEntities();
+        // this.ottoService.getRules();
+        // console.log("Finished calling cache population");
     }
     AppComponent.prototype.ngOnInit = function () { };
     return AppComponent;

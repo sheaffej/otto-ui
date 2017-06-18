@@ -15,9 +15,11 @@ export class AppComponent implements OnInit {
 
   constructor(private ottoService: OttoRestService) {
     // Populate the OttoRestService caches
-    this.ottoService.getServices();
-    this.ottoService.getEntities();
-    this.ottoService.getRules();
+    // console.log("Populating ottoRest cache");
+    // this.ottoService.getServices();
+    // this.ottoService.getEntities();
+    // this.ottoService.getRules();
+    // console.log("Finished calling cache population");
   }
 
   ngOnInit() {}

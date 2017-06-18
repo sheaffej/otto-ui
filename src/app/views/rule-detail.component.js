@@ -10,24 +10,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var common_1 = require("@angular/common");
 var otto_rest_service_1 = require("../services/otto-rest.service");
 require("rxjs/add/operator/switchMap");
 var RuleDetailComponent = (function () {
-    function RuleDetailComponent(ottoService, route, location) {
+    function RuleDetailComponent(ottoService, route, 
+        // private location: Location,
+        router) {
         this.ottoService = ottoService;
         this.route = route;
-        this.location = location;
+        this.router = router;
     }
     RuleDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.params
             .switchMap(function (params) { return _this.ottoService.getRule(params['id']); })
             .subscribe(function (rule) { return _this.rule = rule; });
-        console.log(JSON.stringify(this.rule));
     };
     RuleDetailComponent.prototype.onGoBackClick = function () {
-        this.location.back();
+        this.router.navigate(['/rule-list']);
     };
     return RuleDetailComponent;
 }()); // class RuleDetailComponent
@@ -38,7 +38,7 @@ RuleDetailComponent = __decorate([
     }),
     __metadata("design:paramtypes", [otto_rest_service_1.OttoRestService,
         router_1.ActivatedRoute,
-        common_1.Location])
+        router_1.Router])
 ], RuleDetailComponent);
 exports.RuleDetailComponent = RuleDetailComponent;
 //# sourceMappingURL=rule-detail.component.js.map

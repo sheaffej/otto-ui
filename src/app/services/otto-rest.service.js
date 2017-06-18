@@ -22,17 +22,31 @@ var OttoRestService = (function () {
         this.entities = [];
         this.serviceDomains = [];
         this.getEntities();
+        this.getServices();
+        this.getRules();
     }
     OttoRestService.prototype.getRules = function () {
+        var _this = this;
+        console.log("getRules() called");
         if (this.rules.length == 0) {
+            console.log("getRules() fetching from REST API");
             return this.http.get(this.ottoRestUrl + "/rules")
                 .toPromise()
-                .then(function (response) { return response.json().data.map(function (rule_obj) { return rule_automation_1.AutomationRule.from_object(rule_obj); }); })
+                .then(function (response) {
+                console.log("getRules() response received");
+                _this.rules = response.json().data
+                    .map(function (rule_obj) {
+                    return rule_automation_1.AutomationRule.from_object(rule_obj);
+                });
+                return _this.rules.slice();
+            })
                 .catch(this.handleError);
         }
         return Promise.resolve(this.rules.slice()); // Return a copy of the cached rules
     };
     OttoRestService.prototype.getEntities = function () {
+        // let err = new Error();
+        // console.log(err.stack);
         var _this = this;
         if (this.entities.length == 0) {
             // console.log("getEntities getting a fresh copy");
