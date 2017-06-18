@@ -20,7 +20,9 @@ var rule_trigger_component_1 = require("./views/rule-trigger.component");
 var rule_action_seq_component_1 = require("./views/rule-action-seq.component");
 var service_info_component_1 = require("./views/service-info.component");
 var rule_action_component_1 = require("./views/rule-action.component");
+var rule_detail_component_1 = require("./views/rule-detail.component");
 var otto_rest_service_1 = require("./services/otto-rest.service");
+var app_routing_module_1 = require("./app-routing.module");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -29,6 +31,7 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [
+            app_routing_module_1.AppRoutingModule,
             platform_browser_1.BrowserModule,
             http_1.HttpModule,
             forms_1.FormsModule,
@@ -43,6 +46,7 @@ AppModule = __decorate([
             primeng_1.CheckboxModule,
             primeng_1.PanelModule,
             primeng_1.DialogModule,
+            primeng_1.InputSwitchModule,
         ],
         declarations: [
             app_component_1.AppComponent,
@@ -54,6 +58,7 @@ AppModule = __decorate([
             rule_action_seq_component_1.RuleActionSeqComponent,
             rule_action_component_1.RuleActionComponent,
             service_info_component_1.ServiceInfoComponent,
+            rule_detail_component_1.RuleDetailComponent,
         ],
         providers: [otto_rest_service_1.OttoRestService],
         bootstrap: [app_component_1.AppComponent]

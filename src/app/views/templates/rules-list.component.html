@@ -1,17 +1,44 @@
 <div class="container">
 
-<div *ngFor="let group of groups">
-    {{group.group}}
-
-    <div *ngFor="let rule of group.rules">
-        <!--<rule-automation class="col-lg-12" [rule]="rule"></rule-automation>-->
-        {{rule.id}}
-        {{rule.group}}
-        {{rule.enabled}}
-        {{rule.description}}
+<div *ngFor="let group of groups" class="panel panel-primary">
+  <div class="panel-heading">
+    <div class="row">
+      <div class=" col-md-12"> 
+        {{group.group}}
+      </div>
     </div>
+  </div>
 
-</div>
+  <div class="panel-body">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="col-md-2">Rule ID</th>
+            <th class="col-md-9">Description</th>
+            <th class="col-md-1 text-center">Enabled</th>
+          </tr>
+        </thead>
+
+    <!--<div >-->
+      <!--<rule-automation class="col-lg-12" [rule]="rule"></rule-automation>-->
+        <tbody>
+          <tr *ngFor="let rule of group.rules">
+            <td class="col-md-2">
+              <a [routerLink]="['/rule', rule.id]">{{rule.id}}</a>  
+            </td>
+            <td class="col-md-9">{{rule.description}}</td>
+            <td class="col-md-1 text-center">
+              <p-checkbox [(ngModel)]="rule.enabled" binary="true"></p-checkbox>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <!--</div>-->
+
+  </div>
+
+</div>  <!-- ngFor -->
 
 </div> <!-- container -->
 

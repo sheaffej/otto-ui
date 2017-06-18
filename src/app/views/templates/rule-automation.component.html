@@ -18,7 +18,8 @@
 
                 <div class="col-md-5">
                     <label for="rule.enabled" class="control-label">Enabled:</label>
-                    <p-checkbox id="rule.enabled" [(ngModel)]="rule.enabled" binary="true"></p-checkbox>
+                    <!--<p-checkbox id="rule.enabled" [(ngModel)]="rule.enabled" binary="true"></p-checkbox>-->
+                    <p-inputSwitch id="rule.enabled" inputId="rule.enabled" [(ngModel)]="rule.enabled"></p-inputSwitch>
                 </div>
 
                 <div class="col-md-1">

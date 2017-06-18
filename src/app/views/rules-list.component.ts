@@ -32,11 +32,11 @@ export class RulesListComponent implements OnInit {
     }
 
     for (let group in group_dict) {
-      console.log(group);
+      // console.log(group);
       let g = {"group": group, "rules": group_dict[group] } as RuleGroupList;
       this.groups.push(g);
     }
-    console.log(JSON.stringify(this.groups));
+    // console.log(JSON.stringify(this.groups));
   }
 
 }  // class RulesListComponent

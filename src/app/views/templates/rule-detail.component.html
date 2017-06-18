@@ -1,1 +1,4 @@
-{{}}
+<div *ngIf="rule != null" class="container">
+    <button pButton label="Back" type="button" (click)="onGoBackClick()"></button>
+    <rule-automation [rule]="rule"></rule-automation>
+</div>

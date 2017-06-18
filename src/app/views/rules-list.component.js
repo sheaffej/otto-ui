@@ -33,11 +33,11 @@ var RulesListComponent = (function () {
             group_dict[rule.group].push(rule);
         }
         for (var group in group_dict) {
-            console.log(group);
+            // console.log(group);
             var g = { "group": group, "rules": group_dict[group] };
             this.groups.push(g);
         }
-        console.log(JSON.stringify(this.groups));
+        // console.log(JSON.stringify(this.groups));
     };
     return RulesListComponent;
 }()); // class RulesListComponent

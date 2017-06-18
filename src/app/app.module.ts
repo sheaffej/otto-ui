@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DropdownModule, InputTextModule, SpinnerModule, 
   ButtonModule, SelectButtonModule, InputMaskModule, 
-  CheckboxModule, PanelModule, DialogModule } from 'primeng/primeng';
+  CheckboxModule, PanelModule, DialogModule, InputSwitchModule } from 'primeng/primeng';
 import {PrettyJsonModule} from 'angular2-prettyjson';
 
 import { AppComponent }  from './app.component';
@@ -17,10 +17,13 @@ import { RuleTriggerComponent } from './views/rule-trigger.component';
 import { RuleActionSeqComponent } from './views/rule-action-seq.component';
 import { ServiceInfoComponent } from './views/service-info.component';
 import { RuleActionComponent } from './views/rule-action.component';
-import { OttoRestService } from './services/otto-rest.service'
+import { RuleDetailComponent } from './views/rule-detail.component';
+import { OttoRestService } from './services/otto-rest.service';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   imports:      [ 
+    AppRoutingModule,
     BrowserModule,
     HttpModule,
     FormsModule,
@@ -35,6 +38,7 @@ import { OttoRestService } from './services/otto-rest.service'
     CheckboxModule,
     PanelModule,
     DialogModule,
+    InputSwitchModule,
   ],
   declarations: [ 
     AppComponent,
@@ -46,6 +50,7 @@ import { OttoRestService } from './services/otto-rest.service'
     RuleActionSeqComponent,
     RuleActionComponent,
     ServiceInfoComponent,
+    RuleDetailComponent,
   ],
   providers: [ OttoRestService ],
   bootstrap:    [ AppComponent ]
