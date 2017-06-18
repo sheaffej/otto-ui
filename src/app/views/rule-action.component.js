@@ -19,7 +19,7 @@ var RuleActionComponent = (function () {
         // @Input() parentIndex: number;
         this.onReCreate = new core_1.EventEmitter();
         this.onRemove = new core_1.EventEmitter();
-        this.debug = true;
+        this.debug = false;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
     }
     RuleActionComponent.prototype.ngOnInit = function () {

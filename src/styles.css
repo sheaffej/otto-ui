@@ -1,5 +1,31 @@
-h1 {
-  color: #369;
-  font-family: Arial, Helvetica, sans-serif;
+h1.title {
+  /*color: #369;*/
+  /*font-family: Arial, Helvetica, sans-serif;*/
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   font-size: 250%;
+}
+
+/*body {*/
+    /*background-color: #cccccc;*/
+/*}*/
+
+div.component-panel {
+  border: 1px;
+  border-style: solid;
+  border-color: black;
+}
+
+div.rule-section {
+  border: 1px;
+  border-style: solid;
+  border-color: gray;
+  padding: 0px;
+}
+
+div.rule-panel-body {
+  padding: 0px;
+}
+
+div.no-padding {
+  padding: 0px;
 }

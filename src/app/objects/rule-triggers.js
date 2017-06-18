@@ -65,10 +65,10 @@ var NumericStateTrigger = (function (_super) {
             o.platform = _this.platform;
             o.entity_id = _this.entity_id;
             if (_this.above_value != null) {
-                o.above_value = _this.above_value;
+                o.above = _this.above_value;
             }
             if (_this.below_value != null) {
-                o.below_value = _this.below_value;
+                o.below = _this.below_value;
             }
             return o;
         };

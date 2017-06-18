@@ -1,62 +1,79 @@
-<div class="container">
-
+<div class="panel panel-info component-panel">
+<div class="panel-heading">
+    
+    <!-- Debug JSON-->
     <div class="row" *ngIf="debug">
-        <prettyjson class="col-lg-11" [obj]="trigger"></prettyjson>
+        <prettyjson class="col-md-12" [obj]="trigger"></prettyjson>
     </div>
 
+    <!-- Platform selection -->
     <div class="row">
-        <div class="col-lg-4">Platform: 
-            <p-dropdown [options]="uiPlatformOptions" [(ngModel)]="uiPlatform" 
-                (onChange)="onPlatformChange()" placeholder="Select Platform">
+        <div class="col-md-12">  
+            <label for="platform" class="control-label">Platform:</label>  
+            <p-dropdown id="platform" [options]="uiPlatformOptions" [(ngModel)]="uiPlatform" 
+                        (onChange)="onPlatformChange()" placeholder="Select Platform">
             </p-dropdown>
-            <button pButton label="Remove" type="button" (click)="onRemoveClick()"></button>
+            <div class=" pull-right">
+                <button pButton label="Remove" type="button" (click)="onRemoveClick()"></button>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-6" *ngIf="(uiPlatform == 'state') || (uiPlatform == 'numeric_state')" >
-            Entity Id:
-            <p-dropdown [options]="uiEntityIdOptions" [(ngModel)]="uiEntityId" filter=true
-            (onChange)="onChange()" placeholder="Select Entity ID">
+</div>  <!-- End panel heading -->
+
+<!-- Panel body -->
+<div class="panel-body">
+
+    <!--Entity Id:-->
+    <div *ngIf="(uiPlatform == 'state') || (uiPlatform == 'numeric_state')" class="">
+        <div class="form-group">    
+            <label for="entity.id" class="">Entity ID:</label>  
+            <p-dropdown id="entity.id" class=""
+                [options]="uiEntityIdOptions" [(ngModel)]="uiEntityId" filter=true
+                (onChange)="onChange()" placeholder="Select Entity ID" >
             </p-dropdown>
         </div>
+    </div>
 
-        <div *ngIf="(uiPlatform == 'state')">
-            <div class="col-lg-3">To State:
-                <input type="text" pInputText [(ngModel)]="uiToState" (blur)="onChange()" (keyup.enter)="onChange()"/>
-
-            </div>
-            <div class="col-lg-3">From State:
-                <input type="text" pInputText [(ngModel)]="uiFromState" (blur)="onChange()" (keyup.enter)="onChange()"/>
-            </div>
+    <!-- To/From State -->
+    <div *ngIf="(uiPlatform == 'state')">
+        <div class="form-group">
+            <label for="to.state" class="control-label">To State:</label>  
+            <input type="text" id="to.state" pInputText size="15"
+                [(ngModel)]="uiToState" (blur)="onChange()" (keyup.enter)="onChange()"/>
         </div>
-
-        <div *ngIf="(uiPlatform == 'numeric_state')">
-            <div class="col-lg-3">Above Value:
-                <p-spinner size="10" [(ngModel)]="uiAboveValue" (onChange)="onChange()"></p-spinner>
-            </div>
-            <div class="col-lg-3">Below Value
-                <p-spinner size="10" [(ngModel)]="uiBelowValue" (onChange)="onChange()"></p-spinner>
-            </div>
+        <div class="">
+            <label for="from.state" class="control-label">From State:</label>  
+            <input type="text" id="from.state" pInputText size="15"
+                [(ngModel)]="uiFromState" (blur)="onChange()" (keyup.enter)="onChange()"/>
         </div>
+    </div>
 
-        <div *ngIf="(uiPlatform == 'event')">
-            <div class="col-lg-4">Event Type
-                <p-dropdown [options]="uiEventTypeOptions" [(ngModel)]="uiEventType"
+    <!-- Above/Below numeric state -->
+    <div *ngIf="(uiPlatform == 'numeric_state')">
+        <div class="form-group">
+            <label for="above.value" class="control-label">Above value:</label>  
+            <p-spinner id="above.value" size="10" [(ngModel)]="uiAboveValue" (onChange)="onChange()"></p-spinner>
+        </div>
+        <div class="">
+            <label for="below.value" class="control-label">Below value:</label>  
+            <p-spinner id="below.value" size="10" [(ngModel)]="uiBelowValue" (onChange)="onChange()"></p-spinner>
+        </div>
+    </div>
+
+    <div *ngIf="(uiPlatform == 'event')">
+        <div class="form-group">
+            <label for="event.type" class="control-label">Event type:</label>  
+            <p-dropdown id="event.type" [options]="uiEventTypeOptions" [(ngModel)]="uiEventType"
                 (onChange)="onChange()" placeholder="Select Event Type">
-                </p-dropdown>    
-            </div>
+            </p-dropdown>    
+        </div>
 
-            <div class="col-lg-4">Event Data
-                <input type="text" pInputText [(ngModel)]="uiEventDataObj" (blur)="onChange()" (keyup.enter)="onChange()"/>
-            </div>
+        <div class="">
+            <label for="event.data" class="control-label">Event data:</label>  
+            <input type="text" pInputText id="event.data" size="50"
+                [(ngModel)]="uiEventDataObj" (blur)="onChange()" (keyup.enter)="onChange()"/>
         </div>
     </div>
 
-    <div class="row" *ngIf="saveNeeded">
-        <div class="col-lg-2">
-            <button pButton label="Save" type="button" (click)="onSaveClick()"></button>
-        </div>
-    </div>
-
-</div>
+</div>  <!-- End panel body -->

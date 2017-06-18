@@ -11,27 +11,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var otto_rest_service_1 = require("./services/otto-rest.service");
 var AppComponent = (function () {
+    // showDelay: number = 1000;
     function AppComponent(ottoService) {
         this.ottoService = ottoService;
         this.title = 'Ottomation UI';
-        this.show = false;
-        this.showDelay = 500;
-    }
-    AppComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        // Populate the OttoRestService caches
+        this.show = true;
+        // this.show = false;
         this.ottoService.getServices();
         this.ottoService.getEntities();
         this.ottoService.getRules();
+        // setTimeout(() => this.show = true, this.showDelay);
+    }
+    AppComponent.prototype.ngOnInit = function () {
+        // Populate the OttoRestService caches
+        // this.ottoService.getServices();
+        // this.ottoService.getEntities();
+        // this.ottoService.getRules();
         // Trigger showing of views after OttoRestService has cached
-        setTimeout(function () { return _this.show = true; }, this.showDelay);
     };
     return AppComponent;
 }()); // class AppComponent
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n  <h1>{{title}}</h1>\n  <div *ngIf=\"show\">\n    <rules-list></rules-list>\n  </div>\n  ",
+        template: "\n  <div class=\"text-center\">\n    <h1 class=\"title\">{{title}}</h1>\n  </div>\n  <div *ngIf=\"show\">\n    <rules-list></rules-list>\n  </div>\n  ",
     }),
     __metadata("design:paramtypes", [otto_rest_service_1.OttoRestService])
 ], AppComponent);

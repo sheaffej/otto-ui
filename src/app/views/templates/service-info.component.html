@@ -1,33 +1,31 @@
-<div class="container">
-    <div class="row" *ngIf="service == null">
+<!--<div class="container">-->
+    <div *ngIf="service == null" class="">
             <div class="col-lg-4">Please select a service to see service info</div>
     </div>
 
     <div *ngIf="serviceInfo != null">
         
-        <div class="row" *ngIf="debug">
-            <prettyjson class="col-lg-10" [obj]="serviceInfo"></prettyjson>
+        <div *ngIf="debug" class="" >
+            <prettyjson class="" [obj]="serviceInfo"></prettyjson>
         </div>
 
-        <div class="row">
-            <div class="col-lg-11">
-                <div><b>Domain:</b> {{serviceInfo.domain}} | 
-                <b>Service:</b> {{serviceInfo.service_name}} | 
-                <b>Description:</b> {{serviceInfo.description}}</div>
-            </div>
+        <!--<div class="row">-->
+        <div *ngIf="serviceInfo.description.length > 0" class="form-group">
+            <b>Description: </b>{{serviceInfo.description}}
         </div>
+        <!--</div>-->
         
-        <div class="row" *ngIf="serviceInfo.fields.length > 0">
-            <div class="col-lg-11">
-                <table class="table table-bordered table-condensed table-striped">
-                    <thead>
+        <div *ngIf="serviceInfo.fields.length > 0">
+            <div class="">
+                <table class="table table-bordered table-condensed">
+                    <thead class="bg-info">
                         <tr>
                             <th>Name</th>
                             <th>Description</th>
                             <th>Example</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="bg-warning">
                         <tr *ngFor="let field of serviceInfo.fields">
                             <td>{{field.name}}</td>
                             <td>{{field.description}}</td>
@@ -38,11 +36,11 @@
             </div>
         </div>
 
-        <div class="row" *ngIf="serviceInfo.fields.length == 0">
-            <div class="col-lg-4">
+        <div *ngIf="serviceInfo.fields.length == 0">
+            <div class="">
                 <b>No field information available</b>
             </div>
         </div>
 
     </div>
-</div>
+<!--</div>-->

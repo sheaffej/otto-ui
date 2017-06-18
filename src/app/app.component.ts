@@ -4,7 +4,9 @@ import { OttoRestService } from './services/otto-rest.service';
 @Component({
   selector: 'my-app',
   template: `
-  <h1>{{title}}</h1>
+  <div class="text-center">
+    <h1 class="title">{{title}}</h1>
+  </div>
   <div *ngIf="show">
     <rules-list></rules-list>
   </div>
@@ -12,19 +14,25 @@ import { OttoRestService } from './services/otto-rest.service';
 })
 export class AppComponent implements OnInit { 
   title = 'Ottomation UI'; 
-  show: boolean = false;
-  showDelay: number = 500;
+  show: boolean = true;
+  // showDelay: number = 1000;
 
-  constructor(private ottoService: OttoRestService) {}
-
-  ngOnInit() {
-    // Populate the OttoRestService caches
+  constructor(private ottoService: OttoRestService) {
+    // this.show = false;
     this.ottoService.getServices();
     this.ottoService.getEntities();
     this.ottoService.getRules();
+    // setTimeout(() => this.show = true, this.showDelay);
+  }
+
+  ngOnInit() {
+    // Populate the OttoRestService caches
+    // this.ottoService.getServices();
+    // this.ottoService.getEntities();
+    // this.ottoService.getRules();
 
     // Trigger showing of views after OttoRestService has cached
-    setTimeout(() => this.show = true, this.showDelay);
+
   }
 
 } // class AppComponent
