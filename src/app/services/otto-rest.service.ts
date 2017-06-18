@@ -19,9 +19,10 @@ export class OttoRestService {
 
 
   constructor(private http: Http){ 
+    console.log("Starting OttoRestService");
+    this.getRules();
     this.getEntities();
     this.getServices();
-    this.getRules();
   }
 
   getRules(): Promise<AutomationRule[]> {
@@ -50,8 +51,7 @@ export class OttoRestService {
     // console.log(err.stack);
 
     if (this.entities.length == 0) {   // Get a fresh copy of the rules
-      // console.log("getEntities getting a fresh copy");
-      // this.entitiesRequested = true;
+      console.log("getEntities() fetching from REST API");
       return this.http.get(`${this.ottoRestUrl}/entities`)
         .toPromise()
         .then(response => {
@@ -74,7 +74,7 @@ export class OttoRestService {
 
   getServices(): Promise<ServiceDomain[]> {
     if (this.serviceDomains.length == 0) {
-      console.log("getServices refreshing values");
+      console.log("getServices() fetching from REST API");
       return this.http.get(`${this.ottoRestUrl}/services`)
         .toPromise()
         .then(response => {

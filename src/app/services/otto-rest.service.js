@@ -21,9 +21,10 @@ var OttoRestService = (function () {
         this.rules = [];
         this.entities = [];
         this.serviceDomains = [];
+        console.log("Starting OttoRestService");
+        this.getRules();
         this.getEntities();
         this.getServices();
-        this.getRules();
     }
     OttoRestService.prototype.getRules = function () {
         var _this = this;
@@ -49,8 +50,7 @@ var OttoRestService = (function () {
         // console.log(err.stack);
         var _this = this;
         if (this.entities.length == 0) {
-            // console.log("getEntities getting a fresh copy");
-            // this.entitiesRequested = true;
+            console.log("getEntities() fetching from REST API");
             return this.http.get(this.ottoRestUrl + "/entities")
                 .toPromise()
                 .then(function (response) {
@@ -72,7 +72,7 @@ var OttoRestService = (function () {
     OttoRestService.prototype.getServices = function () {
         var _this = this;
         if (this.serviceDomains.length == 0) {
-            console.log("getServices refreshing values");
+            console.log("getServices() fetching from REST API");
             return this.http.get(this.ottoRestUrl + "/services")
                 .toPromise()
                 .then(function (response) {

@@ -20,6 +20,7 @@ var AppComponent = (function () {
         // this.ottoService.getEntities();
         // this.ottoService.getRules();
         // console.log("Finished calling cache population");
+        console.log("Constructing app.component");
     }
     AppComponent.prototype.ngOnInit = function () { };
     return AppComponent;

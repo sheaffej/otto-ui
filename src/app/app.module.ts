@@ -55,4 +55,10 @@ import { AppRoutingModule } from './app-routing.module';
   providers: [ OttoRestService ],
   bootstrap:    [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule { 
+
+  constructor() {
+    console.log("Constructing app.module");
+  }
+
+}

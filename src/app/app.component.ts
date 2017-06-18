@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
     // this.ottoService.getEntities();
     // this.ottoService.getRules();
     // console.log("Finished calling cache population");
+    console.log("Constructing app.component");
   }
 
   ngOnInit() {}

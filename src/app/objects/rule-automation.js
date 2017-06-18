@@ -97,7 +97,7 @@ var AutomationRule = (function () {
     // Static Methods
     AutomationRule.from_object = function (obj) {
         var rule = new AutomationRule(obj.id);
-        console.log("[Creating rule: id " + rule.id + "]");
+        // console.log(`[Creating rule: id ${rule.id}]`);
         if ("description" in obj) {
             rule.description = obj.description;
         }

@@ -90,7 +90,7 @@ export class AutomationRule {
   // Static Methods
   static from_object(obj: any): AutomationRule {
     let rule = new AutomationRule(obj.id);
-    console.log(`[Creating rule: id ${rule.id}]`);
+    // console.log(`[Creating rule: id ${rule.id}]`);
     
     if ("description" in obj) { rule.description = obj.description }
     if ("group" in obj) { rule.group = obj.group }
