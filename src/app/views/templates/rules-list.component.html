@@ -1,7 +1,18 @@
 <div class="container">
-    <div *ngFor="let rule of rules" class="row">
-        <rule-automation class="col-lg-12" [rule]="rule"></rule-automation>
+
+<div *ngFor="let group of groups">
+    {{group.group}}
+
+    <div *ngFor="let rule of group.rules">
+        <!--<rule-automation class="col-lg-12" [rule]="rule"></rule-automation>-->
+        {{rule.id}}
+        {{rule.group}}
+        {{rule.enabled}}
+        {{rule.description}}
     </div>
+
 </div>
+
+</div> <!-- container -->
 
 

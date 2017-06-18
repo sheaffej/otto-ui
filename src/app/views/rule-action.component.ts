@@ -20,7 +20,7 @@ export class RuleActionComponent implements OnInit {
   @Output() onReCreate = new EventEmitter<RuleActionItem>();
   @Output() onRemove = new EventEmitter();
   
-  debug: boolean = false;
+  debug: boolean = true;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
 
   // Service Registrations

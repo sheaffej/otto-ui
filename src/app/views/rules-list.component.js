@@ -14,12 +14,30 @@ var RulesListComponent = (function () {
     function RulesListComponent(ottoService) {
         this.ottoService = ottoService;
         this.rules = [];
+        this.groups = [];
     }
     RulesListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.ottoService.getRules().then(function (rules) { return _this.rules = rules; });
+        this.ottoService.getRules().then(function (rules) { return _this._process_rules(rules); });
         // this.ottoService.getRules().then(rules => this.rules = rules.slice(0,1));
         // console.log('TEMP: Only displaying 1st rule');
+    };
+    RulesListComponent.prototype._process_rules = function (rules) {
+        this.rules = rules;
+        var group_dict = {};
+        for (var _i = 0, rules_1 = rules; _i < rules_1.length; _i++) {
+            var rule = rules_1[_i];
+            if (!(rule.group in group_dict)) {
+                group_dict[rule.group] = [];
+            }
+            group_dict[rule.group].push(rule);
+        }
+        for (var group in group_dict) {
+            console.log(group);
+            var g = { "group": group, "rules": group_dict[group] };
+            this.groups.push(g);
+        }
+        console.log(JSON.stringify(this.groups));
     };
     return RulesListComponent;
 }()); // class RulesListComponent
