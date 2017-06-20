@@ -9,13 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var otto_rest_service_1 = require("../services/otto-rest.service");
 var DataFieldsComponent = (function () {
-    function DataFieldsComponent() {
+    function DataFieldsComponent(ottoService) {
+        this.ottoService = ottoService;
         this.debug = true;
+        this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
         console.log("DataFieldsComponent constructor");
     }
     DataFieldsComponent.prototype.ngOnInit = function () {
         var _this = this;
+        // Initially populate the key/value arrays
         this.fieldKeys = [];
         this.fieldValues = [];
         Object.keys(this.obj)
@@ -23,6 +27,9 @@ var DataFieldsComponent = (function () {
             _this.fieldKeys.push(key);
             _this.fieldValues.push(_this.obj[key]);
         });
+        // Load Entity Id Options
+        this.uiEntityIdOptions = [{ label: this.longText, value: null }];
+        this.ottoService.getEntities().then(function (entities) { return _this.populateEntityIdOptions(entities); });
     };
     DataFieldsComponent.prototype.onKeyChange = function (index) {
         this.reCreateObject();
@@ -50,6 +57,14 @@ var DataFieldsComponent = (function () {
     DataFieldsComponent.prototype.trackByIndex = function (index, item) {
         return index;
     };
+    DataFieldsComponent.prototype.populateEntityIdOptions = function (entities) {
+        this.uiEntityIdOptions = [];
+        var options = [];
+        for (var _i = 0, entities_1 = entities; _i < entities_1.length; _i++) {
+            var option = entities_1[_i];
+            this.uiEntityIdOptions.push({ label: option, value: option });
+        }
+    };
     return DataFieldsComponent;
 }()); // constructor DataFieldsComponent
 __decorate([
@@ -61,7 +76,7 @@ DataFieldsComponent = __decorate([
         selector: 'data-fields',
         templateUrl: './templates/data-fields.component.html'
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [otto_rest_service_1.OttoRestService])
 ], DataFieldsComponent);
 exports.DataFieldsComponent = DataFieldsComponent;
 //# sourceMappingURL=data-fields.component.js.map

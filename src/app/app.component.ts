@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.dataObj = {
-            "entity_id": "my.entity.id",
+            "entity_id": "zone.home",
             "description": "This is a description",
             "max_value": 24
         };

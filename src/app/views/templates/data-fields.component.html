@@ -18,20 +18,40 @@
         </div>
 
         <div *ngFor="let field of fieldKeys; index as i; trackBy: trackByIndex">
-            {{i}} <input type="text" pInputText size="15"
-                [(ngModel)]="fieldKeys[i]"
-                (blur)="onKeyChange(i)" 
-                (keyup.enter)="onKeyChange(i)"
-            />
-            <b>:</b>
-            <input type="text" pInputText size="50"
-                [(ngModel)]="fieldValues[i]"
-                (blur)="onValueChange(i)" 
-                (keyup.enter)="onValueChange(i)"
-            />
-            <button pButton label="X" type="button" (click)="onRemoveClick(i)"></button>
-
-            {{fieldKeys[i]}}: {{fieldValues[i]}}
+            
+            <div *ngIf="fieldKeys[i] == 'entity_id'; else normalField">
+                {{i}}
+                <input type="text" pInputText size="15" readonly
+                    style="background-color: #ffffe0"
+                    [(ngModel)]="fieldKeys[i]"
+                    (blur)="onKeyChange(i)" 
+                    (keyup.enter)="onKeyChange(i)"
+                />
+                <b>:</b>
+                <p-dropdown id="entity.id"
+                    [options]="uiEntityIdOptions" [(ngModel)]="fieldValues[i]" filter=true
+                    (onChange)="onValueChange(i)" placeholder="Select Entity ID" >
+                </p-dropdown>
+                <button pButton label="X" type="button" (click)="onRemoveClick(i)"></button>
+                {{fieldKeys[i]}}: {{fieldValues[i]}}
+            </div>
+            
+            <template #normalField>            
+                {{i}} <input type="text" pInputText size="15"
+                    [(ngModel)]="fieldKeys[i]"
+                    (blur)="onKeyChange(i)" 
+                    (keyup.enter)="onKeyChange(i)"
+                />
+                <b>:</b>
+                <input type="text" pInputText size="50"
+                    [(ngModel)]="fieldValues[i]"
+                    (blur)="onValueChange(i)" 
+                    (keyup.enter)="onValueChange(i)"
+                />
+                <button pButton label="X" type="button" (click)="onRemoveClick(i)"></button>
+                {{fieldKeys[i]}}: {{fieldValues[i]}}
+            </template>
+            
 
         </div>
 
