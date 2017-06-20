@@ -10,17 +10,11 @@
     <div class="panel-body">
         <div *ngIf="debug">
             <prettyjson [obj]="obj"></prettyjson>
-            <prettyjson [obj]="fieldsObj"></prettyjson>
-        </div>
-
-        <div>
-            <button pButton label="Add" type="button" (click)="onAddClick()"></button>
         </div>
 
         <div *ngFor="let field of fieldKeys; index as i; trackBy: trackByIndex">
             
             <div *ngIf="fieldKeys[i] == 'entity_id'; else normalField">
-                {{i}}
                 <input type="text" pInputText size="15" readonly
                     style="background-color: #ffffe0"
                     [(ngModel)]="fieldKeys[i]"
@@ -33,28 +27,29 @@
                     (onChange)="onValueChange(i)" placeholder="Select Entity ID" >
                 </p-dropdown>
                 <button pButton label="X" type="button" (click)="onRemoveClick(i)"></button>
-                {{fieldKeys[i]}}: {{fieldValues[i]}}
+                <!--{{fieldKeys[i]}}: {{fieldValues[i]}}-->
             </div>
             
-            <template #normalField>            
-                {{i}} <input type="text" pInputText size="15"
-                    [(ngModel)]="fieldKeys[i]"
-                    (blur)="onKeyChange(i)" 
-                    (keyup.enter)="onKeyChange(i)"
-                />
-                <b>:</b>
-                <input type="text" pInputText size="50"
-                    [(ngModel)]="fieldValues[i]"
-                    (blur)="onValueChange(i)" 
-                    (keyup.enter)="onValueChange(i)"
-                />
-                <button pButton label="X" type="button" (click)="onRemoveClick(i)"></button>
-                {{fieldKeys[i]}}: {{fieldValues[i]}}
-            </template>
-            
-
+            <ng-template #normalField>
+                    <input type="text" pInputText size="{{keyFieldLength}}"
+                        [(ngModel)]="fieldKeys[i]"
+                        (blur)="onKeyChange(i)" 
+                        (keyup.enter)="onKeyChange(i)"
+                    />
+                    <b>:</b>
+                    <input type="text" pInputText size="{{valFieldLength}}"
+                        [(ngModel)]="fieldValues[i]"
+                        (blur)="onValueChange(i)" 
+                        (keyup.enter)="onValueChange(i)"
+                    />
+                    <button pButton label="X" type="button" (click)="onRemoveClick(i)"></button>
+                    <!--{{fieldKeys[i]}}: {{fieldValues[i]}}-->
+            </ng-template>
+        
         </div>
-
+        <div style="margin-top: 10px">
+            <button pButton label="Add" type="button" (click)="onAddClick()"></button>
+        </div>
     </div>
 
 

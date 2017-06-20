@@ -64,6 +64,9 @@
                 (blur)="onChange()" 
                 (keyup.enter)="onChange()"/>
         </div>
+        
+        <!--<data-fields [obj]="uiDataObj" (onChange)="onDataChange($event)" ></data-fields>-->
+
         <div *ngIf="uiService != null">
             <service-info 
                 [domain]="uiDomain" 

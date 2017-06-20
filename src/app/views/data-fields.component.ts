@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PrettyJsonComponent } from 'angular2-prettyjson';
 import { SelectItem } from 'primeng/primeng';
 
@@ -14,6 +14,7 @@ import { OttoRestService } from '../services/otto-rest.service';
 export class DataFieldsComponent implements OnInit {
     
     @Input() obj: any;
+    @Output() onChange = new EventEmitter<RuleActionItem>();
     
     fieldKeys: string[];
     fieldValues: string[];
@@ -22,6 +23,8 @@ export class DataFieldsComponent implements OnInit {
 
     debug: boolean = true;
     longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
+    keyFieldLength: number = 15;
+    valFieldLength: number = 50;
 
     constructor(private ottoService: OttoRestService) {
         console.log("DataFieldsComponent constructor");
@@ -29,17 +32,19 @@ export class DataFieldsComponent implements OnInit {
 
     ngOnInit() {
         // Initially populate the key/value arrays
-        this.fieldKeys = [];
-        this.fieldValues = [];
-        Object.keys(this.obj)
-            .forEach(key => {
-                this.fieldKeys.push(key);
-                this.fieldValues.push(this.obj[key]);
-            })
-        
-        // Load Entity Id Options
-        this.uiEntityIdOptions = [{label: this.longText, value: null}];
-        this.ottoService.getEntities().then(entities => this.populateEntityIdOptions(entities))
+        if (this.obj != null) {
+            this.fieldKeys = [];
+            this.fieldValues = [];
+            Object.keys(this.obj)
+                .forEach(key => {
+                    this.fieldKeys.push(key);
+                    this.fieldValues.push(this.obj[key]);
+                })
+            
+            // Load Entity Id Options
+            this.uiEntityIdOptions = [{label: this.longText, value: null}];
+            this.ottoService.getEntities().then(entities => this.populateEntityIdOptions(entities))
+        }
     }
 
     onKeyChange(index: number): void {
@@ -63,10 +68,12 @@ export class DataFieldsComponent implements OnInit {
     }
 
     reCreateObject(): void {
-        this.obj = {};
+        let newObj = {}
         this.fieldKeys.forEach((key, index) => {
-            this.obj[key] = this.fieldValues[index];
+            newObj[key] = this.fieldValues[index];
         });
+        this.onChange.emit(newObj);
+        console.log("reCreateObject(): " + JSON.stringify(newObj));
     }
 
     trackByIndex(index: number, item: any) {

@@ -72,7 +72,8 @@ export class RuleActionComponent implements OnInit {
         this.uiDomain = this.action.domain;
         this.uiService = this.action.service;
         // console.log(this.uiService);
-        this.uiDataObj = JSON.stringify(this.action.data);
+        // this.uiDataObj = JSON.stringify(this.action.data);
+        this.uiDataObj = this.action.data;
       }
       else if (this.action instanceof DelayAction) {
         this.uiActionType = "delay";
@@ -132,7 +133,8 @@ export class RuleActionComponent implements OnInit {
     if (this.uiActionType == 'service') {
       this.uiDomain = null;
       this.uiService = null;
-      this.uiDataObj = JSON.stringify({});
+      // this.uiDataObj = JSON.stringify({});
+      this.uiDataObj = null;
     }
     else if (this.uiActionType == 'delay') {
       this.uiDelay = null;
@@ -177,7 +179,7 @@ export class RuleActionComponent implements OnInit {
       //   this.uiDataObj = {}; 
       // }
       // console.log(this.uiDataObj);
-      this.replaceAction(new ServiceAction(this.uiDomain, this.uiService, JSON.parse(this.uiDataObj)));
+      this.replaceAction(new ServiceAction(this.uiDomain, this.uiService, this.uiDataObj));
     }
     else if (this.uiActionType == 'condition') {
       // Do nothing since Condition has its own component with its own uiXXX elements
@@ -210,6 +212,12 @@ export class RuleActionComponent implements OnInit {
 
     //  NEED TO IMPLEMENT
     //  Emit event to remove this action from parent
+  }
+
+  onDataChange(newObj: any): void {
+    console.log("onDataChange(): " + JSON.stringify(newObj));
+    this.uiDataObj = newObj;
+    this.onChange();
   }
 
 

@@ -13,23 +13,28 @@ var otto_rest_service_1 = require("../services/otto-rest.service");
 var DataFieldsComponent = (function () {
     function DataFieldsComponent(ottoService) {
         this.ottoService = ottoService;
+        this.onChange = new core_1.EventEmitter();
         this.debug = true;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
+        this.keyFieldLength = 15;
+        this.valFieldLength = 50;
         console.log("DataFieldsComponent constructor");
     }
     DataFieldsComponent.prototype.ngOnInit = function () {
         var _this = this;
         // Initially populate the key/value arrays
-        this.fieldKeys = [];
-        this.fieldValues = [];
-        Object.keys(this.obj)
-            .forEach(function (key) {
-            _this.fieldKeys.push(key);
-            _this.fieldValues.push(_this.obj[key]);
-        });
-        // Load Entity Id Options
-        this.uiEntityIdOptions = [{ label: this.longText, value: null }];
-        this.ottoService.getEntities().then(function (entities) { return _this.populateEntityIdOptions(entities); });
+        if (this.obj != null) {
+            this.fieldKeys = [];
+            this.fieldValues = [];
+            Object.keys(this.obj)
+                .forEach(function (key) {
+                _this.fieldKeys.push(key);
+                _this.fieldValues.push(_this.obj[key]);
+            });
+            // Load Entity Id Options
+            this.uiEntityIdOptions = [{ label: this.longText, value: null }];
+            this.ottoService.getEntities().then(function (entities) { return _this.populateEntityIdOptions(entities); });
+        }
     };
     DataFieldsComponent.prototype.onKeyChange = function (index) {
         this.reCreateObject();
@@ -49,10 +54,12 @@ var DataFieldsComponent = (function () {
     };
     DataFieldsComponent.prototype.reCreateObject = function () {
         var _this = this;
-        this.obj = {};
+        var newObj = {};
         this.fieldKeys.forEach(function (key, index) {
-            _this.obj[key] = _this.fieldValues[index];
+            newObj[key] = _this.fieldValues[index];
         });
+        this.onChange.emit(newObj);
+        console.log("reCreateObject(): " + JSON.stringify(newObj));
     };
     DataFieldsComponent.prototype.trackByIndex = function (index, item) {
         return index;
@@ -71,6 +78,10 @@ __decorate([
     core_1.Input(),
     __metadata("design:type", Object)
 ], DataFieldsComponent.prototype, "obj", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", Object)
+], DataFieldsComponent.prototype, "onChange", void 0);
 DataFieldsComponent = __decorate([
     core_1.Component({
         selector: 'data-fields',

@@ -12,6 +12,7 @@ var core_1 = require("@angular/core");
 // import { AppConfig } from './app-config';
 var otto_rest_service_1 = require("./services/otto-rest.service");
 var AppComponent = (function () {
+    // dataObj: Object;
     function AppComponent(ottoService) {
         this.ottoService = ottoService;
         this.title = 'Ottomation UI';
@@ -26,18 +27,18 @@ var AppComponent = (function () {
         // )
     } // constructor
     AppComponent.prototype.ngOnInit = function () {
-        this.dataObj = {
-            "entity_id": "zone.home",
-            "description": "This is a description",
-            "max_value": 24
-        };
+        // this.dataObj = {
+        //     "entity_id": "zone.home",
+        //     "description": "This is a description",
+        //     "max_value": 24
+        // };
     };
     return AppComponent;
 }()); // class AppComponent
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n  <div class=\"text-center\">\n    <h1 class=\"title\">{{title}}</h1>\n  </div>\n  <data-fields [obj]=\"dataObj\"></data-fields>\n  <router-outlet></router-outlet>\n  ",
+        template: "\n  <div class=\"text-center\">\n    <h1 class=\"title\">{{title}}</h1>\n  </div>\n  <router-outlet></router-outlet>\n  ",
     }),
     __metadata("design:paramtypes", [otto_rest_service_1.OttoRestService])
 ], AppComponent);

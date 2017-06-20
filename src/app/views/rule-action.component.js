@@ -43,7 +43,8 @@ var RuleActionComponent = (function () {
                 this.uiDomain = this.action.domain;
                 this.uiService = this.action.service;
                 // console.log(this.uiService);
-                this.uiDataObj = JSON.stringify(this.action.data);
+                // this.uiDataObj = JSON.stringify(this.action.data);
+                this.uiDataObj = this.action.data;
             }
             else if (this.action instanceof rule_actions_1.DelayAction) {
                 this.uiActionType = "delay";
@@ -89,7 +90,8 @@ var RuleActionComponent = (function () {
         if (this.uiActionType == 'service') {
             this.uiDomain = null;
             this.uiService = null;
-            this.uiDataObj = JSON.stringify({});
+            // this.uiDataObj = JSON.stringify({});
+            this.uiDataObj = null;
         }
         else if (this.uiActionType == 'delay') {
             this.uiDelay = null;
@@ -122,7 +124,7 @@ var RuleActionComponent = (function () {
             //   this.uiDataObj = {}; 
             // }
             // console.log(this.uiDataObj);
-            this.replaceAction(new rule_actions_1.ServiceAction(this.uiDomain, this.uiService, JSON.parse(this.uiDataObj)));
+            this.replaceAction(new rule_actions_1.ServiceAction(this.uiDomain, this.uiService, this.uiDataObj));
         }
         else if (this.uiActionType == 'condition') {
             // Do nothing since Condition has its own component with its own uiXXX elements
@@ -150,6 +152,11 @@ var RuleActionComponent = (function () {
         // this.actionSeq.condition.remove_condition(index);
         //  NEED TO IMPLEMENT
         //  Emit event to remove this action from parent
+    };
+    RuleActionComponent.prototype.onDataChange = function (newObj) {
+        console.log("onDataChange(): " + JSON.stringify(newObj));
+        this.uiDataObj = newObj;
+        this.onChange();
     };
     return RuleActionComponent;
 }()); // class RuleAction

@@ -8,14 +8,13 @@ import { OttoRestService } from './services/otto-rest.service';
   <div class="text-center">
     <h1 class="title">{{title}}</h1>
   </div>
-  <data-fields [obj]="dataObj"></data-fields>
   <router-outlet></router-outlet>
   `,
 })
 export class AppComponent implements OnInit {
     title = 'Ottomation UI';
 
-    dataObj: Object;
+    // dataObj: Object;
 
     constructor(
         private ottoService: OttoRestService,
@@ -34,11 +33,11 @@ export class AppComponent implements OnInit {
     }  // constructor
 
     ngOnInit() {
-        this.dataObj = {
-            "entity_id": "zone.home",
-            "description": "This is a description",
-            "max_value": 24
-        };
+        // this.dataObj = {
+        //     "entity_id": "zone.home",
+        //     "description": "This is a description",
+        //     "max_value": 24
+        // };
     }
 
 } // class AppComponent
