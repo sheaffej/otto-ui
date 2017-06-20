@@ -1,7 +1,7 @@
-import { NgModule }      from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DropdownModule, InputTextModule, SpinnerModule, 
@@ -9,17 +9,19 @@ import { DropdownModule, InputTextModule, SpinnerModule,
   CheckboxModule, PanelModule, DialogModule, InputSwitchModule } from 'primeng/primeng';
 import {PrettyJsonModule} from 'angular2-prettyjson';
 
-import { AppComponent }  from './app.component';
-import { RulesListComponent } from './views/rules-list.component'
+import { AppConfig } from './app-config';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { DataFieldsComponent } from './views/data-fields.component';
+import { RuleActionSeqComponent } from './views/rule-action-seq.component';
+import { RuleActionComponent } from './views/rule-action.component';
 import { AutomationRuleComponent } from './views/rule-automation.component';
 import { RuleConditionComponent } from './views/rule-condition.component';
-import { RuleTriggerComponent } from './views/rule-trigger.component';
-import { RuleActionSeqComponent } from './views/rule-action-seq.component';
-import { ServiceInfoComponent } from './views/service-info.component';
-import { RuleActionComponent } from './views/rule-action.component';
 import { RuleDetailComponent } from './views/rule-detail.component';
+import { RuleTriggerComponent } from './views/rule-trigger.component';
+import { RulesListComponent } from './views/rules-list.component';
+import { ServiceInfoComponent } from './views/service-info.component';
 import { OttoRestService } from './services/otto-rest.service';
-import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   imports:      [ 
@@ -51,9 +53,19 @@ import { AppRoutingModule } from './app-routing.module';
     RuleActionComponent,
     ServiceInfoComponent,
     RuleDetailComponent,
+    DataFieldsComponent,
   ],
-  providers: [ OttoRestService ],
-  bootstrap:    [ AppComponent ]
+  providers: [ 
+    OttoRestService,
+    AppConfig,
+    { 
+      provide: APP_INITIALIZER, 
+      useFactory: (config: AppConfig) => () => config.load(), 
+      deps: [AppConfig], 
+      multi: true
+    },
+  ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { 
 

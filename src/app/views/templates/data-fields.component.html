@@ -1,0 +1,40 @@
+<div class="container">
+<div class="row">
+
+<div class="col-md-12">
+<div class="panel panel-primary">    
+    <div class="panel-heading">
+        Data Field Object
+    </div>
+    
+    <div class="panel-body">
+        <div *ngIf="debug">
+            <prettyjson [obj]="obj"></prettyjson>
+            <prettyjson [obj]="fieldsObj"></prettyjson>
+        </div>
+
+
+
+        <div *ngFor="let field of fieldKeys; index as i; trackBy: keyTrackByFn">
+            <input type="text" pInputText size="20"
+                [(ngModel)]="fieldKeys[i]"
+                (blur)="onKeyBlur($event.target.value, i)" 
+                (keyup.enter)="onKeyUp('$event.target.value', i)"
+            />
+
+            <!--<input type="text" pInputText size="30" [(ngModel)]="fieldKeys[i]"/>:-->
+            <!--<input type="text" pInputText size="50" [(ngModel)]="fieldValues[i]"/>-->
+            {{fieldKeys[i]}}: {{fieldValues[i]}}
+
+        </div>
+
+        {{test}}
+
+    </div>
+
+
+</div>
+</div>
+
+</div>
+</div>

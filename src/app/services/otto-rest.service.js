@@ -11,27 +11,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/toPromise");
+var app_config_1 = require("../app-config");
 var rule_automation_1 = require("../objects/rule-automation");
 var services_1 = require("../objects/services");
 var OttoRestService = (function () {
-    function OttoRestService(http) {
+    function OttoRestService(http, config) {
         this.http = http;
+        this.config = config;
         this.ottoRestUrl = 'http://localhost:5000/rest';
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.rules = [];
         this.entities = [];
         this.serviceDomains = [];
-        console.log("Starting OttoRestService");
-        this.getRules();
-        this.getEntities();
-        this.getServices();
+        // console.log("Starting OttoRestService");
+        var host = config.getConfig("otto-server-host");
+        var port = config.getConfig("otto-server-port");
+        this.ottoRestUrl = "http://" + host + ":" + port + "/rest";
     }
     OttoRestService.prototype.getRules = function () {
+        // console.log("getRules() called");
         var _this = this;
-        console.log("getRules() called");
+        var promise = null;
         if (this.rules.length == 0) {
             console.log("getRules() fetching from REST API");
-            return this.http.get(this.ottoRestUrl + "/rules")
+            promise = this.http.get(this.ottoRestUrl + "/rules")
                 .toPromise()
                 .then(function (response) {
                 console.log("getRules() response received");
@@ -43,17 +46,19 @@ var OttoRestService = (function () {
             })
                 .catch(this.handleError);
         }
-        return Promise.resolve(this.rules.slice()); // Return a copy of the cached rules
+        else {
+            promise = Promise.resolve(this.rules.slice());
+        }
+        return promise;
     };
     OttoRestService.prototype.getEntities = function () {
-        // let err = new Error();
-        // console.log(err.stack);
         var _this = this;
         if (this.entities.length == 0) {
             console.log("getEntities() fetching from REST API");
             return this.http.get(this.ottoRestUrl + "/entities")
                 .toPromise()
                 .then(function (response) {
+                console.log("getEntities() response received");
                 _this.entities = response.json().data;
                 return _this.entities;
             })
@@ -62,13 +67,6 @@ var OttoRestService = (function () {
         // console.log("getEntities serving a cached copy");
         return Promise.resolve(this.entities.slice()); // Return a copy of the cached entities
     };
-    OttoRestService.prototype.getZones = function () {
-        if (this.entities.length == 0) {
-            return this.getEntities()
-                .then(function (entities) { return entities.filter(function (entity) { return entity.startsWith("zone."); }); });
-        }
-        return Promise.resolve(this.entities.filter(function (entity) { return entity.startsWith("zone."); }));
-    };
     OttoRestService.prototype.getServices = function () {
         var _this = this;
         if (this.serviceDomains.length == 0) {
@@ -76,6 +74,7 @@ var OttoRestService = (function () {
             return this.http.get(this.ottoRestUrl + "/services")
                 .toPromise()
                 .then(function (response) {
+                console.log("getServices() response received");
                 _this.serviceDomains = services_1.ServiceDomain.fromRestResponse(response.json().data);
                 // console.log("serviceDomains.length = " + this.serviceDomains.length);
                 return _this.serviceDomains;
@@ -83,6 +82,13 @@ var OttoRestService = (function () {
                 .catch(this.handleError);
         }
         return Promise.resolve(this.serviceDomains.slice());
+    };
+    OttoRestService.prototype.getZones = function () {
+        if (this.entities.length == 0) {
+            return this.getEntities()
+                .then(function (entities) { return entities.filter(function (entity) { return entity.startsWith("zone."); }); });
+        }
+        return Promise.resolve(this.entities.filter(function (entity) { return entity.startsWith("zone."); }));
     };
     OttoRestService.prototype.getServiceDomainNames = function () {
         var _this = this;
@@ -115,7 +121,8 @@ var OttoRestService = (function () {
 }()); // class OttoRestService
 OttoRestService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [http_1.Http,
+        app_config_1.AppConfig])
 ], OttoRestService);
 exports.OttoRestService = OttoRestService;
 //# sourceMappingURL=otto-rest.service.js.map

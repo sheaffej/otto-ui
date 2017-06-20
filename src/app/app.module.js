@@ -15,17 +15,19 @@ var forms_1 = require("@angular/forms");
 var animations_1 = require("@angular/platform-browser/animations");
 var primeng_1 = require("primeng/primeng");
 var angular2_prettyjson_1 = require("angular2-prettyjson");
+var app_config_1 = require("./app-config");
+var app_routing_module_1 = require("./app-routing.module");
 var app_component_1 = require("./app.component");
-var rules_list_component_1 = require("./views/rules-list.component");
+var data_fields_component_1 = require("./views/data-fields.component");
+var rule_action_seq_component_1 = require("./views/rule-action-seq.component");
+var rule_action_component_1 = require("./views/rule-action.component");
 var rule_automation_component_1 = require("./views/rule-automation.component");
 var rule_condition_component_1 = require("./views/rule-condition.component");
-var rule_trigger_component_1 = require("./views/rule-trigger.component");
-var rule_action_seq_component_1 = require("./views/rule-action-seq.component");
-var service_info_component_1 = require("./views/service-info.component");
-var rule_action_component_1 = require("./views/rule-action.component");
 var rule_detail_component_1 = require("./views/rule-detail.component");
+var rule_trigger_component_1 = require("./views/rule-trigger.component");
+var rules_list_component_1 = require("./views/rules-list.component");
+var service_info_component_1 = require("./views/service-info.component");
 var otto_rest_service_1 = require("./services/otto-rest.service");
-var app_routing_module_1 = require("./app-routing.module");
 var AppModule = (function () {
     function AppModule() {
         console.log("Constructing app.module");
@@ -63,8 +65,18 @@ AppModule = __decorate([
             rule_action_component_1.RuleActionComponent,
             service_info_component_1.ServiceInfoComponent,
             rule_detail_component_1.RuleDetailComponent,
+            data_fields_component_1.DataFieldsComponent,
         ],
-        providers: [otto_rest_service_1.OttoRestService],
+        providers: [
+            otto_rest_service_1.OttoRestService,
+            app_config_1.AppConfig,
+            {
+                provide: core_1.APP_INITIALIZER,
+                useFactory: function (config) { return function () { return config.load(); }; },
+                deps: [app_config_1.AppConfig],
+                multi: true
+            },
+        ],
         bootstrap: [app_component_1.AppComponent]
     }),
     __metadata("design:paramtypes", [])

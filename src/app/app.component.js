@@ -9,26 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+// import { AppConfig } from './app-config';
 var otto_rest_service_1 = require("./services/otto-rest.service");
 var AppComponent = (function () {
     function AppComponent(ottoService) {
         this.ottoService = ottoService;
         this.title = 'Ottomation UI';
-        // Populate the OttoRestService caches
-        // console.log("Populating ottoRest cache");
-        // this.ottoService.getServices();
-        // this.ottoService.getEntities();
-        // this.ottoService.getRules();
-        // console.log("Finished calling cache population");
         console.log("Constructing app.component");
-    }
-    AppComponent.prototype.ngOnInit = function () { };
+        console.log("Populating OttoRestService's cache");
+        // ottoService.getRules().then(() => 
+        ottoService.getEntities().then(function () {
+            return ottoService.getServices().then(function () {
+                return console.log("Caches have populated");
+            });
+        });
+        // )
+    } // constructor
+    AppComponent.prototype.ngOnInit = function () {
+        this.dataObj = {
+            "entity_id": "my.entity.id",
+            "description": "This is a description",
+            "max_value": 24
+        };
+    };
     return AppComponent;
 }()); // class AppComponent
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n  <div class=\"text-center\">\n    <h1 class=\"title\">{{title}}</h1>\n  </div>\n  <router-outlet></router-outlet>\n  ",
+        template: "\n  <div class=\"text-center\">\n    <h1 class=\"title\">{{title}}</h1>\n  </div>\n  <data-fields [obj]=\"dataObj\"></data-fields>\n  <router-outlet></router-outlet>\n  ",
     }),
     __metadata("design:paramtypes", [otto_rest_service_1.OttoRestService])
 ], AppComponent);

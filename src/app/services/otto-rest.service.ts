@@ -3,7 +3,8 @@ import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { AutomationRule } from '../objects/rule-automation'
+import { AppConfig } from '../app-config';
+import { AutomationRule } from '../objects/rule-automation';
 import { ServiceDomain } from '../objects/services';
 
 
@@ -18,20 +19,25 @@ export class OttoRestService {
   private serviceDomains: ServiceDomain[] = [];
 
 
-  constructor(private http: Http){ 
-    console.log("Starting OttoRestService");
-    this.getRules();
-    this.getEntities();
-    this.getServices();
+  constructor(
+    private http: Http,
+    private config: AppConfig
+  ){ 
+    // console.log("Starting OttoRestService");
+    let host = config.getConfig("otto-server-host");
+    let port = config.getConfig("otto-server-port");
+    this.ottoRestUrl =  `http://${host}:${port}/rest`;
   }
 
   getRules(): Promise<AutomationRule[]> {
-    console.log("getRules() called");
+    // console.log("getRules() called");
+    
+    let promise = null;
     
     if (this.rules.length == 0) {    // Get a fresh copy of the rules
       console.log("getRules() fetching from REST API");
       
-      return this.http.get(`${this.ottoRestUrl}/rules`)
+      promise = this.http.get(`${this.ottoRestUrl}/rules`)
         .toPromise()
         .then(response => {
           console.log("getRules() response received");
@@ -42,19 +48,22 @@ export class OttoRestService {
           return this.rules.slice();
         })
         .catch(this.handleError);
+      // console.log("getRules() GET promise created");
     }
-    return Promise.resolve(this.rules.slice());  // Return a copy of the cached rules
+    else {   // Return a copy of the cached rules 
+      promise = Promise.resolve(this.rules.slice());
+    }
+
+    return promise;
   }
 
   getEntities(): Promise<string[]> {
-    // let err = new Error();
-    // console.log(err.stack);
-
     if (this.entities.length == 0) {   // Get a fresh copy of the rules
       console.log("getEntities() fetching from REST API");
       return this.http.get(`${this.ottoRestUrl}/entities`)
         .toPromise()
         .then(response => {
+          console.log("getEntities() response received");
           this.entities = response.json().data as string[];
           return this.entities;
         })
@@ -64,20 +73,13 @@ export class OttoRestService {
     return Promise.resolve(this.entities.slice());  // Return a copy of the cached entities
   }
 
-  getZones(): Promise<string[]> {
-    if (this.entities.length == 0) {   // Get a fresh copy of the entities
-      return this.getEntities()
-        .then((entities) => entities.filter((entity) => entity.startsWith("zone.")));
-    }
-    return Promise.resolve(this.entities.filter((entity) => entity.startsWith("zone.")));
-  }
-
   getServices(): Promise<ServiceDomain[]> {
     if (this.serviceDomains.length == 0) {
       console.log("getServices() fetching from REST API");
       return this.http.get(`${this.ottoRestUrl}/services`)
         .toPromise()
         .then(response => {
+          console.log("getServices() response received");
           this.serviceDomains = ServiceDomain.fromRestResponse(response.json().data);
           // console.log("serviceDomains.length = " + this.serviceDomains.length);
           return this.serviceDomains;
@@ -85,6 +87,14 @@ export class OttoRestService {
         .catch(this.handleError);
     } 
     return Promise.resolve(this.serviceDomains.slice());
+  }
+
+  getZones(): Promise<string[]> {
+    if (this.entities.length == 0) {   // Get a fresh copy of the entities
+      return this.getEntities()
+        .then((entities) => entities.filter((entity) => entity.startsWith("zone.")));
+    }
+    return Promise.resolve(this.entities.filter((entity) => entity.startsWith("zone.")));
   }
 
   getServiceDomainNames(): Promise<string[]> {
@@ -97,7 +107,6 @@ export class OttoRestService {
               .services.map(service => service.service_name)
     );
   }
-
 
   getRule(id: string): Promise<AutomationRule> {
     return this.getRules().then(rules => rules.filter(rule => rule.id == id)[0])

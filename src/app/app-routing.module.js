@@ -12,7 +12,6 @@ var rule_detail_component_1 = require("./views/rule-detail.component");
 var routes = [
     { path: 'rule-list', component: rules_list_component_1.RulesListComponent },
     { path: 'rule/:id', component: rule_detail_component_1.RuleDetailComponent },
-    { path: '', redirectTo: '/rule-list', pathMatch: 'full' }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
