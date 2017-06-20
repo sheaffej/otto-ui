@@ -32,19 +32,34 @@ export class DataFieldsComponent implements OnInit {
             })
     }
 
-    onKeyChange(event: any, index: number): void {
-        console.log(JSON.stringify(event));
+    onKeyChange(index: number): void {
+        this.reCreateObject();
     }
 
-    onKeyBlur(event: any, index: number): void {
-        console.log("blur " + this.fieldKeys[index]);            
+    onValueChange(index: number): void {
+        this.reCreateObject();
     }
 
-    onKeyUp(event: any): void {
-        console.log("Up " + JSON.stringify(event));
+    onAddClick() {
+        this.fieldKeys.push("");
+        this.fieldValues.push("");
+        this.reCreateObject();
     }
 
-    keyTrackByFn(index: number, item: any) {
+    onRemoveClick(index: number) {
+        this.fieldKeys.splice(index, 1);
+        this.fieldValues.splice(index, 1);
+        this.reCreateObject();
+    }
+
+    reCreateObject(): void {
+        this.obj = {};
+        this.fieldKeys.forEach((key, index) => {
+            this.obj[key] = this.fieldValues[index];
+        });
+    }
+
+    trackByIndex(index: number, item: any) {
         return index;
     }
 

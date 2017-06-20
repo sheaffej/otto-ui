@@ -24,16 +24,30 @@ var DataFieldsComponent = (function () {
             _this.fieldValues.push(_this.obj[key]);
         });
     };
-    DataFieldsComponent.prototype.onKeyChange = function (event, index) {
-        console.log(JSON.stringify(event));
+    DataFieldsComponent.prototype.onKeyChange = function (index) {
+        this.reCreateObject();
     };
-    DataFieldsComponent.prototype.onKeyBlur = function (event, index) {
-        console.log("blur " + this.fieldKeys[index]);
+    DataFieldsComponent.prototype.onValueChange = function (index) {
+        this.reCreateObject();
     };
-    DataFieldsComponent.prototype.onKeyUp = function (event) {
-        console.log("Up " + JSON.stringify(event));
+    DataFieldsComponent.prototype.onAddClick = function () {
+        this.fieldKeys.push("");
+        this.fieldValues.push("");
+        this.reCreateObject();
     };
-    DataFieldsComponent.prototype.keyTrackByFn = function (index, item) {
+    DataFieldsComponent.prototype.onRemoveClick = function (index) {
+        this.fieldKeys.splice(index, 1);
+        this.fieldValues.splice(index, 1);
+        this.reCreateObject();
+    };
+    DataFieldsComponent.prototype.reCreateObject = function () {
+        var _this = this;
+        this.obj = {};
+        this.fieldKeys.forEach(function (key, index) {
+            _this.obj[key] = _this.fieldValues[index];
+        });
+    };
+    DataFieldsComponent.prototype.trackByIndex = function (index, item) {
         return index;
     };
     return DataFieldsComponent;

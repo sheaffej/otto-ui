@@ -13,22 +13,27 @@
             <prettyjson [obj]="fieldsObj"></prettyjson>
         </div>
 
+        <div>
+            <button pButton label="Add" type="button" (click)="onAddClick()"></button>
+        </div>
 
-
-        <div *ngFor="let field of fieldKeys; index as i; trackBy: keyTrackByFn">
-            <input type="text" pInputText size="20"
+        <div *ngFor="let field of fieldKeys; index as i; trackBy: trackByIndex">
+            {{i}} <input type="text" pInputText size="15"
                 [(ngModel)]="fieldKeys[i]"
-                (blur)="onKeyBlur($event.target.value, i)" 
-                (keyup.enter)="onKeyUp('$event.target.value', i)"
+                (blur)="onKeyChange(i)" 
+                (keyup.enter)="onKeyChange(i)"
             />
+            <b>:</b>
+            <input type="text" pInputText size="50"
+                [(ngModel)]="fieldValues[i]"
+                (blur)="onValueChange(i)" 
+                (keyup.enter)="onValueChange(i)"
+            />
+            <button pButton label="X" type="button" (click)="onRemoveClick(i)"></button>
 
-            <!--<input type="text" pInputText size="30" [(ngModel)]="fieldKeys[i]"/>:-->
-            <!--<input type="text" pInputText size="50" [(ngModel)]="fieldValues[i]"/>-->
             {{fieldKeys[i]}}: {{fieldValues[i]}}
 
         </div>
-
-        {{test}}
 
     </div>
 
