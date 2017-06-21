@@ -4,12 +4,7 @@ import { OttoRestService } from './services/otto-rest.service';
 
 @Component({
     selector: 'my-app',
-    template: `
-  <div class="text-center">
-    <h1 class="title">{{title}}</h1>
-  </div>
-  <router-outlet></router-outlet>
-  `,
+    templateUrl: './views/templates/app.component.html',
 })
 export class AppComponent implements OnInit {
     title = 'Ottomation UI';

@@ -21,7 +21,7 @@ export class DataFieldsComponent implements OnInit {
 
     uiEntityIdOptions: SelectItem[];
 
-    debug: boolean = true;
+    debug: boolean = false;
     longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
     keyFieldLength: number = 15;
     valFieldLength: number = 50;
@@ -32,9 +32,10 @@ export class DataFieldsComponent implements OnInit {
 
     ngOnInit() {
         // Initially populate the key/value arrays
-        if (this.obj != null) {
             this.fieldKeys = [];
             this.fieldValues = [];
+            if (this.obj != null) {
+
             Object.keys(this.obj)
                 .forEach(key => {
                     this.fieldKeys.push(key);

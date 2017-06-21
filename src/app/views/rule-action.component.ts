@@ -20,7 +20,7 @@ export class RuleActionComponent implements OnInit {
   @Output() onReCreate = new EventEmitter<RuleActionItem>();
   @Output() onRemove = new EventEmitter();
   
-  debug: boolean = true;
+  debug: boolean = false;
   longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
 
   // Service Registrations
@@ -48,7 +48,9 @@ export class RuleActionComponent implements OnInit {
   uiDelay: string;
 
 
-  constructor(private ottoService: OttoRestService) {}
+  constructor(private ottoService: OttoRestService) {
+    console.log("Constructing rule-action");
+  }
 
   ngOnInit() {  
     // Action Type Options
@@ -67,13 +69,11 @@ export class RuleActionComponent implements OnInit {
     if (this.action != null) {
 
       if (this.action instanceof ServiceAction){
-        // console.log("I am a ServiceAction");
         this.uiActionType = "service";
         this.uiDomain = this.action.domain;
         this.uiService = this.action.service;
-        // console.log(this.uiService);
-        // this.uiDataObj = JSON.stringify(this.action.data);
         this.uiDataObj = this.action.data;
+        console.log(JSON.stringify(this.action.data));
       }
       else if (this.action instanceof DelayAction) {
         this.uiActionType = "delay";
@@ -94,16 +94,6 @@ export class RuleActionComponent implements OnInit {
   populateDomainOptions(): void {
     this.uiDomainOptions.length = 0;  // Clear the array    
     this.serviceDomains.map(domain => this.uiDomainOptions.push({label: domain.domain, value: domain.domain}));
-    
-    // Re-select dropdown
-    // if (this.action instanceof ServiceAction) {
-    //   let curUiDomain = this.uiDomain;
-    //   this.uiDomain = null;
-    //   setTimeout(() => {
-    //     this.uiDomain = curUiDomain;
-    //     this.populateServiceOptions();  // Re-popluate Service Options
-    //   }, 0);
-    // }
   }
 
   populateServiceOptions(): void {
@@ -114,13 +104,6 @@ export class RuleActionComponent implements OnInit {
         .services.map(service => this.uiServiceOptions.push(
               { label: service.service_name, value: service.service_name }
         ));
-    
-      // // Re-select the dropdown
-      // if (this.action instanceof ServiceAction) {
-      //   let curUiService = this.uiService;
-      //   this.uiService = null;
-      //   setTimeout(() => this.uiService = curUiService, 100);
-      // }
     }
   }
 
@@ -154,6 +137,7 @@ export class RuleActionComponent implements OnInit {
     console.log("Domain Change => " + this.uiDomain);
     // Update Service Options based on the current domain
     this.uiService = '';
+    this.uiDataObj = null;
     this.populateServiceOptions();
 
     this.onChange()
@@ -164,8 +148,6 @@ export class RuleActionComponent implements OnInit {
   }
 
   onRemoveClick(): void {
-    // throw new Error("onRemoveClick not implemented");
-    // this.parentSeq.sequence.splice(this.parentIndex, 1);
     this.onRemove.emit();
   }
 
@@ -173,12 +155,6 @@ export class RuleActionComponent implements OnInit {
   recreateAction(): void {
     // When the action changes, we just re-intitialize the action
     if (this.uiActionType == 'service') {
-      // console.log(this.uiDataObj);
-      // if (this.uiDataObj == null) { 
-      //   // console.log("uiDataObj was null");
-      //   this.uiDataObj = {}; 
-      // }
-      // console.log(this.uiDataObj);
       this.replaceAction(new ServiceAction(this.uiDomain, this.uiService, this.uiDataObj));
     }
     else if (this.uiActionType == 'condition') {
@@ -191,11 +167,6 @@ export class RuleActionComponent implements OnInit {
   }
 
   replaceAction(newAction: RuleActionItem) {
-    // if (this.parentSeq == null) {
-    // console.log("ERROR: this.parent is NULL in replaceCondition");
-    // }
-
-    // this.parentSeq.replace_action(this.parentIndex, newAction);
     this.onReCreate.emit(newAction);
   }
 

@@ -14,7 +14,7 @@ var DataFieldsComponent = (function () {
     function DataFieldsComponent(ottoService) {
         this.ottoService = ottoService;
         this.onChange = new core_1.EventEmitter();
-        this.debug = true;
+        this.debug = false;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
         this.keyFieldLength = 15;
         this.valFieldLength = 50;
@@ -23,9 +23,9 @@ var DataFieldsComponent = (function () {
     DataFieldsComponent.prototype.ngOnInit = function () {
         var _this = this;
         // Initially populate the key/value arrays
+        this.fieldKeys = [];
+        this.fieldValues = [];
         if (this.obj != null) {
-            this.fieldKeys = [];
-            this.fieldValues = [];
             Object.keys(this.obj)
                 .forEach(function (key) {
                 _this.fieldKeys.push(key);

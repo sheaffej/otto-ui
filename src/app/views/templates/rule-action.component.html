@@ -56,16 +56,16 @@
 
     <!-- Service Data -->
     <div *ngIf="uiActionType == 'service'">
-        <div class="form-group">
+        <!--<div class="form-group">
             <label for="service.data" class="control-label">Service Data:</label>
             <input type="text" pInputText 
                 id="service.data"
                 [(ngModel)]="uiDataObj" 
                 (blur)="onChange()" 
                 (keyup.enter)="onChange()"/>
-        </div>
+        </div>-->
         
-        <!--<data-fields [obj]="uiDataObj" (onChange)="onDataChange($event)" ></data-fields>-->
+        <data-fields [obj]="uiDataObj" (onChange)="onDataChange($event)" ></data-fields>
 
         <div *ngIf="uiService != null">
             <service-info 

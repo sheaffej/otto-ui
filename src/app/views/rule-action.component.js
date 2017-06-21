@@ -19,8 +19,9 @@ var RuleActionComponent = (function () {
         // @Input() parentIndex: number;
         this.onReCreate = new core_1.EventEmitter();
         this.onRemove = new core_1.EventEmitter();
-        this.debug = true;
+        this.debug = false;
         this.longText = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
+        console.log("Constructing rule-action");
     }
     RuleActionComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -38,13 +39,11 @@ var RuleActionComponent = (function () {
         // Initialize uiXXX properties
         if (this.action != null) {
             if (this.action instanceof rule_actions_1.ServiceAction) {
-                // console.log("I am a ServiceAction");
                 this.uiActionType = "service";
                 this.uiDomain = this.action.domain;
                 this.uiService = this.action.service;
-                // console.log(this.uiService);
-                // this.uiDataObj = JSON.stringify(this.action.data);
                 this.uiDataObj = this.action.data;
+                console.log(JSON.stringify(this.action.data));
             }
             else if (this.action instanceof rule_actions_1.DelayAction) {
                 this.uiActionType = "delay";
@@ -64,15 +63,6 @@ var RuleActionComponent = (function () {
         var _this = this;
         this.uiDomainOptions.length = 0; // Clear the array    
         this.serviceDomains.map(function (domain) { return _this.uiDomainOptions.push({ label: domain.domain, value: domain.domain }); });
-        // Re-select dropdown
-        // if (this.action instanceof ServiceAction) {
-        //   let curUiDomain = this.uiDomain;
-        //   this.uiDomain = null;
-        //   setTimeout(() => {
-        //     this.uiDomain = curUiDomain;
-        //     this.populateServiceOptions();  // Re-popluate Service Options
-        //   }, 0);
-        // }
     };
     RuleActionComponent.prototype.populateServiceOptions = function () {
         var _this = this;
@@ -104,6 +94,7 @@ var RuleActionComponent = (function () {
         console.log("Domain Change => " + this.uiDomain);
         // Update Service Options based on the current domain
         this.uiService = '';
+        this.uiDataObj = null;
         this.populateServiceOptions();
         this.onChange();
     };
@@ -111,19 +102,11 @@ var RuleActionComponent = (function () {
         this.recreateAction();
     };
     RuleActionComponent.prototype.onRemoveClick = function () {
-        // throw new Error("onRemoveClick not implemented");
-        // this.parentSeq.sequence.splice(this.parentIndex, 1);
         this.onRemove.emit();
     };
     RuleActionComponent.prototype.recreateAction = function () {
         // When the action changes, we just re-intitialize the action
         if (this.uiActionType == 'service') {
-            // console.log(this.uiDataObj);
-            // if (this.uiDataObj == null) { 
-            //   // console.log("uiDataObj was null");
-            //   this.uiDataObj = {}; 
-            // }
-            // console.log(this.uiDataObj);
             this.replaceAction(new rule_actions_1.ServiceAction(this.uiDomain, this.uiService, this.uiDataObj));
         }
         else if (this.uiActionType == 'condition') {
@@ -135,10 +118,6 @@ var RuleActionComponent = (function () {
         }
     };
     RuleActionComponent.prototype.replaceAction = function (newAction) {
-        // if (this.parentSeq == null) {
-        // console.log("ERROR: this.parent is NULL in replaceCondition");
-        // }
-        // this.parentSeq.replace_action(this.parentIndex, newAction);
         this.onReCreate.emit(newAction);
     };
     RuleActionComponent.prototype.onConditionReCreate = function (newCondition) {

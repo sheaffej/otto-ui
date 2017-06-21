@@ -38,7 +38,7 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
-        template: "\n  <div class=\"text-center\">\n    <h1 class=\"title\">{{title}}</h1>\n  </div>\n  <router-outlet></router-outlet>\n  ",
+        templateUrl: './views/templates/app.component.html',
     }),
     __metadata("design:paramtypes", [otto_rest_service_1.OttoRestService])
 ], AppComponent);
