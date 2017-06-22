@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import { AppConfig } from '../app-config';
+// import { AppConfig } from '../app-config';
 import { AutomationRule } from '../objects/rule-automation';
 import { ServiceDomain } from '../objects/services';
 
@@ -21,11 +21,13 @@ export class OttoRestService {
 
   constructor(
     private http: Http,
-    private config: AppConfig
+    // private config: AppConfig
   ){ 
     // console.log("Starting OttoRestService");
-    let host = config.getConfig("otto-server-host");
-    let port = config.getConfig("otto-server-port");
+    // let host = config.getConfig("otto-server-host");
+    // let port = config.getConfig("otto-server-port");
+    let host = "localhost";
+    let port = "5000";
     this.ottoRestUrl =  `http://${host}:${port}/rest`;
   }
 
