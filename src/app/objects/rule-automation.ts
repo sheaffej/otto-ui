@@ -18,7 +18,8 @@ export class AutomationRule {
     if (id != '') {
       this._id = id;
     } else {
-      this._id = (Math.round((new Date()).getTime() / 1000)).toString();
+      // this._id = (Math.round((new Date()).getTime() / 1000)).toString();
+      this._id = (Math.round((new Date()).getTime()/1000) - 1498090000).toString();
     }
   }
 
@@ -80,7 +81,9 @@ export class AutomationRule {
     o.enabled = this._enabled;
     o.group = this._group;
     o.triggers = this._triggers;
-    o.rule_condition = this._condition;
+    if (this._condition != null) {
+      o.rule_condition = this._condition;
+    }
     o.actions = this._action_sequences;
     return o;
   }

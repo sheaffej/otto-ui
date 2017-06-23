@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AutomationRule } from './objects/rule-automation';
 import { OttoRestService } from './services/otto-rest.service';
 
 @Component({
@@ -11,6 +13,7 @@ export class AppComponent {
 
     constructor(
         private ottoService: OttoRestService,
+        private router: Router
     ) {
         console.log("Constructing app.component");
 
@@ -25,5 +28,12 @@ export class AppComponent {
     }  // constructor
 
     ngOnInit() {}
+
+    onAddClick(): void {
+        console.log("Add Rule Clicked");
+        let newRule = new AutomationRule();
+        this.ottoService.addRule(newRule);
+        this.router.navigate([`/rule/${newRule.id}`]);
+    }
 
 } // class AppComponent

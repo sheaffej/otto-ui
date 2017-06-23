@@ -8,6 +8,9 @@ export class RuleCondition {
   static fromObject(obj: any): RuleCondition {
     let cond = null;
 
+    // if (obj.condition == "always") {
+    //   cond = new AlwaysCondition();
+    // }
     if (obj.condition == 'and') {
       cond = new AndCondition();
       for (let subcond of obj.conditions) {
@@ -81,6 +84,13 @@ export class ParentCondition extends RuleCondition {
     this.conditions[index] = condition;
   }
 }
+
+
+// export class AlwaysCondition extends RuleCondition {
+//   constructor() {
+//     super("always");
+//   }
+// }
 
 
 export class AndCondition extends ParentCondition {

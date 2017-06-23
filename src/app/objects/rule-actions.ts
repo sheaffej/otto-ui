@@ -38,7 +38,9 @@ export class RuleActionSequence {
   // Overridden Property Functions
   public toJSON = () => {
     let o: any = {};
-    o.action_condition = this._condition;
+    if (this._condition != null) {
+      o.action_condition = this._condition;
+    }
     o.action_sequence = this._sequence;
     return o;
   }

@@ -3,9 +3,9 @@ import { Headers, Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-// import { AppConfig } from '../app-config';
 import { AutomationRule } from '../objects/rule-automation';
 import { ServiceDomain } from '../objects/services';
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
@@ -19,15 +19,12 @@ export class OttoRestService {
   private serviceDomains: ServiceDomain[] = [];
 
 
-  constructor(
-    private http: Http,
-    // private config: AppConfig
-  ){ 
+  constructor(private http: Http){ 
     // console.log("Starting OttoRestService");
     // let host = config.getConfig("otto-server-host");
     // let port = config.getConfig("otto-server-port");
-    let host = "localhost";
-    let port = "5000";
+    let host = environment.ottoHost;
+    let port = environment.ottoPort;
     this.ottoRestUrl =  `http://${host}:${port}/rest`;
   }
 
@@ -125,6 +122,13 @@ export class OttoRestService {
       .toPromise()
       .then(response => response.json() as OttoRestResponse)
       .catch(this.handleError);
+  }
+
+  addRule(rule: AutomationRule): void {
+    // Adds a rule to the list, but does not save it to the server
+    // The rule will needed to be later saved for the server to have
+    // this rule.
+    this.rules.push(rule);
   }
 
 

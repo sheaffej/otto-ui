@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  ottoHost: "localhost",
+  ottoPort: 5000
 };
