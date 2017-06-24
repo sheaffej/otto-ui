@@ -5,7 +5,7 @@ import { AutomationRule } from '../objects/rule-automation'
 import { AndCondition, RuleCondition } from '../objects/rule-conditions';
 import { RuleActionSequence } from '../objects/rule-actions';
 import { RuleTrigger } from '../objects/rule-triggers';
-import { GrowlService } from '../services/growl.service';
+import { GrowlService, MessageSeverity } from '../services/growl.service';
 import { OttoRestService } from '../services/otto-rest.service';
 
 @Component({
@@ -29,7 +29,14 @@ export class RuleAutomationComponent implements OnInit {
 
     onSaveClick(): void {
         this.ottoService.saveRule(this.rule)
-            .then(resp => this.growl.addSuccessMessage(resp.success, resp.message, null))
+            .then(resp => {
+                if (resp.success) {
+                    this.growl.addSuccessMessage(resp.success, resp.message, null)
+                }
+                else {
+                    this.growl.addPersistentMessage(MessageSeverity.ERROR, resp.message, null);
+                }
+            });
     }
 
     onAddTriggerClick(): void {

@@ -4,8 +4,9 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { AutomationRule } from '../objects/rule-automation';
-import { ServiceDomain } from '../objects/services';
 import { environment } from '../../environments/environment';
+import { ServiceDomain } from '../objects/services';
+import { GrowlService, MessageSeverity } from './growl.service';
 
 
 @Injectable()
@@ -21,17 +22,16 @@ export class OttoRestService {
   private ruleIndex: Object;
 
 
-  constructor(private http: Http){ 
-    // console.log("Starting OttoRestService");
-    // let host = config.getConfig("otto-server-host");
-    // let port = config.getConfig("otto-server-port");
+  constructor(
+    private http: Http, 
+    private growl: GrowlService
+  ){ 
     let host = environment.ottoHost;
     let port = environment.ottoPort;
     this.ottoRestUrl =  `http://${host}:${port}/rest`;
   }
 
   getRules(): Promise<AutomationRule[]> {
-    // console.log("getRules() called");
     
     let promise = null;
     
@@ -49,8 +49,7 @@ export class OttoRestService {
           this.updateRuleIndex(); // Rebuild the rules index
           return this.rules.slice(); // Return a copy of the rules
         })
-        .catch(this.handleError);
-      // console.log("getRules() GET promise created");
+        .catch(reason=> this.handleRESTError(reason));
     }
     else {   // Return a copy of the cached rules 
       promise = Promise.resolve(this.rules.slice());
@@ -69,7 +68,7 @@ export class OttoRestService {
           this.entities = response.json().data as string[];
           return this.entities;
         })
-        .catch(this.handleError);
+        .catch(reason=> this.handleRESTError(reason));
     }
     // console.log("getEntities serving a cached copy");
     return Promise.resolve(this.entities.slice());  // Return a copy of the cached entities
@@ -86,7 +85,7 @@ export class OttoRestService {
           // console.log("serviceDomains.length = " + this.serviceDomains.length);
           return this.serviceDomains;
         })
-        .catch(this.handleError);
+        .catch(reason=> this.handleRESTError(reason));
     } 
     return Promise.resolve(this.serviceDomains.slice());
   }
@@ -124,7 +123,7 @@ export class OttoRestService {
     return this.http.put(url, JSON.stringify({data: rule.toJSON()}), {headers: headers})
       .toPromise()
       .then(response => response.json() as OttoRestResponse)
-      .catch(this.handleError);
+      .catch(reason=> this.handleRESTError(reason));
   }
 
   addRule(rule: AutomationRule): void {
@@ -149,9 +148,11 @@ export class OttoRestService {
     }
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);   // for demo purposes only
-    return Promise.reject(error.message || error);
+  private handleRESTError(reason: any): void{
+    let message = 'OttoRESTService: failure during REST request';
+    console.error(message);
+    this.growl.addPersistentMessage(MessageSeverity.ERROR, message, null);
+    // return Promise.reject(message);
   }
 
 

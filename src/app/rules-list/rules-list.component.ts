@@ -25,19 +25,21 @@ export class RulesListComponent implements OnInit {
     }
 
     _process_rules(rules: AutomationRule[]): void {
-        this.rules = rules;
+        if (rules != null) {
+            this.rules = rules;
 
-        let group_dict = {};
-        for (let rule of rules) {
-            if (!(rule.group in group_dict)) {
-                group_dict[rule.group] = [];
+            let group_dict = {};
+            for (let rule of rules) {
+                if (!(rule.group in group_dict)) {
+                    group_dict[rule.group] = [];
+                }
+                group_dict[rule.group].push(rule);
             }
-            group_dict[rule.group].push(rule);
-        }
 
-        for (let group in group_dict) {
-            let g = { "group": group, "rules": group_dict[group] } as RuleGroupList;
-            this.groups.push(g);
+            for (let group in group_dict) {
+                let g = { "group": group, "rules": group_dict[group] } as RuleGroupList;
+                this.groups.push(g);
+            }
         }
     }
 

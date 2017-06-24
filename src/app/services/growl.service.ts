@@ -6,6 +6,7 @@ import { Message } from 'primeng/primeng';
 export class GrowlService {
 
     public messages: Message[] = [];
+    public persistentMessages: Message[] = [];
 
     private sevs = ["success", "info", "warn", "error"]
 
@@ -26,6 +27,16 @@ export class GrowlService {
         }
         this.addMessage(severity, summary, detail);
     }
+
+    public addPersistentMessage(severity: MessageSeverity, summary: string, detail: string): void {
+        this.persistentMessages = [...this.persistentMessages]; // spread syntax, workaround for messsages not clearing:  http://bit.ly/2tYFX8s
+        this.persistentMessages.push({
+            severity: this.sevs[severity],
+            summary: summary,
+            detail: detail
+        });
+    }
+
 } // class GrowlService
 
 export enum MessageSeverity {

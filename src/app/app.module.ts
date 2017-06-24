@@ -8,7 +8,7 @@ import {
     DropdownModule, InputTextModule, SpinnerModule,
     ButtonModule, SelectButtonModule, InputMaskModule,
     CheckboxModule, PanelModule, DialogModule, //InputSwitchModule,
-    GrowlModule
+    GrowlModule, MessagesModule
 } from 'primeng/primeng';
 import { PrettyJsonModule } from 'angular2-prettyjson';
 
@@ -44,7 +44,8 @@ import { OttoRestService } from './services/otto-rest.service';
         PanelModule,
         DialogModule,
         // InputSwitchModule,
-        GrowlModule
+        GrowlModule,
+        MessagesModule ,
     ],
     declarations: [
         AppComponent,
@@ -59,8 +60,8 @@ import { OttoRestService } from './services/otto-rest.service';
         DataFieldsComponent
     ],
     providers: [
-        OttoRestService,
         GrowlService,
+        OttoRestService,
     ],
     bootstrap: [AppComponent]
 })
