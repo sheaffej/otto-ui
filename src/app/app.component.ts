@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/primeng';
 import { AutomationRule } from './objects/rule-automation';
-import { GrowlService } from './services/growl.service';
+import { GrowlService, MessageSeverity } from './services/growl.service';
 import { OttoRestService } from './services/otto-rest.service';
+import { StateFlagsService } from './services/state-flags.service';
 
 @Component({
     selector: 'app-root',
@@ -17,7 +18,8 @@ export class AppComponent {
     constructor(
         private ottoService: OttoRestService,
         private router: Router,
-        private growl: GrowlService
+        private growl: GrowlService,
+        private stateFlags: StateFlagsService,
     ) {
         console.log("Constructing app.component");
 
@@ -40,6 +42,19 @@ export class AppComponent {
         let newRule = new AutomationRule();
         this.ottoService.addRule(newRule);
         this.router.navigate([`/rule/${newRule.id}`]);
+    }
+
+    onReloadClick(): void {
+        this.ottoService.serverReloadRules()
+            .then(resp => {
+                if (resp.success) {
+                    this.growl.addSuccessMessage(true, resp.message, null);
+                    this.stateFlags.needsServerReload = false;
+                }
+                else {
+                    this.growl.addPersistentMessage(MessageSeverity.ERROR, resp.message, null);
+                }
+            });
     }
 
 } // class AppComponent

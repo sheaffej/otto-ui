@@ -1,20 +1,26 @@
 <nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="">Ottomation UI</a>
+            <a class="navbar-brand" href="">Otto UI</a>
         </div>
         <ul class="nav navbar-nav">
             <li><a [routerLink]="['/rule-list']">Rule List</a></li>
-            <li><a href="#">Page 1</a></li>
+            <!--<li><a href="#">Page 1</a></li>
             <li><a href="#">Page 2</a></li>
-            <li><a href="#">Page 3</a></li>
+            <li><a href="#">Page 3</a></li>-->
         </ul>
-        <button class="btn btn-danger navbar-btn" (click)="onAddClick()">Add Automation</button>
+
+        <button class="btn btn-basic navbar-btn pull-right" (click)="onAddClick()">Add Automation</button>
+        <button 
+            *ngIf="stateFlags.needsServerReload" 
+            class="btn btn-warning navbar-btn pull-right" 
+            style="margin-right: 10px"
+            (click)="onReloadClick()">Reload on Server</button>
 
     </div>
 </nav>
 
-<p-growl [(value)]="growl.messages" life=5000></p-growl>
+<p-growl [(value)]="growl.messages" life=3000></p-growl>
 <p-messages [(value)]="growl.persistentMessages"></p-messages>
 
 <router-outlet></router-outlet>

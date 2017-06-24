@@ -16,7 +16,7 @@
                     <input type="text" id="rule.group" class="form-control" pInputText [(ngModel)]="rule.group"/>
                 </div>
 
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <label for="rule.enabled" class="control-label">Enabled:</label>
                     <p-checkbox id="rule.enabled" binary="true" 
                         [(ngModel)]="rule.enabled" 
@@ -25,8 +25,10 @@
                     <!--<p-inputSwitch id="rule.enabled" inputId="rule.enabled" [(ngModel)]="rule.enabled"></p-inputSwitch>-->
                 </div>
 
-                <div class="col-md-1">
-                    <button pButton label="Save" type="button" class=""  (click)="onSaveClick()"></button>
+                <div class="col-md-2">
+                    <!--<button pButton label="Save" type="button" class=""  (click)="onSaveClick()"></button>-->
+                    <button *ngIf="stateFlags.needsSave" class="btn btn-danger pull-right" (click)="onSaveClick()">Needs Saving</button>
+
                 </div>
             </div>
 

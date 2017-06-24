@@ -25,6 +25,7 @@ import { RulesListComponent } from './rules-list/rules-list.component';
 import { ServiceInfoComponent } from './service-info/service-info.component';
 import { GrowlService } from './services/growl.service';
 import { OttoRestService } from './services/otto-rest.service';
+import { StateFlagsService } from './services/state-flags.service';
 
 @NgModule({
     imports: [
@@ -62,6 +63,7 @@ import { OttoRestService } from './services/otto-rest.service';
     providers: [
         GrowlService,
         OttoRestService,
+        StateFlagsService,
     ],
     bootstrap: [AppComponent]
 })
