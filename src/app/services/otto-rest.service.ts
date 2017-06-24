@@ -18,6 +18,8 @@ export class OttoRestService {
   private entities: string[] = [];
   private serviceDomains: ServiceDomain[] = [];
 
+  private ruleIndex: Object;
+
 
   constructor(private http: Http){ 
     // console.log("Starting OttoRestService");
@@ -44,7 +46,8 @@ export class OttoRestService {
             .map(rule_obj => {
               return AutomationRule.from_object(rule_obj);
             });
-          return this.rules.slice();
+          this.updateRuleIndex(); // Rebuild the rules index
+          return this.rules.slice(); // Return a copy of the rules
         })
         .catch(this.handleError);
       // console.log("getRules() GET promise created");
@@ -129,8 +132,22 @@ export class OttoRestService {
     // The rule will needed to be later saved for the server to have
     // this rule.
     this.rules.push(rule);
+    this.updateRuleIndex();
   }
 
+  enableRule(ruleId: string, enabled: boolean): Promise<OttoRestResponse> {
+    let rule = this.ruleIndex[ruleId] as AutomationRule;
+    rule.enabled = enabled;
+    return this.saveRule(rule);
+  }
+
+
+  updateRuleIndex(): void {
+    this.ruleIndex = {};
+    for (let rule of this.rules) {
+      this.ruleIndex[rule.id] = rule;
+    }
+  }
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);   // for demo purposes only

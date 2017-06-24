@@ -1,19 +1,23 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Message } from 'primeng/primeng';
 import { AutomationRule } from './objects/rule-automation';
+import { GrowlService } from './services/growl.service';
 import { OttoRestService } from './services/otto-rest.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  // styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
 })
 export class AppComponent {
-  title = 'Otto UI';
+    
+    private title = 'Otto UI';
+    // private growlMessages: Message[];
 
     constructor(
         private ottoService: OttoRestService,
-        private router: Router
+        private router: Router,
+        private growl: GrowlService
     ) {
         console.log("Constructing app.component");
 
@@ -27,7 +31,9 @@ export class AppComponent {
         // )
     }  // constructor
 
-    ngOnInit() {}
+    ngOnInit() {
+        // this.growlMessages = this.growl.messages;
+    }
 
     onAddClick(): void {
         console.log("Add Rule Clicked");

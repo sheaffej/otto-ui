@@ -29,7 +29,7 @@
             </td>
             <td class="col-md-9">{{rule.description}}</td>
             <td class="col-md-1 text-center">
-              <p-checkbox [(ngModel)]="rule.enabled" binary="true"></p-checkbox>
+              <p-checkbox [(ngModel)]="rule.enabled" binary="true" (onChange)="onEnabledChange($event, rule.id)"></p-checkbox>
             </td>
           </tr>
         </tbody>

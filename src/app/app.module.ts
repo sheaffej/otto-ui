@@ -7,12 +7,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
     DropdownModule, InputTextModule, SpinnerModule,
     ButtonModule, SelectButtonModule, InputMaskModule,
-    CheckboxModule, PanelModule, DialogModule, InputSwitchModule
+    CheckboxModule, PanelModule, DialogModule, //InputSwitchModule,
+    GrowlModule
 } from 'primeng/primeng';
 import { PrettyJsonModule } from 'angular2-prettyjson';
 
 import { AppRoutingModule } from './app-routing.module';
-
 import { AppComponent } from './app.component';
 import { DataFieldsComponent } from './data-fields/data-fields.component';
 import { RuleActionSeqComponent } from './rule-action-seq/rule-action-seq.component';
@@ -23,6 +23,7 @@ import { RuleDetailComponent } from './rule-detail/rule-detail.component';
 import { RuleTriggerComponent } from './rule-trigger/rule-trigger.component';
 import { RulesListComponent } from './rules-list/rules-list.component';
 import { ServiceInfoComponent } from './service-info/service-info.component';
+import { GrowlService } from './services/growl.service';
 import { OttoRestService } from './services/otto-rest.service';
 
 @NgModule({
@@ -42,7 +43,8 @@ import { OttoRestService } from './services/otto-rest.service';
         CheckboxModule,
         PanelModule,
         DialogModule,
-        InputSwitchModule,
+        // InputSwitchModule,
+        GrowlModule
     ],
     declarations: [
         AppComponent,
@@ -58,6 +60,7 @@ import { OttoRestService } from './services/otto-rest.service';
     ],
     providers: [
         OttoRestService,
+        GrowlService,
     ],
     bootstrap: [AppComponent]
 })
