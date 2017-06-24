@@ -6,9 +6,10 @@ import { RuleActionSequence } from './rule-actions';
 export class AutomationRule {
   
   private _id: string;
-  private _description: string = null;
+  private _description: string = '';     // Description should not be Null
   private _group: string = null;
   private _enabled: boolean = true;
+  private _notes: string = '';           // Notes should not be Null
 
   private _triggers: RuleTrigger[] = [];
   private _condition: RuleCondition = null;
@@ -29,10 +30,12 @@ export class AutomationRule {
   get description(): string { return this._description; }
   get group(): string { return this._group; }
   get enabled(): boolean {return this._enabled; }
+  get notes(): string { return this._notes };
 
   set description(description: string) { this._description = description; }
   set group(group: string) { this._group = group; }
   set enabled(enable: boolean) { this._enabled = enable; }
+  set notes(notes: string) { this._notes = notes };
 
   get triggers(): RuleTrigger[] { return this._triggers; }
   get condition(): RuleCondition { return this._condition; }
@@ -80,6 +83,7 @@ export class AutomationRule {
     o.description = this._description;
     o.enabled = this._enabled;
     o.group = this._group;
+    o.notes = this._notes;
     o.triggers = this._triggers;
     if (this._condition != null) {
       o.rule_condition = this._condition;
@@ -98,6 +102,7 @@ export class AutomationRule {
     if ("description" in obj) { rule.description = obj.description }
     if ("group" in obj) { rule.group = obj.group }
     if ("enabled" in obj) { rule.enabled = obj.enabled }
+    if ("notes" in obj) { rule.notes = obj.notes }
 
 
     // Triggers

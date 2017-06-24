@@ -13,7 +13,10 @@
 
                 <label for="rule.group" class="control-label col-md-1">Group:</label>
                 <div class="col-md-2">
-                    <input type="text" id="rule.group" class="form-control" pInputText [(ngModel)]="rule.group"/>
+                    <input pInputText type="text" id="rule.group" 
+                        class="form-control"  
+                        [(ngModel)]="rule.group"
+                        (change)="onMetadataChange()" />
                 </div>
 
                 <div class="col-md-4">
@@ -32,11 +35,26 @@
                 </div>
             </div>
 
-            <div class="form-group" style="margin-bottom: 0px">
+            <div class="form-group">
                 <label for="rule.description" class="control-label col-md-1">Description:</label>
                 <div class="col-md-11">
-                    <input type="text" id="rule.description" class="form-control" pInputText [(ngModel)]="rule.description"/>
+                    <input pInputText type="text" id="rule.description" 
+                        class="form-control" 
+                        [(ngModel)]="rule.description"
+                        (change)="onMetadataChange()" />
                 </div>
+            </div>
+
+            <div class="form-group"  style="margin-bottom: 0px">
+                <p-panel header="Notes" class="col-md-12"
+                    [toggleable]="true" 
+                    [collapsed]="true">
+                    <textarea pInputTextarea rows="5" cols="30" autoResize="autoResize" class="form-control"
+                        [(ngModel)]="rule.notes"  
+                        (change)="onMetadataChange()">
+                    </textarea>
+                </p-panel>
+
             </div>
 
         </div>
@@ -110,6 +128,12 @@
 
 
     <!-- Panel Debug Footer -->
+    <!--<div class="panel-footer no-padding">
+        <textarea pInputTextarea autoResize="autoResize" 
+            [(ngModel)]="rule.notes"  
+            (change)="onMetadataChange()">
+        </textarea>
+    </div>-->
     <div class="panel-footer no-padding">
         <p-panel header="Rule JSON" [toggleable]="true" [collapsed]="true">
             <prettyjson [obj]="rule"></prettyjson>

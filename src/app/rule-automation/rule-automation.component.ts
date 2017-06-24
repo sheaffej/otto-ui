@@ -83,6 +83,10 @@ export class RuleAutomationComponent implements OnInit {
             });
     }
 
+    onMetadataChange(): void {
+        this.stateFlags.needsSave = true;
+    }
+
 
     onEnabledChange(enabled: boolean): void {
         // console.log(`${this.rule.id}: ${enabled}`);
