@@ -17,8 +17,8 @@ export class RuleAutomationComponent implements OnInit {
 
     @Input() rule: AutomationRule;
 
-    showDialog: boolean = false;
-    dialogContent: any;
+    // showDialog: boolean = false;
+    // dialogContent: any;
 
     constructor(
         private ottoService: OttoRestService,
@@ -28,10 +28,8 @@ export class RuleAutomationComponent implements OnInit {
     ngOnInit(): void { }
 
     onSaveClick(): void {
-        console.log(`Saving rule ${this.rule.id}`);
         this.ottoService.saveRule(this.rule)
-            .then(resp => this.dialogContent = resp)
-        this.showDialog = true;
+            .then(resp => this.growl.addSuccessMessage(resp.success, resp.message, null))
     }
 
     onAddTriggerClick(): void {

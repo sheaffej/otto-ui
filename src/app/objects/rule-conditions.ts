@@ -135,6 +135,14 @@ export class StateCondition extends RuleCondition {
     this.state = state;
   }
 
+  public toJSON = () => {
+    let o: any = {};
+    o.condition = this.condition;
+    o.entity_id = this.entity_id;
+    o.state = this.state;
+    return o;  
+  }
+
 }
 
 

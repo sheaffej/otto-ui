@@ -56,10 +56,10 @@ export class StateTrigger extends RuleTrigger {
 
   public toJSON = () => {
     let o: any = {};
-      o.platform = this.platform;
-      o.entity_id = this.entity_id;
-      if (this.to != null) { o.to = this.to; }
-      if (this.from != null) { o.from = this.from; }
+    o.platform = this.platform;
+    o.entity_id = this.entity_id;
+    if (this.to != null && this.to.length < 0) { o.to = this.to; }
+    if (this.from != null && this.from.length < 0) { o.from = this.from; }
     return o;
   }
 }
