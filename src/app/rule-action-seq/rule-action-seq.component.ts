@@ -14,6 +14,7 @@ export class RuleActionSeqComponent implements OnInit {
   
   @Input() actionSeq: RuleActionSequence;
   @Output() onRemove = new EventEmitter();
+  @Output() onChange = new EventEmitter();
   
   debug: boolean = false;
 
@@ -50,6 +51,10 @@ export class RuleActionSeqComponent implements OnInit {
 
   onActionRemove(index: number): void {
     this.actionSeq.remove_action(index);
+  }
+
+  onMetadataChange(): void {
+    this.onChange.emit();
   }
 
 } // class RuleActionSeqComponent

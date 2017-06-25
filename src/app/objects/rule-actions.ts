@@ -4,12 +4,15 @@ export class RuleActionSequence {
 
   private _condition: RuleCondition = null;
   private _sequence: RuleActionItem[] = [];
+  private _description: string = null;
 
   constructor() {}
 
   // Accessor methods
   get sequence(): RuleActionItem[] { return this._sequence }
   get condition(): RuleCondition { return this._condition }
+  get description(): string { return this._description }
+  set description(description: string) {this._description = description }
 
   add_action(action:RuleActionItem): void {
     this._sequence.push(action);
@@ -38,6 +41,7 @@ export class RuleActionSequence {
   // Overridden Property Functions
   public toJSON = () => {
     let o: any = {};
+    o.description = this._description;
     if (this._condition != null) {
       o.action_condition = this._condition;
     }
@@ -50,6 +54,10 @@ export class RuleActionSequence {
   static fromObject (obj: any): RuleActionSequence {
     // console.log("RASeq.fromObject: " + JSON.stringify(obj))
     let actionSeq: RuleActionSequence = new RuleActionSequence();
+
+    if ("description" in obj) {
+      actionSeq._description = obj.description;
+    }
 
     if ("action_condition" in obj) {
       // console.log("adding action_condition: " + obj.action_condition.condition);

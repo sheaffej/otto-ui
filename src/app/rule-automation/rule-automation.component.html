@@ -111,7 +111,8 @@
             <div *ngFor="let actionSeq of rule.action_sequences; let i = index" class="col-md-12">
                 <rule-action-seq 
                     [actionSeq]="actionSeq" 
-                    (onRemove)="onActionSequenceRemove(i)">
+                    (onRemove)="onActionSequenceRemove(i)"
+                    (onChange)="onActionSequenceChange(i)">
                 </rule-action-seq>
             </div>
             <div class="col-md-12 form-group">

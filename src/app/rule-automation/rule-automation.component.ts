@@ -74,6 +74,10 @@ export class RuleAutomationComponent implements OnInit {
         this.stateFlags.needsSave = true;
     }
 
+    onActionSequenceChange(index: number): void {
+        this.stateFlags.needsSave = true;
+    }
+
     onSaveClick(): void {
         this.ottoService.saveRule(this.rule)
             .then(resp => {

@@ -9,6 +9,11 @@
     <div class="row">
         <div class="col-md-12"> 
             <label class="control-label">Sequence</label>
+            <input type="text" pInputText
+                    [(ngModel)]="actionSeq.description" 
+                    (blur)="onMetadataChange()" 
+                    (keyup.enter)="onMetadataChange()"/>
+            {{actionSeq.description}}
             <div class=" pull-right">
                 <button pButton label="Remove Sequence" type="button" (click)="onRemoveSeqClick()"></button>
             </div>
