@@ -38,9 +38,10 @@
         </div>
     </div>
 
-    <!-- Entity ID -->
-    <div *ngIf="(uiCondition == 'state') || (uiCondition == 'numeric_state') || uiCondition == 'zone'">
-        <div class="form-group">
+    <div *ngIf="(uiCondition == 'state') || (uiCondition == 'numeric_state') || uiCondition == 'zone'" class="form-group">
+        
+        <!-- Entity ID -->
+        <div class="pull-left">
             <label for="entity.id" class="control-label">Entity Id:</label>  
             <p-dropdown id="entity.id"
                 [options]="uiEntityIdOptions" 
@@ -50,43 +51,58 @@
                 placeholder="Select Entity ID">
             </p-dropdown>
         </div>
+
+        <!-- State Condition -->
+        <div *ngIf="uiCondition == 'state'" class="pull-left" style="padding-left: 10px">
+            <!--<div class="form-group">-->
+                <label for="state" class="control-label">State:</label>
+                <input type="text" pInputText id="state"
+                    [(ngModel)]="uiState" 
+                    (blur)="onChange()" 
+                    (keyup.enter)="onChange()"/>
+            <!--</div>-->
+        </div>
+
+        <!-- Above/Below numeric state -->
+        <div *ngIf="uiCondition == 'numeric_state'" class="pull-left">
+            <!-- Above Value -->
+            <!--<div class="form-group">-->
+                <label for="above.value" class="control-label" style="padding-left: 10px">Above:</label> 
+                <p-spinner id="above.value" size="10" 
+                    [(ngModel)]="uiAboveValue" 
+                    (onChange)="onChange()">
+                </p-spinner>
+            <!--</div>-->
+            <!-- Below Value -->
+            <!--<div class="form-group">-->
+                <label for="below.value" class="control-label" style="padding-left: 10px">Below:</label>
+                <p-spinner id="below.value" size="10" 
+                    [(ngModel)]="uiBelowValue" 
+                    (onChange)="onChange()">
+                </p-spinner>
+            <!--</div>-->
+        </div>
+
+        <!-- Zone Condition -->
+        <div *ngIf="uiCondition == 'zone'" class="pull-left" style="padding-left: 10px">
+                <label for="zone">Zone:</label>
+                <p-dropdown id="zone" 
+                    [options]="uiZoneOptions" 
+                    [(ngModel)]="uiZone"
+                    (onChange)="onChange()" 
+                    placeholder="Select Zone">
+                </p-dropdown>
+        </div>
+
+
     </div>
 
-    <!-- State Condition -->
-    <div *ngIf="uiCondition == 'state'">
-        <div class="form-group">
-            <label for="state" class="control-label">State:</label>
-            <input type="text" pInputText id="state"
-                [(ngModel)]="uiState" 
-                (blur)="onChange()" 
-                (keyup.enter)="onChange()"/>
-        </div>
-    </div>
 
-    <!-- Above/Below numeric state -->
-    <div *ngIf="uiCondition == 'numeric_state'">
-        <!-- Above Value -->
-        <div class="form-group">
-            <label for="above.value" class="control-label">Above:</label> 
-            <p-spinner id="above.value" size="10" 
-                [(ngModel)]="uiAboveValue" 
-                (onChange)="onChange()">
-            </p-spinner>
-        </div>
-        <!-- Below Value -->
-        <div class="form-group">
-            <label for="below.value" class="control-label">Below:</label>
-            <p-spinner id="below.value" size="10" 
-                [(ngModel)]="uiBelowValue" 
-                (onChange)="onChange()">
-            </p-spinner>
-        </div>
-    </div>
 
     <!-- Sun Condition -->
-    <div *ngIf="uiCondition == 'sun'">
+    <div *ngIf="uiCondition == 'sun'" class="form-group">
         <!-- Sun After -->
-        <div class="form-group">
+        <div class="pull-left">
             <label for="sun.after" class="control-label">After:</label>
             <p-dropdown id="sun.after" 
                 [options]="uiSunOptions" 
@@ -96,7 +112,7 @@
             </p-dropdown>
         </div>
         <!-- Sun After Offset -->
-        <div class="form-group">
+        <div class="pull-left" style="padding-left: 10px">
             <label for="after.offset" class="control-label">After offset:</label>
             <p-inputMask id="after.offset"
                 mask="99:99:99" 
@@ -106,7 +122,7 @@
             </p-inputMask>
         </div>
         <!-- Sun Before -->
-        <div class="form-group">
+        <div class="pull-left" style="padding-left: 10px">
             <label for="sun.before" class="control-label">Before:</label> 
             <p-dropdown id="sun.before" 
                 [options]="uiSunOptions" 
@@ -116,7 +132,7 @@
             </p-dropdown>
         </div>
         <!-- Sun Before Offset -->
-        <div class="form-group">
+        <div class="pull-left" style="padding-left: 10px">
             <label for="before.offset" class="control-label">Before offset:</label>
             <p-inputMask id="before.offset" 
                 mask="99:99:99" 
@@ -129,25 +145,28 @@
 
     <!-- Time Condition-->
     <div *ngIf="uiCondition == 'time'">
-        <!-- Time After -->
-        <div class="form-group">
-            <label for="time.after" class="control-label">After:</label>
-            <p-inputMask id="time.after"
-                mask="99:99:99" 
-                [(ngModel)]="uiTimeAfter" 
-                placeholder="HH:MM:SS" 
-                (onComplete)="onChange()">
-            </p-inputMask>
-        </div>
-        <!-- Time Before -->
-        <div class="form-group">
-            <label for="time.before" class="control-label">Before:</label>
-            <p-inputMask id="time.before"
-                mask="99:99:99" 
-                [(ngModel)]="uiTimeBefore" 
-                placeholder="HH:MM:SS" 
-                (onComplete)="onChange()">
-            </p-inputMask>
+        <div  class="form-group">
+            <!-- Time After -->
+            <div class="pull-left">
+                <label for="time.after" class="control-label">After:</label>
+                <p-inputMask id="time.after"
+                    mask="99:99:99" 
+                    [(ngModel)]="uiTimeAfter" 
+                    placeholder="HH:MM:SS" 
+                    (onComplete)="onChange()">
+                </p-inputMask>
+            </div>
+            <!-- Time Before -->
+            <div class="pull-left" style="padding-left: 10px">
+                <label for="time.before" class="control-label">Before:</label>
+                <p-inputMask id="time.before"
+                    mask="99:99:99" 
+                    [(ngModel)]="uiTimeBefore" 
+                    placeholder="HH:MM:SS" 
+                    (onComplete)="onChange()">
+                </p-inputMask>
+            </div>
+            <div class="clearfix"></div>
         </div>
         <!-- Time Weekday -->
         <div class="form-group">
@@ -160,18 +179,6 @@
         </div>
     </div>
 
-    <!-- Zone Condition -->
-    <div *ngIf="uiCondition == 'zone'">
-        <div class="form-group">
-            <label for="zone">Zone:</label>
-            <p-dropdown id="zone" 
-                [options]="uiZoneOptions" 
-                [(ngModel)]="uiZone"
-                (onChange)="onChange()" 
-                placeholder="Select Zone">
-            </p-dropdown>
-        </div>
-    </div>
 
     <div *ngIf="(uiCondition == 'and') || (uiCondition =='or')" class="">
         <!--&nbsp;&nbsp;&nbsp;-->

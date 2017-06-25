@@ -36,13 +36,13 @@
     </div>
 
     <!-- To/From State -->
-    <div *ngIf="(uiPlatform == 'state')">
-        <div class="form-group">
+    <div *ngIf="(uiPlatform == 'state')" class="form-group">
+        <div class="pull-left">
             <label for="to.state" class="control-label">To State:</label>  
             <input type="text" id="to.state" pInputText size="15"
                 [(ngModel)]="uiToState" (blur)="onChange()" (keyup.enter)="onChange()"/>
         </div>
-        <div class="">
+        <div class="pull-right">
             <label for="from.state" class="control-label">From State:</label>  
             <input type="text" id="from.state" pInputText size="15"
                 [(ngModel)]="uiFromState" (blur)="onChange()" (keyup.enter)="onChange()"/>
