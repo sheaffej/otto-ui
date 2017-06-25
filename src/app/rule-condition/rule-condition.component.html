@@ -16,11 +16,6 @@
                 </p-dropdown>
             </div>
 
-            <div *ngIf="(uiCondition == 'and') || (uiCondition =='or')" class="pull-left">
-                &nbsp;&nbsp;&nbsp;
-                <button pButton label="Add" type="button" (click)="onAddClick()"></button>
-            </div>
-
             <div class="pull-right">
                 <button pButton label="Remove" type="button" (click)="onRemoveClick()"></button>
             </div>
@@ -176,6 +171,11 @@
                 placeholder="Select Zone">
             </p-dropdown>
         </div>
+    </div>
+
+    <div *ngIf="(uiCondition == 'and') || (uiCondition =='or')" class="">
+        <!--&nbsp;&nbsp;&nbsp;-->
+        <button pButton label="Add" type="button" (click)="onAddClick()"></button>
     </div>
 
 </div>
