@@ -127,13 +127,13 @@
     </div> <!-- End panel-body -->   
 
 
-    <!-- Panel Debug Footer -->
-    <!--<div class="panel-footer no-padding">
-        <textarea pInputTextarea autoResize="autoResize" 
-            [(ngModel)]="rule.notes"  
-            (change)="onMetadataChange()">
-        </textarea>
-    </div>-->
+    <div class="panel-footer">
+        <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-danger pull-left" (click)="onDeleteClick()">Delete Rule</button>
+        </div>
+        </div>
+    </div>
     <div class="panel-footer no-padding">
         <p-panel header="Rule JSON" [toggleable]="true" [collapsed]="true">
             <prettyjson [obj]="rule"></prettyjson>
@@ -141,6 +141,9 @@
     </div>
 
 </div>  <!-- Panel: AutomationRule -->
+
+<!-- Delete Rule Dialg -->
+<p-confirmDialog header="Delete rule?" width="425"></p-confirmDialog>
 
 
 <!-- Save Rule Dialog -->

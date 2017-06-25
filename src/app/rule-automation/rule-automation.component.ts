@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PrettyJsonComponent } from 'angular2-prettyjson';
+import { ConfirmationService } from 'primeng/primeng';
 
 import { AutomationRule } from '../objects/rule-automation'
 import { AndCondition, RuleCondition } from '../objects/rule-conditions';
@@ -25,6 +27,8 @@ export class RuleAutomationComponent implements OnInit {
         private ottoService: OttoRestService,
         private growl: GrowlService,
         private stateFlags: StateFlagsService,
+        private confirmService: ConfirmationService,
+        private router: Router,
     ) { }
 
     ngOnInit(): void { }
@@ -81,6 +85,32 @@ export class RuleAutomationComponent implements OnInit {
                     this.growl.addPersistentMessage(MessageSeverity.ERROR, resp.message, null);
                 }
             });
+    }
+
+    onDeleteClick(): void {
+        this.confirmService.confirm({
+            message: `Confirm you want to delete rule ${this.rule.id}<br/><br/>${this.rule.description}`,
+            accept: () => {
+                // console.log("This will delete a rule");
+                this.ottoService.deleteRule(this.rule.id)
+                    .then(resp => {
+                        if (resp.success) {
+                            this.growl.addSuccessMessage(resp.success, `Rule ${this.rule.id} deleted`, null)
+                            this.ottoService.serverReloadRules()
+                                .then(resp2 => {
+                                    if (resp2.success){
+                                        this.growl.addSuccessMessage(resp.success, 'Server reloaded', null)
+                                        this.ottoService.getRules(true)
+                                            .then(resp3 => this.router.navigate(['/']))
+                                    }
+                                })
+                        }
+                        else {
+                            this.growl.addPersistentMessage(MessageSeverity.ERROR, resp.message, null);
+                        }
+                    })
+            }
+        });
     }
 
     onMetadataChange(): void {

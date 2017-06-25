@@ -8,7 +8,8 @@ import {
     DropdownModule, InputTextModule, SpinnerModule,
     ButtonModule, SelectButtonModule, InputMaskModule,
     CheckboxModule, PanelModule, DialogModule, //InputSwitchModule,
-    GrowlModule, MessagesModule, InputTextareaModule
+    GrowlModule, MessagesModule, InputTextareaModule,
+    ConfirmDialogModule, ConfirmationService,
 } from 'primeng/primeng';
 import { PrettyJsonModule } from 'angular2-prettyjson';
 
@@ -48,6 +49,7 @@ import { StateFlagsService } from './services/state-flags.service';
         GrowlModule,
         MessagesModule,
         InputTextareaModule,
+        ConfirmDialogModule,
     ],
     declarations: [
         AppComponent,
@@ -65,6 +67,7 @@ import { StateFlagsService } from './services/state-flags.service';
         GrowlService,
         OttoRestService,
         StateFlagsService,
+        ConfirmationService,
     ],
     bootstrap: [AppComponent]
 })

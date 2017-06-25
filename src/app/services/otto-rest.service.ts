@@ -33,11 +33,11 @@ export class OttoRestService {
         this.ottoRestUrl = `http://${host}:${port}/rest`;
     }
 
-    getRules(): Promise<AutomationRule[]> {
+    getRules(force: boolean = false): Promise<AutomationRule[]> {
 
         let promise = null;
 
-        if (this.rules.length == 0) {    // Get a fresh copy of the rules
+        if (force || (this.rules.length == 0)) {    // Get a fresh copy of the rules
             console.log("getRules() fetching from REST API");
 
             promise = this.http.get(`${this.ottoRestUrl}/rules`)
@@ -134,6 +134,17 @@ export class OttoRestService {
         // this rule.
         this.rules.push(rule);
         this.updateRuleIndex();
+    }
+
+    deleteRule(ruleId: string): Promise<OttoRestResponse> {
+        let url = `${this.ottoRestUrl}/rule/${ruleId}`;
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        return this.http.delete(url, { headers: headers })
+            .toPromise()
+            .then(response => response.json() as OttoRestResponse)
+            .catch(reason => this.handleRESTError(reason));
     }
 
     enableRule(ruleId: string, enabled: boolean): Promise<OttoRestResponse> {
