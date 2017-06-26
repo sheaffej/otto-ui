@@ -28,34 +28,36 @@
 <!-- Panel body -->
 <div class="panel-body">
 
-    <!-- Domain -->
-    <div *ngIf="uiActionType == 'service'">
-        <div class="form-group">
-            <label for="domain.name" class="control-label">Domain:</label>
-            <p-dropdown id="domain.name"
-                [options]="uiDomainOptions" 
-                [(ngModel)]="uiDomain"
-                (onChange)="onDomainChange()" 
-                placeholder="Select Domain">
-            </p-dropdown>
+    <div *ngIf="uiActionType == 'service'" class="col-md-12 no-padding form-group">
+        <!-- Domain -->
+        <div class="pull-left">
+            <!--<div class="form-group">-->
+                <label for="domain.name" class="control-label">Domain:</label>
+                <p-dropdown id="domain.name"
+                    [options]="uiDomainOptions" 
+                    [(ngModel)]="uiDomain"
+                    (onChange)="onDomainChange()" 
+                    placeholder="Select Domain">
+                </p-dropdown>
+            <!--</div>-->
         </div>
-    </div>
 
-    <!-- Service -->
-    <div *ngIf="uiActionType == 'service'">
-        <div class="form-group">
-            <label for="service.type" class="control-label">Service:</label>
-            <p-dropdown id="service.type"
-                [options]="uiServiceOptions" 
-                [(ngModel)]="uiService"
-                (onChange)="onChange()" 
-                placeholder="Select Service">
-            </p-dropdown>
+        <!-- Service -->
+        <div class="pull-left" style="padding-left: 20px">
+            <!--<div class="form-group">-->
+                <label for="service.type" class="control-label">Service:</label>
+                <p-dropdown id="service.type"
+                    [options]="uiServiceOptions" 
+                    [(ngModel)]="uiService"
+                    (onChange)="onChange()" 
+                    placeholder="Select Service">
+                </p-dropdown>
+            <!--</div>-->
         </div>
     </div>
 
     <!-- Service Data -->
-    <div *ngIf="uiActionType == 'service'">
+    <div *ngIf="uiActionType == 'service'" class="form-group">
         <!--<div class="form-group">
             <label for="service.data" class="control-label">Service Data:</label>
             <input type="text" pInputText 
