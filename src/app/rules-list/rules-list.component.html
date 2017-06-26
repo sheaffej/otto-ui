@@ -3,20 +3,20 @@
 <!--<div class="col-md-12">-->
 
 
-<div *ngFor="let group of groups" class="col-md-6">
+<div *ngFor="let group of groups">
 <div class="panel panel-primary">
 
   <div class="panel-heading" >
     <div class="row">
       <div class=" col-md-12"> 
-        {{group.group}}
+        <b>{{group.group}}</b>
       </div>
     </div>
   </div>
 
   <div class="panel-body">
 
-      <table class="table">
+      <!--<table class="table">
         <thead>
           <tr>
             <th class="col-md-2">Rule ID</th>
@@ -36,7 +36,34 @@
             </td>
           </tr>
         </tbody>
-      </table>
+      </table>-->
+
+      <div>
+        <div *ngFor="let rule of group.rules">
+          <div class="col-md-4" style="padding: 5px">
+            <div class="panel panel-primary" style="margin: 0px">
+              <a [routerLink]="['/rule', rule.id]" style="text-decoration: none">
+                <div class="panel-body">
+                    <div class="">
+                      <!--<a [routerLink]="['/rule', rule.id]">{{rule.id}}</a>-->
+                      <b>{{rule.id}}</b>
+                      <div class="pull-right">
+                        <label for="enabled" class="control-label">Enabled: </label>  
+                        <p-checkbox id="enabled" binary="true"
+                          [(ngModel)]="rule.enabled"
+                          (onChange)="onEnabledChange($event, rule.id)">
+                        </p-checkbox>
+                      </div>
+                    </div>
+                    <div>
+                      {{rule.description}}
+                    </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
 
   </div>
 
