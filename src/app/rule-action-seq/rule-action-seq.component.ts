@@ -17,6 +17,7 @@ export class RuleActionSeqComponent implements OnInit {
   @Output() onChange = new EventEmitter();
   
   debug: boolean = false;
+  showDetails: boolean = true;
 
   constructor() { }
 
@@ -55,6 +56,15 @@ export class RuleActionSeqComponent implements OnInit {
 
   onMetadataChange(): void {
     this.onChange.emit();
+  }
+
+  toggleDetails(): void {
+    if (this.showDetails) {
+      this.showDetails = false;
+    }
+    else {
+      this.showDetails = true;
+    }
   }
 
 } // class RuleActionSeqComponent

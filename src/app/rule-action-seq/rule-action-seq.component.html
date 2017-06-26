@@ -7,22 +7,32 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12"> 
+        <div class="col-md-12" style="padding-bottom: 5px"> 
             <label class="control-label">Sequence</label>
-            <input type="text" pInputText
-                    [(ngModel)]="actionSeq.description" 
-                    (blur)="onMetadataChange()" 
-                    (keyup.enter)="onMetadataChange()"/>
-            {{actionSeq.description}}
+                <a (click)="toggleDetails()" style="padding-left: 10px">
+                    <span *ngIf="showDetails">Hide Details</span>
+                    <span *ngIf="!showDetails">Show Details</span>                    
+                </a>
+
             <div class=" pull-right">
                 <button pButton label="Remove Sequence" type="button" (click)="onRemoveSeqClick()"></button>
             </div>
         </div>
+        <div class="col-md-12">
+            <input type="text" pInputText style="width: 100%"
+                [(ngModel)]="actionSeq.description" 
+                (blur)="onMetadataChange()" 
+                (keyup.enter)="onMetadataChange()"/>
+        </div>
+
     </div>
 
 </div> <!-- End panel heading -->
 
-<div class="panel-body">
+<div class="panel-body" style="padding-bottom: 0px">
+
+<div *ngIf="showDetails">
+
 
     <!-- Action Condition -->
     <div *ngIf='actionSeq.condition != null'>
@@ -50,6 +60,7 @@
         <button pButton label="Add Action" type="button" (click)="onAddActionClick()"></button>
     </div>
 
+</div> <!-- hidable section -->
 
 </div> <!-- End panel body -->
 </div> <!-- End panel -->
