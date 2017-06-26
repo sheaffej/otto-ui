@@ -67,7 +67,9 @@ export class OttoRestService {
                 .toPromise()
                 .then(response => {
                     console.log("getEntities() response received");
-                    this.entities = response.json().data as string[];
+                    this.entities = 
+                        (response.json().data as any[])
+                            .map(entry => entry["entity_id"])
                     return this.entities;
                 })
                 .catch(reason => this.handleRESTError(reason));
