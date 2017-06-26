@@ -81,8 +81,8 @@ export class NumericStateTrigger extends RuleTrigger {
     let o: any = {};
     o.platform = this.platform;
     o.entity_id = this.entity_id;
-    if (this.above_value != null) { o.above = this.above_value; }
-    if (this.below_value != null) { o.below = this.below_value; }    
+    if (this.above_value != null) { o.above_value = this.above_value; }
+    if (this.below_value != null) { o.below_value = this.below_value; }    
     return o;
   }
 }
