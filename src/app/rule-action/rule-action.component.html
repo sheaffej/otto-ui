@@ -34,6 +34,7 @@
             <!--<div class="form-group">-->
                 <label for="domain.name" class="control-label">Domain:</label>
                 <p-dropdown id="domain.name"
+                    filter=true
                     [options]="uiDomainOptions" 
                     [(ngModel)]="uiDomain"
                     (onChange)="onDomainChange()" 
