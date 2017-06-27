@@ -60,7 +60,7 @@ export class OttoRestService {
         return promise;
     }
 
-    getEntities(): Promise<string[]> {
+    getEntities(hidden: boolean=true): Promise<string[]> {
         if (this.entities.length == 0) {   // Get a fresh copy of the rules
             console.log("getEntities() fetching from REST API");
             return this.http.get(`${this.ottoRestUrl}/entities`)
@@ -69,6 +69,7 @@ export class OttoRestService {
                     console.log("getEntities() response received");
                     this.entities = 
                         (response.json().data as any[])
+                            .filter(obj => obj.hidden == false)
                             .map(entry => entry["entity_id"])
                     return this.entities;
                 })
