@@ -26,8 +26,8 @@ export class RuleCondition {
     else if (obj.condition == 'numeric_state') {
       cond = new NumericStateCondition(
         obj.entity_id,
-        obj.above,
-        obj.below
+        obj.above_value,
+        obj.below_value
       )
     }
     else if (obj.condition == 'state') {
