@@ -3,8 +3,10 @@ import { SelectItem } from 'primeng/primeng';
 import {PrettyJsonComponent} from 'angular2-prettyjson';
 
 import { AutomationRule } from '../objects/rule-automation';
-import { RuleTrigger, StateTrigger, NumericStateTrigger, EventTrigger } from '../objects/rule-triggers';
-import { OttoRestService } from '../services/otto-rest.service'
+import { EventTrigger, NumericStateTrigger, RuleTrigger, StateTrigger, TimeTrigger } from '../objects/rule-triggers';
+import { OttoRestService } from '../services/otto-rest.service';
+
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'rule-trigger',
@@ -50,6 +52,14 @@ export class RuleTriggerComponent implements OnInit {
   uiEventType: string;
   uiEventDataObj: any;
 
+  // Time Type
+  uiTimeMinute: string;
+  uiTimeHour: string;
+  uiTimeDayOfMonth: string;
+  uiTimeMonth: string;
+  uiTimeWeekdays: string;
+  uiTimeTimezone: string;
+  uiTimeTimezoneOptions: SelectItem[];
 
   constructor(private ottoService: OttoRestService) { }
 
@@ -57,7 +67,7 @@ export class RuleTriggerComponent implements OnInit {
   ngOnInit() {
     // Load Platform Options
     this.uiPlatformOptions = [];
-    let options = ["state", "numeric_state", "event"];
+    let options = ["state", "numeric_state", "time", "event"];
     options.map(option => this.uiPlatformOptions.push({label: option, value: option}));
 
     // Load Entity Id Options
@@ -79,9 +89,15 @@ export class RuleTriggerComponent implements OnInit {
     ];
     options.map(option => this.uiEventTypeOptions.push({label: option, value: option }));
 
-    // Initialize uiXXX components
-    // this.trigger = this.rule.triggers[this.triggerIndex];
+    // Load Timezone Options
+    this.uiTimeTimezoneOptions = [];
+    options = [
+      environment.timezone,
+      "UTC"
+    ];
+    options.map(option => this.uiTimeTimezoneOptions.push({label: option, value: option }));
 
+    // Initialize uiXXX components
     if (this.trigger != null) {
     
       this.uiPlatform = this.trigger.platform;
@@ -101,6 +117,15 @@ export class RuleTriggerComponent implements OnInit {
       else if (this.trigger instanceof EventTrigger) {
         this.uiEventType = this.trigger.event_type;
         this.uiEventDataObj = JSON.stringify(this.trigger.event_data_obj);
+      }
+
+      else if (this.trigger instanceof TimeTrigger) {
+        this.uiTimeMinute = this.trigger.minute;
+        this.uiTimeHour = this.trigger.hour;
+        this.uiTimeDayOfMonth = this.trigger.day_of_month;
+        this.uiTimeMonth = this.trigger.month;
+        this.uiTimeWeekdays = this.trigger.weekdays;
+        this.uiTimeTimezone = this.trigger.tz;
       }
     }
 
@@ -134,6 +159,14 @@ export class RuleTriggerComponent implements OnInit {
       this.uiEventType = null;
       this.uiEventDataObj = '{}';
     }
+    else if (this.uiPlatform == 'time') {
+      this.uiTimeMinute = null;
+      this.uiTimeHour = null;
+      this.uiTimeDayOfMonth = null;
+      this.uiTimeMonth = null;
+      this.uiTimeWeekdays = null;
+      this.uiTimeTimezone = null;
+    }
 
     this.recreateTrigger();
   }
@@ -155,6 +188,22 @@ export class RuleTriggerComponent implements OnInit {
     else if (this.uiPlatform == 'event') {
       this.replaceTrigger(new EventTrigger(this.uiEventType, JSON.parse(this.uiEventDataObj)));
     }
+    else if (this.uiPlatform == 'time') {
+      if (this.isEmpty(this.uiTimeMinute)) { this.uiTimeMinute = null }
+      if (this.isEmpty(this.uiTimeHour)) { this.uiTimeHour = null }
+      if (this.isEmpty(this.uiTimeDayOfMonth)) { this.uiTimeDayOfMonth = null }
+      if (this.isEmpty(this.uiTimeMonth)) { this.uiTimeHour = null }
+      if (this.isEmpty(this.uiTimeWeekdays)) { this.uiTimeWeekdays = null }
+
+      this.replaceTrigger(new TimeTrigger(
+        this.uiTimeMinute,
+        this.uiTimeHour,
+        this.uiTimeDayOfMonth,
+        this.uiTimeMonth,
+        this.uiTimeWeekdays,
+        this.uiTimeTimezone
+      ))
+    }
   }
 
 
@@ -165,6 +214,13 @@ export class RuleTriggerComponent implements OnInit {
 
   onRemoveClick(): void {
     this.onRemove.emit();
+  }
+
+  private isEmpty(value: string): boolean {
+    if ((value != null) && (value.length > 0)) {
+      return false;
+    } 
+    return true;
   }
 
 } // class RuleTriggerComponent

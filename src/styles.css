@@ -29,3 +29,7 @@ div.rule-panel-body {
 div.no-padding {
   padding: 0px;
 }
+
+.left-pad-form-control {
+  padding-left: 10px;
+}

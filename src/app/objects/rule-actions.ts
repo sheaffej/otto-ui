@@ -99,8 +99,11 @@ export class RuleActionItem {
     else if ("delay" in obj) {
       action = new DelayAction(obj.delay);
     }
+    else if ("log_message" in obj) {
+      action = new LogAction(obj.log_message);
+    }
     else {
-      console.log("ERROR: RuleActionItem not matched: " + JSON.stringify(obj));
+      console.error("ERROR: RuleActionItem not matched: " + JSON.stringify(obj));
     }
 
     return action;
@@ -147,3 +150,11 @@ export class DelayAction extends RuleActionItem {
 }
 
 
+export class LogAction extends RuleActionItem {
+  log_message: string;
+
+  constructor(log_message: string) {
+    super();
+    this.log_message = log_message;
+  }
+}

@@ -171,11 +171,12 @@ export class OttoRestService {
         }
     }
 
-    private handleRESTError(reason: any): void {
+    private handleRESTError(reason: any) {
         let message = 'OttoRESTService: failure during REST request';
         console.error(message);
         this.growl.addPersistentMessage(MessageSeverity.ERROR, message, null);
-        // return Promise.reject(message);
+        return Promise.reject(message);
+        // return null;
     }
 
 

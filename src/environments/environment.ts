@@ -5,6 +5,7 @@
 
 export const environment = {
   production: false,
-  ottoHost: "hass-pi",
-  ottoPort: 5000
+  ottoHost: "localhost",
+  ottoPort: 5000,
+  timezone: "America/Los_Angeles"
 };

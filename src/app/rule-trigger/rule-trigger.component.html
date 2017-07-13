@@ -76,4 +76,58 @@
         </div>
     </div>
 
+    <div *ngIf="(uiPlatform == 'time')">
+        <div class="form-group">
+            <label for="time.hour" class="control-label">Hour:</label>  
+            <input type="text" pInputText 
+                id="time.hour" size="5"
+                placeholder="*"
+                [(ngModel)]="uiTimeHour" 
+                (blur)="onChange()" 
+                (keyup.enter)="onChange()"/>
+
+            <label for="time.minute" class="control-label left-pad-form-control">Minute:</label>  
+            <input type="text" pInputText 
+                id="time.minute" size="5"
+                placeholder="*"
+                [(ngModel)]="uiTimeMinute" 
+                (blur)="onChange()" 
+                (keyup.enter)="onChange()"/>
+        </div>
+
+        <div class="form-group">
+            <label for="time.month" class="control-label">Month:</label>  
+            <input type="text" pInputText 
+                id="time.month" size="5"
+                placeholder="*"
+                [(ngModel)]="uiTimeMonth" 
+                (blur)="onChange()" 
+                (keyup.enter)="onChange()"/>
+
+            <label for="time.dayOfMonth" class="control-label left-pad-form-control">Day of Month:</label>  
+            <input type="text" pInputText 
+                id="time.dayOfMonth" size="5"
+                placeholder="*"
+                [(ngModel)]="uiTimeDayOfMonth" 
+                (blur)="onChange()" 
+                (keyup.enter)="onChange()"/>
+
+
+            <label for="time.weekdays" class="control-label left-pad-form-control">Weekdays:</label>  
+            <input type="text" pInputText 
+                id="time.weekdays" size="5"
+                placeholder="*"
+                [(ngModel)]="uiTimeWeekdays" 
+                (blur)="onChange()" 
+                (keyup.enter)="onChange()"/>
+        </div>
+         <div class=""> 
+            <label for="time.timezone" class="control-label">Timezone:</label>  
+            <p-dropdown id="time.timezone" class=""
+                [options]="uiTimeTimezoneOptions" [(ngModel)]="uiTimeTimezone"
+                (onChange)="onChange()" placeholder="Select Timezone" >
+            </p-dropdown>                
+        </div>
+    </div>
+
 </div>  <!-- End panel body -->

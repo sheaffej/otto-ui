@@ -1,3 +1,6 @@
+import { environment } from '../../environments/environment';
+
+
 export class RuleTrigger {
   platform: string;
 
@@ -33,8 +36,21 @@ export class RuleTrigger {
         trig_obj.event_data
       );
     }
+
+    // TimeTrigger
+    else if (trig_obj.platform == 'time') {
+      trig = new TimeTrigger(
+        trig_obj.minute,
+        trig_obj.hour,
+        trig_obj.day_of_month,
+        trig_obj.month,
+        trig_obj.weekdays,
+        trig_obj.tz
+      );
+    }
+
     else {
-      console.log("ERROR: Trigger platform not matched: " + trig_obj.platform);
+      console.error("ERROR: Trigger platform not matched: " + trig_obj.platform);
     }
     return trig;
   }
@@ -106,4 +122,41 @@ export class EventTrigger extends RuleTrigger {
     else { o.event_data = this.event_data_obj; }
     return o;
   }
+}
+
+export class TimeTrigger extends RuleTrigger {
+  minute: string;
+  hour: string;
+  day_of_month: string;
+  month: string;
+  weekdays: string;
+  tz: string;
+
+  constructor(minute: string, hour: string, day_of_month: string, 
+              month: string, weekdays: string, tz: string) {
+    super('time');
+    this.minute = minute;
+    this.hour = hour;
+    this.day_of_month = day_of_month;
+    this.month = month;
+    this.weekdays = weekdays;
+    this.tz = tz;
+
+    if (this.tz == null) {
+      this.tz = environment.timezone;
+    }
+  }
+
+  public toJSON = () => {
+    let o: any = {};
+    o.platform = this.platform;
+    if (this.minute != null) { o.minute = this.minute }
+    if (this.hour != null) { o.hour = this.hour }
+    if (this.day_of_month != null) { o.day_of_month = this.day_of_month }
+    if (this.month != null) { o.month = this.month }
+    if (this.weekdays != null) { o.weekdays = this.weekdays }
+    if (this.tz != null) { o.tz = this.tz }
+    return o;
+  }
+
 }
