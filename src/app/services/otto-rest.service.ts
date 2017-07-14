@@ -5,6 +5,7 @@ import 'rxjs/add/operator/toPromise';
 
 import { environment } from '../../environments/environment';
 import { AutomationRule } from '../objects/rule-automation';
+import { TimeTrigger } from '../objects/rule-triggers';
 import { ServiceDomain } from '../objects/services';
 import { GrowlService, MessageSeverity } from './growl.service';
 import { StateFlagsService } from './state-flags.service';
@@ -169,6 +170,17 @@ export class OttoRestService {
         for (let rule of this.rules) {
             this.ruleIndex[rule.id] = rule;
         }
+    }
+
+    nextTimeTrigger(trigger: TimeTrigger): Promise<OttoRestResponse> {
+        let url = `${this.ottoRestUrl}/clock/check`;
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        return this.http.put(url, JSON.stringify({ data: trigger.toJSON() }), { headers: headers })
+            .toPromise()
+            .then(response => response.json() as OttoRestResponse)
+            .catch(reason => this.handleRESTError(reason));
     }
 
     private handleRESTError(reason: any) {

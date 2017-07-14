@@ -121,12 +121,16 @@
                 (blur)="onChange()" 
                 (keyup.enter)="onChange()"/>
         </div>
-         <div class=""> 
+        <div class=""> 
             <label for="time.timezone" class="control-label">Timezone:</label>  
             <p-dropdown id="time.timezone" class=""
                 [options]="uiTimeTimezoneOptions" [(ngModel)]="uiTimeTimezone"
                 (onChange)="onChange()" placeholder="Select Timezone" >
-            </p-dropdown>                
+            </p-dropdown>
+
+            <label for="time.next" class="control-label left-pad-form-control">Next:</label>  
+            <span id="time.next" >{{uiTimeNext}}</span>
+                        
         </div>
     </div>
 

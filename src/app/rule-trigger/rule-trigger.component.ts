@@ -7,6 +7,8 @@ import { EventTrigger, NumericStateTrigger, RuleTrigger, StateTrigger, TimeTrigg
 import { OttoRestService } from '../services/otto-rest.service';
 
 import { environment } from '../../environments/environment';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'rule-trigger',
@@ -60,6 +62,7 @@ export class RuleTriggerComponent implements OnInit {
   uiTimeWeekdays: string;
   uiTimeTimezone: string;
   uiTimeTimezoneOptions: SelectItem[];
+  uiTimeNext: string;
 
   constructor(private ottoService: OttoRestService) { }
 
@@ -126,6 +129,13 @@ export class RuleTriggerComponent implements OnInit {
         this.uiTimeMonth = this.trigger.month;
         this.uiTimeWeekdays = this.trigger.weekdays;
         this.uiTimeTimezone = this.trigger.tz;
+        this.ottoService.nextTimeTrigger(this.trigger)
+          .then(resp => {
+            this.uiTimeNext = moment(resp.data.next_time)
+                                .calendar(null, {
+                                  sameElse: 'llll'
+                                });
+          });
       }
     }
 
@@ -192,7 +202,7 @@ export class RuleTriggerComponent implements OnInit {
       if (this.isEmpty(this.uiTimeMinute)) { this.uiTimeMinute = null }
       if (this.isEmpty(this.uiTimeHour)) { this.uiTimeHour = null }
       if (this.isEmpty(this.uiTimeDayOfMonth)) { this.uiTimeDayOfMonth = null }
-      if (this.isEmpty(this.uiTimeMonth)) { this.uiTimeHour = null }
+      if (this.isEmpty(this.uiTimeMonth)) { this.uiTimeMonth = null }
       if (this.isEmpty(this.uiTimeWeekdays)) { this.uiTimeWeekdays = null }
 
       this.replaceTrigger(new TimeTrigger(
