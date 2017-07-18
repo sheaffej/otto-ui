@@ -24,8 +24,8 @@ export class RuleTrigger {
     else if (trig_obj.platform == 'numeric_state') {
       trig = new NumericStateTrigger(
         trig_obj.entity_id,
-        trig_obj.above,
-        trig_obj.below
+        trig_obj.above_value,
+        trig_obj.below_value
       );
     }
 
