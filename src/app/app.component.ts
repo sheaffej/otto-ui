@@ -15,12 +15,17 @@ export class AppComponent {
     private title = 'Otto UI';
     // private growlMessages: Message[];
 
+    public growl: GrowlService;
+    public stateFlags: StateFlagsService;
+
     constructor(
         private ottoService: OttoRestService,
         private router: Router,
-        private growl: GrowlService,
-        private stateFlags: StateFlagsService,
+        growl: GrowlService,
+        stateFlags: StateFlagsService,
     ) {
+        this.growl = growl;
+        this.stateFlags = stateFlags
         console.log("Constructing app.component");
 
         console.log("Populating OttoRestService's cache");

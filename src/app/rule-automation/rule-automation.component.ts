@@ -23,13 +23,17 @@ export class RuleAutomationComponent implements OnInit {
     // showDialog: boolean = false;
     // dialogContent: any;
 
+    public stateFlags: StateFlagsService;
+
     constructor(
         private ottoService: OttoRestService,
         private growl: GrowlService,
-        private stateFlags: StateFlagsService,
+        stateFlags: StateFlagsService,
         private confirmService: ConfirmationService,
         private router: Router,
-    ) { }
+    ) {
+        this.stateFlags = stateFlags;
+    }
 
     ngOnInit(): void { }
 
