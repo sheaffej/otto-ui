@@ -12,4 +12,4 @@ node_modules
 js/*.map
 js/ts.js
 
-environment.prod.ts
+environment.ts
