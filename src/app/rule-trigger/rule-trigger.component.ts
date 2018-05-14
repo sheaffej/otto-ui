@@ -89,6 +89,7 @@ export class RuleTriggerComponent implements OnInit {
       "service_executed", 
       "platform_discovered",
       "component_loaded",
+      "timer_ended",
     ];
     options.map(option => this.uiEventTypeOptions.push({label: option, value: option }));
 
