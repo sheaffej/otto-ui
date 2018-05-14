@@ -1,3 +1,5 @@
+.DS_STORE
+
 # Visual Studio 2015 cache/options directory
 .vs/
 bower_components/
@@ -6,6 +8,8 @@ node_modules/
 node_modules
 *.js.map
 
-#Exclude tsc generated files
+# Exclude tsc generated files
 js/*.map
 js/ts.js
+
+environment.prod.ts
