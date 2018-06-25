@@ -2,27 +2,80 @@ import { RuleTrigger } from './rule-triggers';
 import { RuleCondition } from './rule-conditions';
 import { RuleActionSequence } from './rule-actions';
 
+// export class AutomationRuleList {
+//   // This is needed to wrap an array of AutomationRules
+//   // since we pass them through Observables. Without this wrapper,
+//   // the Observables will convert a list of rules, into a stream of single rules
+
+//   readonly rules: AutomationRule[];
+
+//   constructor(rules: AutomationRule[]) {
+//     this.rules = rules;
+//   }
+// }
 
 export class AutomationRule {
-  
+
   private _id: string;
-  private _description: string = '';     // Description should not be Null
+  private _description = '';     // Description should not be Null
   private _group: string = null;
-  private _enabled: boolean = true;
-  private _notes: string = '';           // Notes should not be Null
+  private _enabled = true;
+  private _notes = '';           // Notes should not be Null
 
   private _triggers: RuleTrigger[] = [];
   private _condition: RuleCondition = null;
   private _action_sequences: RuleActionSequence[] = [];
 
-  constructor(id: string='') {
-    if (id != '') {
+  constructor(id: string = '') {
+    if (id !== '') {
       this._id = id;
     } else {
       // this._id = (Math.round((new Date()).getTime() / 1000)).toString();
-      this._id = (Math.round((new Date()).getTime()/1000) - 1498090000).toString();
+      this._id = (Math.round((new Date()).getTime() / 1000) - 1498090000).toString();
     }
   }
+
+    // Static Methods
+    static from_object(obj: any): AutomationRule {
+      const rule = new AutomationRule(obj.id);
+      // console.log(`[Creating rule: id ${rule.id}]`);
+
+      if ('description' in obj) { rule.description = obj.description; }
+      if ('group' in obj) { rule.group = obj.group; }
+      if ('enabled' in obj) { rule.enabled = obj.enabled; }
+      if ('notes' in obj) { rule.notes = obj.notes; }
+
+
+      // Triggers
+      if ('triggers' in obj) {
+        for (const trig_obj of obj.triggers) {
+          // console.log("adding a trigger xxxxx");
+          const trig = RuleTrigger.fromObject(trig_obj);
+          rule.add_trigger(trig);
+          // console.log(JSON.stringify(trig));
+        }
+      }
+
+      // Rule Conditions
+      if ('rule_condition' in obj) {
+        // console.log("adding a RuleConddition ????");
+        const cond = RuleCondition.fromObject(obj.rule_condition);
+        rule.add_condition(cond);
+        // console.log(JSON.stringify(cond));
+      }
+
+      // Action Sequences
+      if ('actions' in obj) {
+        for (const seq_obj of obj.actions) {
+          // console.log("adding a RuleActionSequence >>>>");
+          const actionSeq = RuleActionSequence.fromObject(seq_obj);
+          rule.add_action_sequence(actionSeq);
+          // console.log(JSON.stringify(actionSeq));
+        }
+      }
+
+      return rule;
+    }
 
 
   // Accessor Methods
@@ -30,12 +83,12 @@ export class AutomationRule {
   get description(): string { return this._description; }
   get group(): string { return this._group; }
   get enabled(): boolean {return this._enabled; }
-  get notes(): string { return this._notes };
+  get notes(): string { return this._notes; }
 
   set description(description: string) { this._description = description; }
   set group(group: string) { this._group = group; }
   set enabled(enable: boolean) { this._enabled = enable; }
-  set notes(notes: string) { this._notes = notes };
+  set notes(notes: string) { this._notes = notes; }
 
   get triggers(): RuleTrigger[] { return this._triggers; }
   get condition(): RuleCondition { return this._condition; }
@@ -78,7 +131,7 @@ export class AutomationRule {
   // }
 
   public toJSON = () => {
-    let o: any = {};
+    const o: any = {};
     o.id = this._id;
     o.description = this._description;
     o.enabled = this._enabled;
@@ -91,50 +144,6 @@ export class AutomationRule {
     o.actions = this._action_sequences;
     return o;
   }
-
-
-
-  // Static Methods
-  static from_object(obj: any): AutomationRule {
-    let rule = new AutomationRule(obj.id);
-    // console.log(`[Creating rule: id ${rule.id}]`);
-    
-    if ("description" in obj) { rule.description = obj.description }
-    if ("group" in obj) { rule.group = obj.group }
-    if ("enabled" in obj) { rule.enabled = obj.enabled }
-    if ("notes" in obj) { rule.notes = obj.notes }
-
-
-    // Triggers
-    if ("triggers" in obj) {
-      for (let trig_obj of obj.triggers) {
-        // console.log("adding a trigger xxxxx");
-        let trig = RuleTrigger.fromObject(trig_obj);
-        rule.add_trigger(trig);
-        // console.log(JSON.stringify(trig));
-      }
-    }
-
-    // Rule Conditions
-    if ("rule_condition" in obj) {
-      // console.log("adding a RuleConddition ????");
-      let cond = RuleCondition.fromObject(obj.rule_condition);
-      rule.add_condition(cond);
-      // console.log(JSON.stringify(cond));
-    }
-
-    // Action Sequences
-    if ("actions" in obj) {
-      for (let seq_obj of obj.actions) {
-        // console.log("adding a RuleActionSequence >>>>");
-        let actionSeq = RuleActionSequence.fromObject(seq_obj);
-        rule.add_action_sequence(actionSeq);
-        // console.log(JSON.stringify(actionSeq));
-      }
-    }
-
-    return rule;
-  } // method fromObject
 
 }
 

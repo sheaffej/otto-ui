@@ -12,11 +12,11 @@ import { StateFlagsService } from '../services/state-flags.service';
 })
 
 export class RuleActionSeqComponent implements OnInit {
-  
+
   @Input() actionSeq: RuleActionSequence;
   @Output() onRemove = new EventEmitter();
   // @Output() onChange = new EventEmitter();
-  
+
   debug: boolean = false;
   showDetails: boolean = true;
 
@@ -36,7 +36,7 @@ export class RuleActionSeqComponent implements OnInit {
 
   onAddConditionClick(): void {
     this.actionSeq.add_condition(new AndCondition());
-    this.stateFlags.needsSave = true
+    this.stateFlags.needsSave = true;
   }
 
   onConditionReCreate(newCondition: RuleCondition): void {
@@ -69,10 +69,9 @@ export class RuleActionSeqComponent implements OnInit {
   toggleDetails(): void {
     if (this.showDetails) {
       this.showDetails = false;
-    }
-    else {
+    } else {
       this.showDetails = true;
     }
   }
 
-} // class RuleActionSeqComponent
+}

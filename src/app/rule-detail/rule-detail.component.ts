@@ -5,11 +5,11 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AutomationRule } from '../objects/rule-automation';
 import { OttoRestService } from '../services/otto-rest.service';
 
-import 'rxjs/add/operator/switchMap';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: "rule-detail",
-  templateUrl: "rule-detail.component.html",
+  selector: 'rule-detail',
+  templateUrl: 'rule-detail.component.html',
 })
 export class RuleDetailComponent implements OnInit {
 
@@ -24,7 +24,9 @@ export class RuleDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params
-      .switchMap((params: Params) => this.ottoService.getRule(params['id']))
+      .pipe(
+        switchMap((params: Params) => this.ottoService.getRuleObservable(params['id']))
+      )
       .subscribe(rule => this.rule = rule);
   }
 
@@ -32,4 +34,4 @@ export class RuleDetailComponent implements OnInit {
     this.router.navigate(['/rule-list']);
   }
 
-}  // class RuleDetailComponent
+}

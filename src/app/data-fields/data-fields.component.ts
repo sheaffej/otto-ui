@@ -12,23 +12,21 @@ import { OttoRestService } from '../services/otto-rest.service';
     templateUrl: 'data-fields.component.html'
 })
 export class DataFieldsComponent implements OnInit {
-    
+
     @Input() obj: any;
     @Output() onChange = new EventEmitter<RuleActionItem>();
-    
+
     fieldKeys: string[];
     fieldValues: string[];
 
     uiEntityIdOptions: SelectItem[];
 
     debug: boolean = false;
-    longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
+    longText: string = 'xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx';
     keyFieldLength: number = 15;
     valFieldLength: number = 50;
 
-    constructor(private ottoService: OttoRestService) {
-        console.log("DataFieldsComponent constructor");
-    }
+    constructor(private ottoService: OttoRestService) {}
 
     ngOnInit() {
         // Initially populate the key/value arrays
@@ -40,11 +38,12 @@ export class DataFieldsComponent implements OnInit {
                 .forEach(key => {
                     this.fieldKeys.push(key);
                     this.fieldValues.push(this.obj[key]);
-                })
-            
+                });
+
             // Load Entity Id Options
             this.uiEntityIdOptions = [{label: this.longText, value: null}];
-            this.ottoService.getEntities().then(entities => this.populateEntityIdOptions(entities))
+            this.ottoService.getEntitiesObservable()
+                .subscribe(entitiesList => this.populateEntityIdOptions(entitiesList.list));
         }
     }
 
@@ -57,8 +56,8 @@ export class DataFieldsComponent implements OnInit {
     }
 
     onAddClick() {
-        this.fieldKeys.push("");
-        this.fieldValues.push("");
+        this.fieldKeys.push('');
+        this.fieldValues.push('');
         this.reCreateObject();
     }
 
@@ -69,12 +68,12 @@ export class DataFieldsComponent implements OnInit {
     }
 
     reCreateObject(): void {
-        let newObj = {}
+        const newObj = {};
         this.fieldKeys.forEach((key, index) => {
             newObj[key] = this.fieldValues[index];
         });
         this.onChange.emit(newObj);
-        console.log("reCreateObject(): " + JSON.stringify(newObj));
+        console.log('reCreateObject(): ' + JSON.stringify(newObj));
     }
 
     trackByIndex(index: number, item: any) {
@@ -83,10 +82,9 @@ export class DataFieldsComponent implements OnInit {
 
     populateEntityIdOptions(entities: string[]): void {
         this.uiEntityIdOptions = [];
-        let options = [];
-        for (let option of entities) {
+        for (const option of entities) {
             this.uiEntityIdOptions.push({label: option, value: option});
         }
     }
 
-}  // constructor DataFieldsComponent
+}

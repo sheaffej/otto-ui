@@ -8,32 +8,47 @@ export class ServiceDomain {
     this.services = [];
   }
 
-  addService(service: ServiceInfo): void {
-    this.services.push(service);
-  }
-
   static fromRestResponse(response: any): ServiceDomain[] {
-    let domains: ServiceDomain[] = [];
+    const domains: ServiceDomain[] = [];
 
-    for (let domain of response) {
-      let domain_name = domain.domain;
-      let newDomain = new ServiceDomain(domain_name);
+    for (const domain of response) {
+      // const domain_name = domain.domain;
+      // const newDomain = new ServiceDomain(domain_name);
 
-      for (let service_obj of domain.services) {
+      // for (const service_obj of domain.services) {
 
-        let service = new ServiceInfo(domain_name, service_obj.service, service_obj.description);
-        for (let field of service_obj.fields) {
-          service.fields.push(new ServiceField(field.name, field.description, field.example));
-        }
-        newDomain.addService(service);
-      }
-      domains.push(newDomain);
+      //   const service = new ServiceInfo(domain_name, service_obj.service, service_obj.description);
+      //   for (const field of service_obj.fields) {
+      //     service.fields.push(new ServiceField(field.name, field.description, field.example));
+      //   }
+      //   newDomain.addService(service);
+      // }
+      // domains.push(newDomain);
+      domains.push(ServiceDomain.fromDict(domain))
       // console.log(JSON.stringify(newDomain));
     }
     return domains;
   }
 
-} // class ServiceDomain
+  static fromDict(domain_obj: any): ServiceDomain {
+    const domain_name = domain_obj.domain
+    const newDomain = new ServiceDomain(domain_name);
+
+    for (const service_obj of domain_obj.services) {
+
+      const service = new ServiceInfo(domain_name, service_obj.service, service_obj.description);
+      for (const field of service_obj.fields) {
+        service.fields.push(new ServiceField(field.name, field.description, field.example));
+      }
+      newDomain.addService(service);
+    }
+    return newDomain;
+  }
+
+  addService(service: ServiceInfo): void {
+    this.services.push(service);
+  }
+}
 
 export class ServiceInfo {
   domain: string;
@@ -52,7 +67,7 @@ export class ServiceInfo {
     this.fields.push(field);
   }
 
-} // class Service
+}
 
 export class ServiceField {
   name: string;
@@ -65,4 +80,4 @@ export class ServiceField {
     this.example = example;
   }
 
-} // class ServiceField
+}

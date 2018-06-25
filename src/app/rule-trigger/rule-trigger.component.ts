@@ -21,7 +21,7 @@ export class RuleTriggerComponent implements OnInit {
   @Output() onRemove = new EventEmitter();
 
   debug: boolean = false;
-  longText: string = "xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx";
+  longText: string = 'xxxxxxxxxxxxxxxx40-charsxxxxxxxxxxxxxxxx';
 
   // We need the uiXXX copies of the data in the rule condition
   // because ngModel needs to bind to an object, and if we replace
@@ -75,21 +75,22 @@ export class RuleTriggerComponent implements OnInit {
 
     // Load Entity Id Options
     this.uiEntityIdOptions = [{label: this.longText, value: null}];
-    this.ottoService.getEntities().then(entities => this.populateEntityIdOptions(entities))
+    this.ottoService.getEntitiesObservable()
+      .subscribe(entitiesList => this.populateEntityIdOptions(entitiesList.list))
 
     // Load Event Type
     this.uiEventTypeOptions = [];
     options = [
-      "homeassistant_start", 
-      "homeassistant_stop",
-      "state_changed", 
-      "time_changed",
-      "service_registered", 
-      "call_service",
-      "service_executed", 
-      "platform_discovered",
-      "component_loaded",
-      "timer_ended",
+      'homeassistant_start', 
+      'homeassistant_stop',
+      'state_changed', 
+      'time_changed',
+      'service_registered', 
+      'call_service',
+      'service_executed', 
+      'platform_discovered',
+      'component_loaded',
+      'timer_ended',
     ];
     options.map(option => this.uiEventTypeOptions.push({label: option, value: option }));
 
@@ -97,7 +98,7 @@ export class RuleTriggerComponent implements OnInit {
     this.uiTimeTimezoneOptions = [];
     options = [
       environment.timezone,
-      "UTC"
+      'UTC'
     ];
     options.map(option => this.uiTimeTimezoneOptions.push({label: option, value: option }));
 
@@ -130,8 +131,8 @@ export class RuleTriggerComponent implements OnInit {
         this.uiTimeMonth = this.trigger.month;
         this.uiTimeWeekdays = this.trigger.weekdays;
         this.uiTimeTimezone = this.trigger.tz;
-        this.ottoService.nextTimeTrigger(this.trigger)
-          .then(resp => {
+        this.ottoService.nextTimeTriggerObservable(this.trigger)
+          .subscribe(resp => {
             this.uiTimeNext = moment(resp.data.next_time)
                                 .calendar(null, {
                                   sameElse: 'llll'
@@ -145,8 +146,8 @@ export class RuleTriggerComponent implements OnInit {
 
   populateEntityIdOptions(entities: string[]): void {
     this.uiEntityIdOptions = [];
-    let options = [];
-    for (let option of entities) {
+    // const options = [];
+    for (const option of entities) {
       this.uiEntityIdOptions.push({label: option, value: option});
     }
   }

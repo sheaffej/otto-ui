@@ -19,17 +19,23 @@ export class ServiceInfoComponent implements OnInit {
     constructor(private ottService: OttoRestService) {}
 
     ngOnInit() {
-        this.ottService.getServices().then(domains => this.populateServiceInfo(domains));        
+        this.ottService.getServicesObservable()
+            .subscribe(domains => this.populateServiceInfo(domains.list));        
     }
 
 // TODO we can't display the Service Info when services == null
 
     populateServiceInfo(serviceDomains: ServiceDomain[]) {
         if ((this.domain != null) && (this.service != null)) {
-            this.serviceInfo = 
-                serviceDomains
-                .filter(domain => domain.domain === this.domain)[0]  // Only the first
-                .services.filter(service => service.service_name === this.service)[0]  // Only the first
+            
+            const domain = serviceDomains.filter(domain => domain.domain === this.domain)[0]
+            if (domain != null) {
+                this.serviceInfo = domain.services
+                    .filter(service => service.service_name === this.service)[0]
+            } else {
+                console.error(
+                    `Domain (${this.domain}) not found in ServiceDomains received from Otto-Engine`);
+            }        
         }
     }
 

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { PrettyJsonComponent } from 'angular2-prettyjson';
 import { ConfirmationService } from 'primeng/primeng';
 
-import { AutomationRule } from '../objects/rule-automation'
+import { AutomationRule } from '../objects/rule-automation';
 import { AndCondition, RuleCondition } from '../objects/rule-conditions';
 import { RuleActionSequence } from '../objects/rule-actions';
 import { RuleTrigger } from '../objects/rule-triggers';
@@ -58,7 +58,7 @@ export class RuleAutomationComponent implements OnInit {
     }
 
     onTriggerRemove(index: number): void {
-        console.log("Removing index: " + index);
+        console.log('Removing index: ' + index);
         this.rule.remove_trigger(index);
         this.stateFlags.needsSave = true;
     }
@@ -83,13 +83,13 @@ export class RuleAutomationComponent implements OnInit {
     // }
 
     onSaveClick(): void {
-        this.ottoService.saveRule(this.rule)
-            .then(resp => {
+        this.ottoService.saveRuleObservable(this.rule)
+            // .then(resp => {
+            .subscribe(resp => {
                 if (resp.success) {
-                    this.growl.addSuccessMessage(resp.success, resp.message, null)
+                    this.growl.addSuccessMessage(resp.success, resp.message, null);
                     this.stateFlags.needsSave = false;
-                }
-                else {
+                } else {
                     this.growl.addPersistentMessage(MessageSeverity.ERROR, resp.message, null);
                 }
             });
@@ -100,23 +100,24 @@ export class RuleAutomationComponent implements OnInit {
             message: `Confirm you want to delete rule ${this.rule.id}<br/><br/>${this.rule.description}`,
             accept: () => {
                 // console.log("This will delete a rule");
-                this.ottoService.deleteRule(this.rule.id)
-                    .then(resp => {
+                this.ottoService.deleteRuleObservable(this.rule.id)
+                    // .then(resp => {
+                    .subscribe(resp => {
                         if (resp.success) {
-                            this.growl.addSuccessMessage(resp.success, `Rule ${this.rule.id} deleted`, null)
-                            this.ottoService.serverReloadRules()
-                                .then(resp2 => {
-                                    if (resp2.success){
-                                        this.growl.addSuccessMessage(resp.success, 'Server reloaded', null)
-                                        this.ottoService.getRules(true)
-                                            .then(resp3 => this.router.navigate(['/']))
+                            this.growl.addSuccessMessage(resp.success, `Rule ${this.rule.id} deleted`, null);
+                            this.ottoService.serverReloadRulesObservable()
+                                // .then(resp2 => {
+                                .subscribe(resp2 => {
+                                    if (resp2.success) {
+                                        this.growl.addSuccessMessage(resp.success, 'Server reloaded', null);
+                                        this.ottoService.getRulesObservable(true)
+                                            .subscribe(resp3 => this.router.navigate(['/']));
                                     }
-                                })
-                        }
-                        else {
+                                });
+                        } else {
                             this.growl.addPersistentMessage(MessageSeverity.ERROR, resp.message, null);
                         }
-                    })
+                    });
             }
         });
     }
@@ -127,11 +128,12 @@ export class RuleAutomationComponent implements OnInit {
 
 
     onEnabledChange(enabled: boolean): void {
-        // console.log(`${this.rule.id}: ${enabled}`);
-        this.ottoService.enableRule(this.rule.id, enabled)
-            .then(response => {
+        console.log(`${this.rule.id}: ${enabled}`);
+        this.ottoService.enableRuleObservable(this.rule.id, enabled)
+            // .then(response => {
+            .subscribe(response => {
                 this.growl.addSuccessMessage(response.success, response.message, null);
             });
     }
 
-} // class RuleAutomationComponent
+}

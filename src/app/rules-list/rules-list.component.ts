@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AutomationRule } from '../objects/rule-automation';
 import { GrowlService } from '../services/growl.service';
 import { OttoRestService } from '../services/otto-rest.service';
+import { ListContainer } from '../objects/data-fields';
 
 @Component({
     selector: 'rules-list',
@@ -10,8 +11,8 @@ import { OttoRestService } from '../services/otto-rest.service';
 })
 export class RulesListComponent implements OnInit {
 
-    private rules: AutomationRule[] = [];
     groups: RuleGroupList[] = [];
+    private rules: AutomationRule[] = [];
 
     constructor(
         private ottoService: OttoRestService,
@@ -19,25 +20,24 @@ export class RulesListComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.ottoService.getRules().then(rules => this._process_rules(rules));
-        // this.ottoService.getRules().then(rules => this.rules = rules.slice(0,1));
-        // console.log('TEMP: Only displaying 1st rule');
+        this.ottoService.getRulesObservable()
+            .subscribe(rules => this._process_rules(rules));
     }
 
-    _process_rules(rules: AutomationRule[]): void {
-        if (rules != null) {
-            this.rules = rules;
+    _process_rules(rulelist: ListContainer<AutomationRule>): void {
+        if (rulelist != null) {
+            this.rules = rulelist.list;
 
-            let group_dict = {};
-            for (let rule of rules) {
+            const group_dict = {};
+            for (const rule of this.rules) {
                 if (!(rule.group in group_dict)) {
                     group_dict[rule.group] = [];
                 }
                 group_dict[rule.group].push(rule);
             }
 
-            for (let group in group_dict) {
-                let g = { "group": group, "rules": group_dict[group] } as RuleGroupList;
+            for (const group in group_dict) {
+                const g = { 'group': group, 'rules': group_dict[group] } as RuleGroupList;
                 this.groups.push(g);
             }
         }
@@ -45,10 +45,11 @@ export class RulesListComponent implements OnInit {
 
     onEnabledChange(enabled: boolean, ruleId: string): void {
         console.log(`${ruleId}: ${enabled}`);
-        this.ottoService.enableRule(ruleId, enabled)
-            .then(response => {
-                this.growl.addSuccessMessage(response.success, response.message, null);
-            });
+        this.ottoService.enableRuleObservable(ruleId, enabled)
+            .subscribe(response =>
+            // .then(response => {
+                this.growl.addSuccessMessage(response.success, response.message, null)
+            );
     }
 
 }  // class RulesListComponent

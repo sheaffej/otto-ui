@@ -1,5 +1,5 @@
 export class DataFieldsObject {
-    
+
     private obj: any = {};
 
     constructor(obj: any) {
@@ -23,16 +23,16 @@ export class DataFieldsObject {
     }
 
     get keys(): string[] {
-        let keys: string[] = [];
-        for (let key in this.obj) {
+        const keys: string[] = [];
+        for (const key in this.obj) {
             keys.push(key);
         }
         return keys;
     }
 
     get fields(): DataField[] {
-        let fields: DataField[] = [];
-        for (let key of this.keys) {
+        const fields: DataField[] = [];
+        for (const key of this.keys) {
             fields.push(new DataField(key, this.obj[key]));
         }
         return fields;
@@ -42,7 +42,7 @@ export class DataFieldsObject {
         return this.obj;
     }
 
-} // class DataFieldsObject
+}
 
 export class DataField {
     public key: string;
@@ -52,4 +52,14 @@ export class DataField {
         this.key = key;
         this.value = value;
     }
-}  // class DataField
+}
+
+// export class StringList {
+//     readonly list: string[];
+//     constructor(strings: string[]) { this.list = strings; }
+// }
+
+export class ListContainer<T> {
+    readonly list: T[];
+    constructor(list: T[]) { this.list = list; }
+}
