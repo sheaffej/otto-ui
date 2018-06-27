@@ -14,7 +14,7 @@ import { ListContainer } from "../objects/data-fields";
 export class OttoRestService {
 
     private ottoRestUrl: string;
-    private headers = new Headers({ 'Content-Type': 'application/json' });
+    private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     private rules: AutomationRule[] = [];
     private entities: string[] = [];
@@ -103,7 +103,6 @@ export class OttoRestService {
 
     getServicesObservable(): Observable<ListContainer<ServiceDomain>> {
         let observable = null;
-        // console.log(this.serviceDomains);
         if (this.serviceDomains.length === 0) {
             // Get a fresh copy of the services
             console.log('getServices() fetching from REST API');
@@ -114,7 +113,6 @@ export class OttoRestService {
                     map(data => data.map(obj => ServiceDomain.fromDict(obj))),
                     map(serviceDomains => {
                         this.serviceDomains = serviceDomains;
-                        // console.warn(this.serviceDomains);
                         return new ListContainer<ServiceDomain>(serviceDomains);
                     })
                 );
@@ -163,12 +161,10 @@ export class OttoRestService {
         this.stateFlags.needsServerReload = true;
 
         const url = `${this.ottoRestUrl}/rule`;
-        const headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json');
 
         console.log(JSON.stringify({ data: rule.toJSON() }))
         return this.http.put<OttoRestResponse>(
-            url, JSON.stringify({ data: rule.toJSON() }), { headers: headers }
+            url, JSON.stringify({ data: rule.toJSON() }), { headers: this.headers }
         );
     }
 
@@ -182,17 +178,14 @@ export class OttoRestService {
 
     deleteRuleObservable(ruleId: string): Observable<OttoRestResponse> {
         const url = `${this.ottoRestUrl}/rule/${ruleId}`;
-        const headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json');
 
         return this.http.delete<OttoRestResponse>(
-            url, { headers: headers });
+            url, { headers: this.headers });
     }
 
     enableRuleObservable(ruleId: string, enabled: boolean): Observable<OttoRestResponse> {
         const rule = this.ruleIndex[ruleId] as AutomationRule;
         rule.enabled = enabled;
-        // console.log(`Enabling rule ${ruleId}`);
         return this.saveRuleObservable(rule);
     }
 
@@ -203,11 +196,9 @@ export class OttoRestService {
 
     nextTimeTriggerObservable(trigger: TimeTrigger): Observable<OttoRestResponse> {
         const url = `${this.ottoRestUrl}/clock/check`;
-        const headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/json');
 
         return this.http.put<OttoRestResponse>(
-            url, JSON.stringify({ data: trigger.toJSON() }), { headers: headers }
+            url, JSON.stringify({ data: trigger.toJSON() }), { headers: this.headers }
         );
     }
 
