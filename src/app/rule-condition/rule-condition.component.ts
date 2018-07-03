@@ -9,6 +9,8 @@ import {
   NumericStateCondition, SunCondition, TimeCondition, ZoneCondition
   } from '../objects/rule-conditions';
 import { RuleActionSequence, ConditionAction } from '../objects/rule-actions';
+import { environment } from '../../environments/environment';
+
 
 @Component({
   selector: 'rule-condition',
@@ -61,6 +63,8 @@ export class RuleConditionComponent implements OnInit {
   uiTimeBefore: string;
   uiTimeWeekday: string[];
   uiTimeWeekdayOptions: SelectItem[];
+  uiTimeTimezone: string;
+  uiTimeTimezoneOptions: SelectItem[];
 
   // Zone
   uiZone: string;
@@ -93,6 +97,14 @@ export class RuleConditionComponent implements OnInit {
     //   this.uiTimeWeekdayOptions.push({label: option, value: option});
     // }
 
+    // Load Timezone Options
+    this.uiTimeTimezoneOptions = [];
+    options = [
+      environment.timezone,
+      'UTC'
+    ];
+    options.map(option => this.uiTimeTimezoneOptions.push({label: option, value: option }));
+
     // Create Entity ID Options
     this.uiEntityIdOptions = [{label: this.longText, value: null}];
     this.ottoService.getEntitiesObservable()
@@ -124,6 +136,7 @@ export class RuleConditionComponent implements OnInit {
         this.uiTimeAfter = this.condition.after;
         this.uiTimeBefore = this.condition.before;
         this.uiTimeWeekday = this.condition.weekday;
+        this.uiTimeTimezone = this.condition.tz;
       } else if (this.condition instanceof ZoneCondition) {
         this.uiEntityId = this.condition.entity_id;
         this.uiZone = this.condition.zone;
@@ -163,6 +176,7 @@ export class RuleConditionComponent implements OnInit {
       this.uiTimeAfter = null;
       this.uiTimeBefore = null;
       this.uiTimeWeekday = null;
+      this.uiTimeTimezone = null;
     } else if (this.uiCondition === 'zone') {
       this.uiEntityId = null;
       this.uiZone = null;
@@ -188,7 +202,7 @@ export class RuleConditionComponent implements OnInit {
     } else if (this.uiCondition === 'sun') {
       this.replaceCondition(new SunCondition(this.uiSunAfter, this.uiSunBefore, this.uiSunAfterOffset, this.uiSunBeforeOffset));
     } else if (this.uiCondition === 'time') {
-      this.replaceCondition(new TimeCondition(this.uiTimeAfter, this.uiTimeBefore, this.uiTimeWeekday));
+      this.replaceCondition(new TimeCondition(this.uiTimeAfter, this.uiTimeBefore, this.uiTimeWeekday, this.uiTimeTimezone));
     } else if (this.uiCondition === 'zone') {
       this.replaceCondition(new ZoneCondition(this.uiEntityId, this.uiZone));
     } else if (this.uiCondition === 'and') {

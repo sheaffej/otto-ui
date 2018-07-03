@@ -43,7 +43,8 @@ export class RuleCondition {
       cond = new TimeCondition(
         obj.after,
         obj.before,
-        obj.weekday
+        obj.weekday,
+        obj.tz
       );
     } else if (obj.condition === 'zone') {
       cond = new ZoneCondition(
@@ -159,12 +160,14 @@ export class TimeCondition extends RuleCondition {
   after: string;
   before: string;
   weekday: string[];
+  tz: string;
 
-  constructor(after: string = null, before: string = null, weekday: string[ ]= null) {
+  constructor(after: string = null, before: string = null, weekday: string[]= null, tz: string='UTC') {
     super('time');
     this.after = after;
     this.before = before;
     this.weekday = weekday;
+    this.tz = tz;
   }
 }
 

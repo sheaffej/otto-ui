@@ -177,6 +177,13 @@
                 (onChange)="onChange()">
             </p-selectButton>
         </div>
+        <div class=""> 
+            <label for="time.timezone" class="control-label">Timezone:</label>  
+            <p-dropdown id="time.timezone" class=""
+                [options]="uiTimeTimezoneOptions" [(ngModel)]="uiTimeTimezone"
+                (onChange)="onChange()" placeholder="Select Timezone" >
+            </p-dropdown>                        
+        </div>
     </div>
 
 
