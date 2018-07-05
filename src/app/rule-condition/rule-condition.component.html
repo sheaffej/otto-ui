@@ -149,7 +149,7 @@
             <!-- Time After -->
             <div class="pull-left">
                 <label for="time.after" class="control-label">After:</label>
-                <p-inputMask id="time.after"
+                <p-inputMask ngDefaultControl id="time.after"
                     mask="99:99:99" 
                     [(ngModel)]="uiTimeAfter" 
                     placeholder="HH:MM:SS" 
@@ -159,7 +159,7 @@
             <!-- Time Before -->
             <div class="pull-left" style="padding-left: 10px">
                 <label for="time.before" class="control-label">Before:</label>
-                <p-inputMask id="time.before"
+                <p-inputMask ngDefaultControl id="time.before"
                     mask="99:99:99" 
                     [(ngModel)]="uiTimeBefore" 
                     placeholder="HH:MM:SS" 
@@ -170,7 +170,7 @@
         </div>
         <!-- Time Weekday -->
         <div class="form-group">
-            <p-selectButton 
+            <p-selectButton ngDefaultControl
                 [options]="uiTimeWeekdayOptions" 
                 [(ngModel)]="uiTimeWeekday" 
                 multiple="multiple" 

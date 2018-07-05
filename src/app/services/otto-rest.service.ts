@@ -123,7 +123,7 @@ export class OttoRestService {
         return observable;
     }
 
-    getZonesObservable(): Observable<string[]> {
+    getZonesObservable(): Observable<ListContainer<string>> {
         let observable = null;
         if (this.entities.length === 0) {
             // Get a fresh copy of the entities
@@ -132,10 +132,15 @@ export class OttoRestService {
             observable = this.getEntitiesObservable()
                 .pipe(
                     map(entitiesList => entitiesList.list),
-                    map(entities => entities.filter(entity => entity.startsWith('zone.')))
+                    map(entities => entities.filter(entity => entity.startsWith('zone.'))),
+                    map(zoneNames => {
+                        return new ListContainer<string>(zoneNames);
+                    })
                 );
         } else {
-            observable = from(this.entities.filter(entity => entity.startsWith('zone.')));
+            observable = from([new ListContainer<string>(
+                this.entities.filter(entity => entity.startsWith('zone.')))
+            ]);
         }
         return observable;
     }

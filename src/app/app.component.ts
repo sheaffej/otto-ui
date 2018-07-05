@@ -27,25 +27,37 @@ export class AppComponent {
         this.growl = growl;
         this.stateFlags = stateFlags;
 
-        ottoService.getEntitiesObservable().subscribe(
+        // ottoService.getEntitiesObservable().subscribe(
+        //     entities => {
+        //         console.log('Entities cache populated');
+        //         ottoService.getServicesObservable().subscribe(
+        //             services => {
+        //                 console.log('Services cache populated');
+        //                 ottoService.getRulesObservable().subscribe(
+        //                     rules => console.log('Rules caches have populated')
+        //                 )
+        //             }
+        //         );
+        //     }
+        // );
+
+    }  // constructor
+
+    ngOnInit() {
+        this.ottoService.getEntitiesObservable().subscribe(
             entities => {
                 console.log('Entities cache populated');
-                ottoService.getServicesObservable().subscribe(
+                this.ottoService.getServicesObservable().subscribe(
                     services => {
                         console.log('Services cache populated');
-                        ottoService.getRulesObservable().subscribe(
+                        this.ottoService.getRulesObservable().subscribe(
                             rules => console.log('Rules caches have populated')
                         )
                     }
                 );
             }
         );
-
-    }  // constructor
-
-    // ngOnInit() {
-    //     // this.growlMessages = this.growl.messages;
-    // }
+    }
 
     onAddClick(): void {
         console.log('Add Rule Clicked');

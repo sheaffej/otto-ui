@@ -113,7 +113,7 @@ export class RuleConditionComponent implements OnInit {
     // Create Zone Options
     this.uiZoneOptions = [{label: this.mediumText, value: null}];
     this.ottoService.getZonesObservable()
-      .subscribe(zones => this.populateOptions(this.uiZoneOptions, zones));
+      .subscribe(zones => this.populateOptions(this.uiZoneOptions, zones.list));
 
     // Initialize uiXXX components
     if (this.condition != null) {

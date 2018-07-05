@@ -47,7 +47,7 @@ describe('OttoRestService', () => {
         })
     );
 
-    it('getRulesObservable() should return a RuleAutomationList with array of RuleAutomation',
+    it('getRulesObservable() should return a ListContainer with array of RuleAutomation',
         inject(
             [HttpTestingController, OttoRestService],
             (httpMock: HttpTestingController, service: OttoRestService) => {
@@ -79,7 +79,7 @@ describe('OttoRestService', () => {
         )
     );
 
-    it('getEntitiesObservable() should return a full StringList of entity names',
+    it('getEntitiesObservable() should return a ListContainer with an array of entity names',
         inject(
             [HttpTestingController, OttoRestService],
             (httpMock: HttpTestingController, service: OttoRestService) => {
@@ -95,7 +95,7 @@ describe('OttoRestService', () => {
         )
     );
 
-    it('getEntitiesObservable(false) should return a StringList of only non-hidden entity names',
+    it('getEntitiesObservable(false) should return a ListContainer of only non-hidden entity names',
         inject(
             [HttpTestingController, OttoRestService],
             (httpMock: HttpTestingController, service: OttoRestService) => {
@@ -110,6 +110,23 @@ describe('OttoRestService', () => {
             }
         )
     );
+
+    it('getZonesObservable() should return a ListContainer of strings',
+        inject(
+            [HttpTestingController, OttoRestService],
+            (httpMock: HttpTestingController, service: OttoRestService) => {
+                service.getZonesObservable().subscribe(response => {
+                    expect(response instanceof ListContainer).toBeTruthy();
+                    expect(response.list.length)
+                        .toEqual(1);
+                });
+                const req = httpMock.expectOne(`${apiUrl}/rest/entities`);
+                expect(req.request.method).toEqual('GET');
+                req.flush(MockResponses.entitiesRespone);
+            }
+        )
+    );
+
 
 
     // it('getServicesObservable() should return a ListContainer of ServiceDomains',
