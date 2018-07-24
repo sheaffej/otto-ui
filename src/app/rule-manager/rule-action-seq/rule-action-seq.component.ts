@@ -4,7 +4,7 @@ import {PrettyJsonComponent} from 'angular2-prettyjson';
 
 import { RuleActionItem, RuleActionSequence, ServiceAction } from '../objects/rule-actions';
 import { AndCondition, ParentCondition, RuleCondition } from '../objects/rule-conditions';
-import { StateFlagsService } from '../services/state-flags.service';
+import { StateFlagsService } from '../../services/state-flags.service';
 
 @Component({
   selector: 'rule-action-seq',

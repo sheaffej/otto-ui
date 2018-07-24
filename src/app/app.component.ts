@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/primeng';
 
-import { AutomationRule } from './objects/rule-automation';
+import { AutomationRule } from './rule-manager/objects/rule-automation';
 import { GrowlService, MessageSeverity } from './services/growl.service';
 import { OttoRestService } from './services/otto-rest.service';
 import { StateFlagsService } from './services/state-flags.service';

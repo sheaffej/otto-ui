@@ -5,7 +5,7 @@ import {PrettyJsonComponent} from 'angular2-prettyjson';
 import { RuleActionSequence, RuleActionItem, DelayAction,
   ServiceAction, ConditionAction } from '../objects/rule-actions';
 import { RuleCondition, AndCondition } from '../objects/rule-conditions';
-import { OttoRestService } from '../services/otto-rest.service';
+import { OttoRestService } from '../../services/otto-rest.service';
 import { ServiceDomain } from '../objects/services';
 
 @Component({

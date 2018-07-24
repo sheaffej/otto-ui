@@ -3,8 +3,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { OttoRestService } from "./otto-rest.service";
 import { StateFlagsService } from "./state-flags.service";
-import { AutomationRule } from "../objects/rule-automation";
-import { ListContainer } from "../objects/data-fields";
+import { AutomationRule } from "../rule-manager/objects/rule-automation";
+import { ListContainer } from "../rule-manager/objects/data-fields";
 
 
 class MockResponses {

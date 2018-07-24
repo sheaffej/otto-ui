@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 // import { Location } from '@angular/common';
 
 import { AutomationRule } from '../objects/rule-automation';
-import { OttoRestService } from '../services/otto-rest.service';
+import { OttoRestService } from '../../services/otto-rest.service';
 
 import { switchMap } from 'rxjs/operators';
 

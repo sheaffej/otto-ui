@@ -4,9 +4,9 @@ import {PrettyJsonComponent} from 'angular2-prettyjson';
 
 import { AutomationRule } from '../objects/rule-automation';
 import { EventTrigger, NumericStateTrigger, RuleTrigger, StateTrigger, TimeTrigger } from '../objects/rule-triggers';
-import { OttoRestService } from '../services/otto-rest.service';
+import { OttoRestService } from '../../services/otto-rest.service';
 
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import * as moment from 'moment';
 
 
