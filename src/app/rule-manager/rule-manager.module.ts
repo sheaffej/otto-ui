@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -24,6 +24,9 @@ import { RuleDetailComponent } from './rule-detail/rule-detail.component';
 import { RuleTriggerComponent } from './rule-trigger/rule-trigger.component';
 import { RulesListComponent } from './rules-list/rules-list.component';
 import { ServiceInfoComponent } from './service-info/service-info.component';
+
+import { OttoRestService } from './services/otto-rest.service';
+import { StateFlagsService } from './services/state-flags.service';
 
 
 @NgModule({
@@ -62,4 +65,11 @@ import { ServiceInfoComponent } from './service-info/service-info.component';
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
 })
-export class RuleManagerModule { }
+export class RuleManagerModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: RuleManagerModule,
+      providers: [OttoRestService, StateFlagsService]
+    }
+  }
+}

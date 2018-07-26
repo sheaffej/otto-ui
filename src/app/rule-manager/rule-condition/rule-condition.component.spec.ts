@@ -9,7 +9,7 @@ import { DropdownModule, InputTextModule } from 'primeng/primeng';
 
 import { RuleConditionComponent } from './rule-condition.component';
 import { RuleCondition, TimeCondition } from '../objects/rule-conditions';
-import { OttoRestService } from '../../services/otto-rest.service';
+import { OttoRestService } from '../services/otto-rest.service';
 import { ListContainer } from '../objects/data-fields';
 
 class OttoRestServiceMock {

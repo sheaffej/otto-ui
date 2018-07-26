@@ -3,11 +3,11 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
-import { AutomationRule } from '../rule-manager/objects/rule-automation';
-import { TimeTrigger } from '../rule-manager/objects/rule-triggers';
-import { ServiceDomain } from '../rule-manager/objects/services';
-import { ListContainer } from "../rule-manager/objects/data-fields";
+import { environment } from '../../../environments/environment';
+import { AutomationRule } from '../objects/rule-automation';
+import { TimeTrigger } from '../objects/rule-triggers';
+import { ServiceDomain } from '../objects/services';
+import { ListContainer } from "../objects/data-fields";
 import { StateFlagsService } from './state-flags.service';
 
 @Injectable()

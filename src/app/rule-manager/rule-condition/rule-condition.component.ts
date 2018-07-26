@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectItem } from 'primeng/primeng';
 import {PrettyJsonComponent} from 'angular2-prettyjson';
 
-import { OttoRestService } from '../../services/otto-rest.service';
+import { OttoRestService } from '../services/otto-rest.service';
 import { AutomationRule } from '../objects/rule-automation';
 import {
   RuleCondition, ParentCondition, AndCondition, OrCondition, StateCondition,

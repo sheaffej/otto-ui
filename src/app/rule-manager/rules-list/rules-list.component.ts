@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AutomationRule } from '../objects/rule-automation';
 import { GrowlService } from '../../services/growl.service';
-import { OttoRestService } from '../../services/otto-rest.service';
+import { OttoRestService } from '../services/otto-rest.service';
 import { ListContainer } from '../objects/data-fields';
 
 @Component({

@@ -5,7 +5,7 @@ import { SelectItem } from 'primeng/primeng';
 import { DataFieldsObject } from '../objects/data-fields';
 import { RuleActionItem, ServiceAction } from '../objects/rule-actions';
 import { ServiceDomain, ServiceInfo } from '../objects/services';
-import { OttoRestService } from '../../services/otto-rest.service';
+import { OttoRestService } from '../services/otto-rest.service';
 
 @Component({
     selector: 'data-fields',

@@ -1,3 +1,22 @@
-<p>
-  engine-log-list works!
-</p>
+<div>
+  <h1>Engine Log</h1>
+</div>
+
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col" style="width: 20%">Time</th>
+      <th scope="col" style="width: 10%">Type</th>
+      <th scope="col">Entry</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let log of logs">
+        <td>{{log.ts}}</td>
+        <td>{{log.type}}</td>
+        <td>{{log.entryJSON}}</td>
+      </tr> <!-- noFor-->
+  </tbody>
+</table>
+

@@ -17,8 +17,8 @@ import { RuleManagerModule } from './rule-manager/rule-manager.module';
 import { AppComponent } from './app.component';
 
 import { GrowlService } from './services/growl.service';
-import { OttoRestService } from './services/otto-rest.service';
-import { StateFlagsService } from './services/state-flags.service';
+import { OttoRestService } from './rule-manager/services/otto-rest.service';
+import { StateFlagsService } from './rule-manager/services/state-flags.service';
 
 @NgModule({
     imports: [
@@ -27,10 +27,10 @@ import { StateFlagsService } from './services/state-flags.service';
         FormsModule,
         BrowserAnimationsModule,
         AppRoutingModule,
-        EngineLogModule,
-        RuleManagerModule,
         PrettyJsonModule,
         GrowlModule,
+        RuleManagerModule.forRoot(),
+        EngineLogModule.forRoot(),
     ],
     declarations: [
         AppComponent,

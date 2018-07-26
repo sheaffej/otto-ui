@@ -8,8 +8,8 @@ import { AndCondition, RuleCondition } from '../objects/rule-conditions';
 import { RuleActionSequence } from '../objects/rule-actions';
 import { RuleTrigger } from '../objects/rule-triggers';
 import { GrowlService, MessageSeverity } from '../../services/growl.service';
-import { OttoRestService } from '../../services/otto-rest.service';
-import { StateFlagsService } from '../../services/state-flags.service';
+import { OttoRestService } from '../services/otto-rest.service';
+import { StateFlagsService } from '../services/state-flags.service';
 
 @Component({
     selector: 'rule-automation',
