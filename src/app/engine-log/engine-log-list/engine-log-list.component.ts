@@ -26,7 +26,7 @@ export class EngineLogListComponent implements OnInit {
         this.logsObservable = this.engineLogService.getLogsObservable();
         this.logsObservable.subscribe(log => {
             this.logs.push(log);
-            console.log(this.logs);
+            // console.log(this.logs);
         });
     }
 

@@ -20,12 +20,10 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let log of logs | logRuleIdFilter: searchString">
-                            <div *ngIf="log.ts !== undefined">
                                     <td>{{log.ts.toLocaleString()}}</td>
                                     <td>{{formatType(log.type)}}</td>
                                     <td>{{log.entry.rule}}</td>
                                     <td><prettyjson [obj]="log.entry"></prettyjson></td>        
-                            </div>
                         </tr> <!-- noFor-->
                     </tbody>
                 </table>

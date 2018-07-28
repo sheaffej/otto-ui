@@ -10,7 +10,7 @@ import { LogRuleIDFilterPipe } from '../log-rule-id-filter.pipe';
 class EngineLogServiceMock {
     getLogsObservable(): Observable<EngineLogEntry> {
         // This is just a stub, does nothing right now
-        return from([new EngineLogEntry({})]);
+        return from([new EngineLogEntry({ts: new Date(), type: "debug", entry: {}})]);
     }
 }
 
