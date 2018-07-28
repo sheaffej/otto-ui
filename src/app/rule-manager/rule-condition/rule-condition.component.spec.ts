@@ -41,8 +41,6 @@ describe('RuleConditionComponent', () => {
     let testHostFixture: ComponentFixture<TestHostComponent>;
     let testComponent: RuleConditionComponent;
     
-    let ottoService: OttoRestService;
-
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [

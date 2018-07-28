@@ -1,22 +1,36 @@
-<div>
-  <h1>Engine Log</h1>
+<div class="container">
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                    Engine Log
+            </div>
+            <div class="panel-body no-padding">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 15%">Time (PT)</th>
+                            <th scope="col" style="width: 10%">Type</th>
+                            <th scope="col" style="width: 10%">
+                                <input type="text" class="form-control" name="searchString" 
+                                placeholder="Rule ID..." [(ngModel)]="searchString">            
+                            </th>
+                            <th scope="col">Entry</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let log of logs | logRuleIdFilter: searchString">
+                            <div *ngIf="log.ts !== undefined">
+                                    <td>{{log.ts.toLocaleString()}}</td>
+                                    <td>{{formatType(log.type)}}</td>
+                                    <td>{{log.entry.rule}}</td>
+                                    <td><prettyjson [obj]="log.entry"></prettyjson></td>        
+                            </div>
+                        </tr> <!-- noFor-->
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th scope="col" style="width: 20%">Time</th>
-      <th scope="col" style="width: 10%">Type</th>
-      <th scope="col">Entry</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr *ngFor="let log of logs">
-        <td>{{log.ts}}</td>
-        <td>{{log.type}}</td>
-        <td>{{log.entryJSON}}</td>
-      </tr> <!-- noFor-->
-  </tbody>
-</table>
-
