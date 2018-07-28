@@ -9,7 +9,7 @@ import {
   NumericStateCondition, SunCondition, TimeCondition, ZoneCondition
   } from '../objects/rule-conditions';
 import { RuleActionSequence, ConditionAction } from '../objects/rule-actions';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 
 @Component({

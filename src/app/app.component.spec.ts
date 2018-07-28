@@ -5,9 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { GrowlModule, MessageModule, MessagesModule } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
-import { OttoRestService } from './services/otto-rest.service';
 import { GrowlService } from './services/growl.service';
-import { StateFlagsService } from './services/state-flags.service';
+import { OttoRestService } from './rule-manager/services/otto-rest.service';
+import { StateFlagsService } from './rule-manager/services/state-flags.service';
 
 class OttoRestServiceMock {}
 class GrowlServiceMock {}

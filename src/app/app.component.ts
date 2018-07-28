@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/primeng';
 
-import { AutomationRule } from './objects/rule-automation';
+import { AutomationRule } from './rule-manager/objects/rule-automation';
 import { GrowlService, MessageSeverity } from './services/growl.service';
-import { OttoRestService } from './services/otto-rest.service';
-import { StateFlagsService } from './services/state-flags.service';
+import { OttoRestService } from './rule-manager/services/otto-rest.service';
+import { StateFlagsService } from './rule-manager/services/state-flags.service';
 
 @Component({
     selector: 'app-root',
