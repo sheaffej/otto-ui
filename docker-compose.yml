@@ -4,9 +4,8 @@ services:
         build: .
         image: sheaffej/otto-ui
         container_name: otto-ui
-        # mem_limit: 1g
+        mem_limit: 20m 
         restart: always
-        # volumes:
-        # network_mode: host
+        network_mode: host
         ports:
             - 4200:4200/tcp
