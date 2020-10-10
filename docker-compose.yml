@@ -4,7 +4,7 @@ services:
         build: .
         image: sheaffej/otto-ui
         container_name: otto-ui
-        mem_limit: 20m 
+        # mem_limit: 20m 
         restart: always
         network_mode: host
         ports:
