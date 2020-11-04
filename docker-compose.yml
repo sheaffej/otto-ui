@@ -9,3 +9,5 @@ services:
         network_mode: host
         ports:
             - 4200:4200/tcp
+        labels:
+            co.elastic.logs/enabled: "true" 
