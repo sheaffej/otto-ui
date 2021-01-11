@@ -11,3 +11,8 @@ services:
             - 4200:4200/tcp
         labels:
             co.elastic.logs/enabled: "true" 
+        healthcheck:
+            test: curl http://localhost:4200 || exit 1
+            interval: 30s
+            timeout: 10s
+            start_period: 10s
