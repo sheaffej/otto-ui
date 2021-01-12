@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+    otto-ui:
+        build: .
+        image: sheaffej/otto-ui
+        container_name: otto-ui
+        # mem_limit: 20m 
+        restart: always
+        network_mode: host
+        ports:
+            - 4200:4200/tcp
+        labels:
+            co.elastic.logs/enabled: "true" 
+        healthcheck:
+            test: curl http://localhost:4200 || exit 1
+            interval: 30s
+            timeout: 10s
+            start_period: 10s
