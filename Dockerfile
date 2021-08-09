@@ -19,5 +19,8 @@ RUN npm install \
 # Build the app
 RUN ng build --prod
 
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD curl http://localhost:4200 || exit 1
+
 # Start app
 CMD cd dist/otto-ui && http-server -p 4200
